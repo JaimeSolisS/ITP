@@ -1,0 +1,1 @@
+Usar la clase de DataGenerator para generar 1000, 10000 y 100000 registros. Almacenarlos en cada una de las colecciones que implementan List y cronometrar en cuanto tiempo lo hace cada una.
