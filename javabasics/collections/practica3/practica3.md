@@ -1,0 +1,1 @@
+Realizar con esos datos una rutina de búsqueda, remoción y otra de reemplazo de elementosm cronometrizar las actividades en el status del modelo para saber cuál es el más rápido en la búsqueda, en la remoción y en el reemplazo de las clases que implementan List.
