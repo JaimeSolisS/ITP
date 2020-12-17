@@ -28,11 +28,24 @@ public class Main {
         //int i = 0;
         for (Data model  : randomList){
           //  System.out.println("FOUND " + randomList.get(i));
-            collectionLista.contains(randomList.indexOf(model));
+            collectionLista.contains(model);
+
             //i++;
         }
         double stopTime = System.nanoTime();
         System.out.println( collectionLista.getClass().getSimpleName() + " tardo " + (stopTime - startTime)/1000000  + " ms");
+    }
+
+    public static void getTimeRemove(List<Data> randomList, Collection<Data> collectionLista){
+
+        Collection<Data> collectionListCopy = collectionLista;
+        double startTime = System.nanoTime();
+        //int i = 0;
+        for (Data model  : randomList){
+            collectionListCopy.remove(model);
+        }
+        double stopTime = System.nanoTime();
+      //  System.out.println( collectionListCopy.getClass().getSimpleName() + " tardo " + (stopTime - startTime)/1000000  + " ms");
     }
     public static void main(String[] args) {
 
@@ -57,7 +70,6 @@ public class Main {
             Stack<Data> stack100000 = new Stack<>();
 
             //STORE
-
             System.out.println("1000 elementos: ");
             getTime (datos1000NoProcesados, arrayList1000);
             getTime (datos1000NoProcesados, linkedList1000);
@@ -81,24 +93,47 @@ public class Main {
         List<Data> datos100000Random = pickNRandom(datos100000NoProcesados, 10);
 
         //SEARCH
-
-        System.out.println("SEARCH 1000 elementos: ");
+        System.out.println("SEARCH");
+        System.out.println("1000 elementos: ");
         getTimeSearch(datos1000Random, arrayList1000);
         getTimeSearch(datos1000Random, linkedList1000);
         getTimeSearch(datos1000Random, vector1000);
         getTimeSearch(datos1000Random, stack1000);
 
-        System.out.println("SEARCH 10,000 elementos: ");
+        System.out.println("10,000 elementos: ");
         getTimeSearch(datos10000Random, arrayList10000);
         getTimeSearch(datos10000Random, linkedList10000);
         getTimeSearch(datos10000Random, vector10000);
         getTimeSearch(datos10000Random, stack10000);
 
-        System.out.println("SEARCH 100,000 elementos: ");
+        System.out.println("100,000 elementos: ");
         getTimeSearch(datos100000Random, arrayList100000);
         getTimeSearch(datos100000Random, linkedList100000);
         getTimeSearch(datos100000Random, vector100000);
         getTimeSearch(datos100000Random, stack100000);
+
+        //REMOVE
+        /*
+        System.out.println("REMOVE");
+        System.out.println("1000 elementos: ");
+        getTimeRemove(datos1000Random, arrayList1000);
+        getTimeRemove(datos1000Random, linkedList1000);
+        getTimeRemove(datos1000Random, vector1000);
+        getTimeRemove(datos1000Random, stack1000);
+
+        System.out.println("10,000 elementos: ");
+        getTimeRemove(datos10000Random, arrayList10000);
+        getTimeRemove(datos10000Random, linkedList10000);
+        getTimeRemove(datos10000Random, vector10000);
+        getTimeRemove(datos10000Random, stack10000);
+
+        System.out.println("100,000 elementos: ");
+        getTimeRemove(datos100000Random, arrayList100000);
+        getTimeRemove(datos100000Random, linkedList100000);
+        getTimeRemove(datos100000Random, vector100000);
+        getTimeRemove(datos100000Random, stack100000);
+
+         */
 
     }
 }
