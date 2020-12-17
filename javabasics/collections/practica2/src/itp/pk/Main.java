@@ -6,13 +6,14 @@ import java.util.*;
 
 public class Main {
 
-    public static void getTime(List<Data> listaNoProcesada, Collection<Data> collectionLista){
+    public static double getTime(List<Data> listaNoProcesada, Collection<Data> collectionLista){
 
-        long startTime = System.nanoTime();
+        double startTime = System.nanoTime();
         for (Data model: listaNoProcesada)
             collectionLista.add(model);
-        long stopTime = System.nanoTime();
-        System.out.println( collectionLista.getClass().getSimpleName() + " tardo " + (stopTime - startTime) + " nanosegundos");
+        double stopTime = System.nanoTime();
+        return (stopTime - startTime)/1000000;
+
     }
 
     public static void main(String[] args) {
@@ -21,33 +22,33 @@ public class Main {
         List<Data> datos10000NoProcesados = DataGenerator.generateData(10000);
         List<Data> datos100000NoProcesados = DataGenerator.generateData(100000);
 
+        List<List<Data>> listOfLists = new ArrayList<>();
+        listOfLists.add(datos1000NoProcesados);
+        listOfLists.add(datos10000NoProcesados);
+        listOfLists.add(datos100000NoProcesados);
+
         ArrayList<Data> arrayList = new ArrayList<>();
         LinkedList<Data> linkedList = new LinkedList<>();
         Vector<Data> vector = new Vector<>();
         Stack<Data> stack = new Stack<>();
-      
 
-        System.out.println("1000 elementos: ");
-        getTime (datos1000NoProcesados, arrayList);
-        getTime (datos1000NoProcesados, linkedList);
-        getTime (datos1000NoProcesados, vector);
-        getTime (datos1000NoProcesados, stack);
+        List<List<Data>> listOfTypeLists = new ArrayList<>();
+        listOfTypeLists.add(arrayList);
+        listOfTypeLists.add(linkedList);
+        listOfTypeLists.add(vector);
+        listOfTypeLists.add(stack);
 
-
-        System.out.println("10000 elementos: ");
-        getTime (datos10000NoProcesados, arrayList);
-        getTime (datos10000NoProcesados, linkedList);
-        getTime (datos10000NoProcesados, vector);
-        getTime (datos10000NoProcesados, stack);
-
-
-        System.out.println("100000 elementos: ");
-        getTime (datos100000NoProcesados, arrayList);
-        getTime (datos100000NoProcesados, linkedList);
-        getTime (datos100000NoProcesados, vector);
-        getTime (datos100000NoProcesados, stack);
-
-
+        double[][] tiempos = new double [4][3];
+        System.out.println("Time to Store in ms");
+        System.out.println("TypeList \t\t 1000 \t\t 10000 \t\t 100000");
+        for (int i = 0; i<4; i++){
+            System.out.printf( "%-10s", listOfTypeLists.get(i).getClass().getSimpleName());
+            for (int j = 0; j<3; j++){
+                tiempos[i][j] = getTime( listOfLists.get(j), listOfTypeLists.get(i));
+                System.out.printf( "\t\t%.5f", tiempos[i][j]);
+            }
+            System.out.println();
+        }
 
     }
 
