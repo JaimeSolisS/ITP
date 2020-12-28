@@ -7,23 +7,25 @@ import java.util.Random;
 
 public class MyThread extends Thread {
 
-    Random rand = new Random();
-    ArrayList<Data> numList;
+    ArrayList<Data> arrayList;
 
 
-    public MyThread(String name, ArrayList<Data> numList){
+    public MyThread(String name, ArrayList<Data> arrayList){
         setName(name);
-        this.numList = numList;
+        this.arrayList = arrayList;
     }
 
     public void run(){
         int i =0;
-            while (numList.size() < 10) {
+        synchronized (arrayList){
+            while (arrayList.size() < 10) {
                 Data model = new Data(i, getName());
-                numList.add(model);
-                System.out.println(numList);
+                arrayList.add(model);
+                System.out.println(arrayList);
                 i++;
             }
+        }
+
     }
 
 }
