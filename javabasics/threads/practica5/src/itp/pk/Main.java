@@ -1,18 +1,20 @@
 package itp.pk;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        ArrayList<Data> arrayList = new ArrayList<>();
+        CopyOnWriteArrayList<Data> arrayList = new CopyOnWriteArrayList<Data>();
+        int amount = 10;
 
-        MyThread t1 = new MyThread("T1", arrayList);
-        MyThread t2 = new MyThread("T2", arrayList);
-        MyThread t3 = new MyThread("T3", arrayList);
-        MyThread t4 = new MyThread("T4", arrayList);
-        MyThread t5 = new MyThread("T5", arrayList);
+        MyThread t1 = new MyThread("T1", arrayList, amount);
+        MyThread t2 = new MyThread("T2", arrayList,amount);
+        MyThread t3 = new MyThread("T3", arrayList,amount);
+        MyThread t4 = new MyThread("T4", arrayList,amount );
+        MyThread t5 = new MyThread("T5", arrayList, amount);
 
         t1.start();
         t2.start();
