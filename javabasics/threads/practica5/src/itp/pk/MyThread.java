@@ -1,37 +1,36 @@
 package itp.pk;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
+
+
+/*https://blog.codingblocks.com/2019/keeping-arraylists-safe-across-threads-in-java/*/
 
 public class MyThread extends Thread {
 
-    List<Data> arrayList;
+    List<Data> list;
     int amount;
+    Random rand = new Random();
 
-
-    public MyThread(String name, List<Data> arrayList, int amount){
+    public MyThread(String name, List<Data> list, int amount){
         setName(name);
-        this.arrayList = arrayList;
+       this.list = list;
         this.amount = amount;
     }
 
 
     public void run(){
-            int i=0;
+        System.out.println("Hey I'm " + getName() + " and I'm working with " + list.getClass().getSimpleName());
+        while (list.size() < amount) {
+             Data model = new Data( getName());
+             list.add(model);
 
-                while (arrayList.size() < amount) {
-                    Data model = new Data(i, getName());
-                    arrayList.add(model);
-                    //System.out.println(arrayList);
-                    i++;
-                
-            }
-
-        System.out.println(arrayList.size());
+             try {
+                 MyThread.sleep(rand.nextInt(25));
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             }
+        }
     }
 
 }
