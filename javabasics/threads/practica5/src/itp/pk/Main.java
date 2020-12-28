@@ -1,13 +1,15 @@
 package itp.pk;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        CopyOnWriteArrayList<Data> arrayList = new CopyOnWriteArrayList<Data>();
+        List<Data> arrayList = Collections.synchronizedList(new ArrayList<>());
         int amount = 10;
 
         MyThread t1 = new MyThread("T1", arrayList, amount);
