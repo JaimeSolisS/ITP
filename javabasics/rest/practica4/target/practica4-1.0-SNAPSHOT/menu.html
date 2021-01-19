@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    var req = new XMLHttpRequest();
+    req.open('GET', document.location, false);
+    req.send(null);
+    var authToken = req.getResponseHeader("authorization").toLowerCase();
+    alert(authToken);
+
+    $(document).ready(function () {
+
+        $("#goToPost").click(function () {
+            const token = authToken;
+            $.ajax({
+                url: `http://localhost:8080/practica4_war_exploded/create.html`,
+
+                beforeSend: function (request) {
+                    request.setRequestHeader("authorization", token);
+                },
+                success: function (result) {
+                    console.log(result);
+                    location.href = "http://localhost:8080/practica4_war_exploded/create.html"
+                }
+            });
+        });
+    });
+
+</script>
+<body>
+
+<ul>
+    <li><a href="create.html">Go to post method</a> </li>
+    <li><a href="read.html">Go to get method</a> </li>
+    <li><a href="update.html">Go to put method</a> </li>
+    <li><a href="delete.html">Go to delete method</a>  </li>
+</ul>
+
+<a href="LogoutServlet">Logout</a>
+
+
+
+</body>
+</html>

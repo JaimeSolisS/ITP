@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $("#btnPUT").click(function () {
+                const auth = $(`#inputAuth`).val();
+                const id = $(`#inputIdPUT`).val();
+                const username = $(`#inputUsernamePUT`).val();
+                const password = $(`#inputPasswordPUT`).val();
+                const role = $(`#inputRolePUT`).val();
+                const status = $(`#inputStatusPUT`).val();
+                $.ajax({
+                    url: 'http://localhost:8080/practica4_war_exploded/rest/v1/users/' + id,
+                    type: 'PUT',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend : function(request) {
+                        request.setRequestHeader("authorization", auth)
+                        request.setRequestHeader("userId", id);
+                        request.setRequestHeader("username", username);
+                        request.setRequestHeader("password", password);
+                        request.setRequestHeader("role", role);
+                        request.setRequestHeader("status", status);
+                    },
+                    data: JSON.stringify({userId:id, username:username, password: password, role: role, status:status }),
+                    success: function (result) {
+                        alert('success');
+                        console.log(result);
+                    }
+                });
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+<h2>Put method</h2>
+<br/>
+<input type="button" value="Update User"  id="btnPUT"/>
+<input type="text" value="" placeholder="user ID" id="inputIdPUT" />
+<input type="text" value=""  placeholder="username" id="inputUsernamePUT" />
+<input type="text" value="" placeholder="password" id="inputPasswordPUT" />
+<input type="text" value="" placeholder="role" id="inputRolePUT" />
+<input type="text" value="" placeholder="status" id="inputStatusPUT" />
+</body>
+</html>

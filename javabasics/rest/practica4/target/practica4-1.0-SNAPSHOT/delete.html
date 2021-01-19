@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $("#btnDELETE").click(function () {
+                const auth = $(`#inputAuth`).val();
+                const id = $(`#inputIdDELETE`).val();
+                $.ajax({
+                    url: `http://localhost:8080/practica4_war_exploded/rest/v1/users/` + id,
+                    type: 'DELETE',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend : function(request) {
+                        request.setRequestHeader("authorization", auth)
+                        request.setRequestHeader("userId", id);
+                    },
+                    success: function (result) {
+                        console.log(result);
+                    }
+                });
+            });
+
+
+        });
+    </script>
+</head>
+<body>
+<h2>Delete method</h2>
+<br/>
+<input type="submit" value="Delete User" id="btnDELETE"/>
+<input type="text" placeholder="user ID" id="inputIdDELETE" />
+</body>
+</html>

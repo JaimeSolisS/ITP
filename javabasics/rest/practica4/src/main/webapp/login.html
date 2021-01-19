@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<body>
+
+<h2 style="text-align: center">Login</h2>
+
+
+<form action="LoginServlet" method="post">
+    <div class="container">
+        <div>
+            <label><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username" required>
+
+            <label><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" required>
+            <button type="submit">Login</button>
+        </div>
+    </div>
+</form>
+
+<div class="container" >
+        <span>
+             <label>Admin role</label>
+            <br>
+            <label>Username: admin</label>
+            <br>
+            <label>Password: pass</label>
+        </span>
+</div>
+<div class = "container">
+          <span>
+             <label>User role</label>
+            <br>
+            <label>Username: user(1-9)</label>
+            <br>
+            <label>Password: pass(1-9)</label>
+        </span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+
+    <title>CRUD</title>
+
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+
+        var req = new XMLHttpRequest();
+        req.open('GET', document.location, false);
+        req.send(null);
+        var authToken = req.getResponseHeader("authorization").toLowerCase();
+        alert(authToken);
+
+        $(document).ready(function () {
+
+            $("#btnGETALL").click(function () {
+                const auth = $(`#inputAuth`).val();
+                $.ajax({
+                    url: `http://localhost:8080/practica3_war_exploded/rest/v1/users/`,
+                    type: 'GET',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend : function(request) {
+                        request.setRequestHeader("userId", "id");
+                        request.setRequestHeader("authorization", auth)
+                    },
+                    success: function (result) {
+                        console.log(result);
+                    }
+                });
+            });
+
+            $("#btnGET").click(function () {
+                const auth = $(`#inputAuth`).val();
+                const id = $(`#inputId`).val();
+                $.ajax({
+                    url: `http://localhost:8080/practica3_war_exploded/rest/v1/users/` + id,
+                    type: 'GET',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend : function(request) {
+                        request.setRequestHeader("authorization", auth)
+                        request.setRequestHeader("userId", id);
+
+                    },
+                    success: function (result) {
+                        console.log(result);
+                    }
+                });
+            });
+
+
+            $("#btnPost").click(function () {
+                const auth = $(`#inputAuth`).val();
+                const username = $(`#inputUsername`).val();
+                const password = $(`#inputPassword`).val();
+                const role = $(`#inputRole`).val();
+                $.ajax({
+                    url: 'http://localhost:8080/practica3_war_exploded/rest/v1/users/',
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend : function(request) {
+                        request.setRequestHeader("authorization", auth)
+                        request.setRequestHeader("username", username);
+                        request.setRequestHeader("password", password);
+                        request.setRequestHeader("role", role);
+                    },
+                    data: JSON.stringify({username:username, password: password, role: role }),
+                    success: function (result) {
+                        alert('success');
+                        console.log(result);
+                    }
+                });
+            });
+
+            $("#btnPUT").click(function () {
+                const auth = $(`#inputAuth`).val();
+                const id = $(`#inputIdPUT`).val();
+                const username = $(`#inputUsernamePUT`).val();
+                const password = $(`#inputPasswordPUT`).val();
+                const role = $(`#inputRolePUT`).val();
+                const status = $(`#inputStatusPUT`).val();
+                $.ajax({
+                    url: 'http://localhost:8080/practica3_war_exploded/rest/v1/users/' + id,
+                    type: 'PUT',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend : function(request) {
+                        request.setRequestHeader("authorization", auth)
+                        request.setRequestHeader("userId", id);
+                        request.setRequestHeader("username", username);
+                        request.setRequestHeader("password", password);
+                        request.setRequestHeader("role", role);
+                        request.setRequestHeader("status", status);
+                    },
+                    data: JSON.stringify({userId:id, username:username, password: password, role: role, status:status }),
+                    success: function (result) {
+                        alert('success');
+                        console.log(result);
+                    }
+                });
+            });
+
+            $("#btnDELETE").click(function () {
+                const auth = $(`#inputAuth`).val();
+                const id = $(`#inputIdDELETE`).val();
+                $.ajax({
+                    url: `http://localhost:8080/practica3_war_exploded/rest/v1/users/` + id,
+                    type: 'DELETE',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend : function(request) {
+                        request.setRequestHeader("authorization", auth)
+                        request.setRequestHeader("userId", id);
+                    },
+                    success: function (result) {
+                        console.log(result);
+                    }
+                });
+            });
+
+
+        });
+    </script>
+
+</head>
+<body>
+<h2>Menu</h2>
+<label>Token</label>
+<p>eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjEwMDgxMTc4LCJleHAiOjE2MTA5NDUxNzh9.Qfqg9-FdsMMMFyoKwk5NcGr1bWUKnv_tPZTBeiAF2ADJSG0c6FDF2RFUtaQORGLXtyCpIjmitbh61VWZxm6A5g</p>
+<input type="text"  placeholder="Auth token" id="inputAuth" style="width: 70%" />
+
+<div>
+    <br/>
+    <input type="submit" value="Get all Users" id="btnGETALL"/>
+</div>
+
+<div>
+    <br/>
+    <input type="submit" value="Get User" id="btnGET"/>
+    <input type="text"  placeholder="user ID" id="inputId" />
+</div>
+<div>
+    <br/>
+    <input type="button" value="Create User"  id="btnPost"/>
+    <input type="text" value="" placeholder="username" id="inputUsername" />
+    <input type="text" value="" placeholder="password" id="inputPassword" />
+    <input type="text" value="" placeholder="role" id="inputRole" />
+</div>
+
+<div>
+    <br/>
+    <input type="button" value="Update User"  id="btnPUT"/>
+    <input type="text" value="" placeholder="user ID" id="inputIdPUT" />
+    <input type="text" value=""  placeholder="username" id="inputUsernamePUT" />
+    <input type="text" value="" placeholder="password" id="inputPasswordPUT" />
+    <input type="text" value="" placeholder="role" id="inputRolePUT" />
+    <input type="text" value="" placeholder="status" id="inputStatusPUT" />
+
+</div>
+
+<div>
+    <br/>
+    <input type="submit" value="Delete User" id="btnDELETE"/>
+    <input type="text" placeholder="user ID" id="inputIdDELETE" />
+</div>
+
+</body>
+</html>l>
