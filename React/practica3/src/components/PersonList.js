@@ -1,6 +1,6 @@
 import React from 'react';
 
-import axios from 'axios';
+import Axios from '../api'; 
 
 export default class PersonList extends React.Component {
   state = {
@@ -8,7 +8,7 @@ export default class PersonList extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/users')
+    Axios.get('users')
       .then(res => {
         console.log(res.data);
         this.setState({ persons: res.data });

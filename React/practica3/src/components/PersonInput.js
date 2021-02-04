@@ -1,6 +1,6 @@
 import React from 'react';
 
-import axios from 'axios';
+import Axios from '../api';
 
 export default class PersonInput extends React.Component {
   state = {
@@ -18,7 +18,7 @@ export default class PersonInput extends React.Component {
           name: this.state.name
       }
 
-      axios.post('https://jsonplaceholder.typicode.com/users', {user })
+      Axios.post('users', {user })
       .then(res => {
           console.log(res);
           console.log(res.data );

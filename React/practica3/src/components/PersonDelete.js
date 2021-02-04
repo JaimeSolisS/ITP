@@ -1,6 +1,6 @@
 import React from 'react';
 
-import axios from 'axios';
+import Axios from '../api';
 
 export default class PersonInput extends React.Component {
   state = {
@@ -14,7 +14,7 @@ export default class PersonInput extends React.Component {
   handleSubmit = event => {
       event.preventDefault();
 
-      axios.delete(`https://jsonplaceholder.typicode.com/users/${this.state.id}`)
+      Axios.delete(`users/${this.state.id}`)
       .then(res => {
           console.log(res);
           console.log(res.data );
