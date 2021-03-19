@@ -1,0 +1,4 @@
+
+sudo ls
+sudo cat p1.sh
+sudo ls -l
