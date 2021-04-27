@@ -1,0 +1,27 @@
+-- Get oldest five star movies
+
+-- load data
+-- Create a relation with movies.data dataset with schema (userID:int, movieID:int, rating:int, ratingTime:int) and name it ratings
+ratings = LOAD '../data/movies.data' AS (userID:int, movieID:int, rating:int, ratingTime:int);
+-- Create a relation with u.item dataset with schema (movieID:int, movieTitle:chararray, releaseDate:chararray, videoRelease:chararray, imdbLink:chararray) and name it movies_data. Use the pipe " | " character with PigStorage to parse the file correctly.
+metadata = LOAD '../data/movies.item' USING PigStorage('|') AS (movieID:int, movieTitle:chararray, releaseDate:chararray, videoRelease:chararray, imdbLink:chararray);
+
+--Use a FOREACH loop to create a new relation from movies_data and transform the release date to Unix time using: ToUnixTime(ToDate(releaseDate, 'dd-MMM-yyyy')) AS releaseTime
+nameLookup = FOREACH metadata GENERATE movieID, movieTitle, ToUnixTime(ToDate(releaseDate, 'dd-MMM-yyyy')) AS releaseTime;
+
+--Group ratings_data by movie ID.
+ratingsByMovie = GROUP ratings BY movieID;
+
+--With previous relation, compute the average rating per movie.
+avgRatings = FOREACH ratingsByMovie GENERATE group AS movieID, AVG(ratings.rating) AS avgRating;
+
+--With preovious relation, filter on average rating to keep movie with an average rating > 4.0.
+fiveStarMovies = FILTER avgRatings BY avgRating > 4.0;
+
+--Join fiveStarMovies with nameLookup
+fiveStarsWithDate = JOIN fiveStarMovies BY movieID, nameLookup BY movieID;
+
+--Order fiveStarsWithDate by release time.
+oldestFiveStarMovies = ORDER fiveStarsWithDate BY nameLookup::releaseTime;
+
+STORE oldestFiveStarMovies INTO 'output';
