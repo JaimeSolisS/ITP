@@ -1,0 +1,13 @@
+                This            a              valid      line
+# This is a comment
+# Another comment
+This             is              another        line
+-------------------
+
+                    foo
+
+# this is a comment
+
+                                                        bar
+
+-------------------
