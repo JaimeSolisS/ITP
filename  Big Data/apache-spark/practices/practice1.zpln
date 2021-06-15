@@ -1,0 +1,63 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n\n# login into the cluster \n\n- Connect to edgenode: ``ssh jsolis@10.1.1.27``\n- set ``HADOOP_CONF_DIR=%HADOOP_HOME%``\n\nstart spark with master yarn \n```\nspark-shell --master yarn --deploy-mode client --num-executors 2 --executor-memory 1GB\n\nspark2-shell --master yarn --deploy-mode client --num-executors 4 --executor-memory 4GB\n```\n\nSee en the portal the aapication running\nhttps://ybolcldrmstr.yotabites.com:8090/cluster/apps/RUNNING\n\n\ncreate a temp table loading a file from home directory \n\n```spark.read.json(\"/data/mexzipcodes.json\").createOrReplaceTempView(\"events\")\n\nspark.read.json(\"hdfs://yboledge02.yotabites.com:8020/home/egarcia1/data/mexzipcodes.json\").createOrReplaceTempView(\"events\")\nspark.read.json(\"/user/egarcia1/data/mexzipcodes.json\").registerTempTable(\"events\")\nspark.sql(\"select * from events\").show\n```\n\nExplore all the options of the appliation master \n\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:22:01-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>login into the cluster</h1>\n<ul>\n<li>Connect to edgenode: <code>ssh jsolis@10.1.1.27</code></li>\n<li>set <code>HADOOP_CONF_DIR=%HADOOP_HOME%</code></li>\n</ul>\n<p>start spark with master yarn</p>\n<pre><code>spark-shell --master yarn --deploy-mode client --num-executors 2 --executor-memory 1GB\n\nspark2-shell --master yarn --deploy-mode client --num-executors 4 --executor-memory 4GB\n</code></pre>\n<p>See en the portal the aapication running<br />\n<a href=\"https://ybolcldrmstr.yotabites.com:8090/cluster/apps/RUNNING\">https://ybolcldrmstr.yotabites.com:8090/cluster/apps/RUNNING</a></p>\n<p>create a temp table loading a file from home directory</p>\n<pre><code class=\"language-spark.read.json(&quot;/data/mexzipcodes.json&quot;).createOrReplaceTempView(&quot;events&quot;)\">\nspark.read.json(&quot;hdfs://yboledge02.yotabites.com:8020/home/egarcia1/data/mexzipcodes.json&quot;).createOrReplaceTempView(&quot;events&quot;)\nspark.read.json(&quot;/user/egarcia1/data/mexzipcodes.json&quot;).registerTempTable(&quot;events&quot;)\nspark.sql(&quot;select * from events&quot;).show\n</code></pre>\n<p>Explore all the options of the appliation master</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623730725894_840028841",
+      "id": "paragraph_1623730725894_840028841",
+      "dateCreated": "2021-06-14T22:18:45-0600",
+      "dateStarted": "2021-06-14T22:22:01-0600",
+      "dateFinished": "2021-06-14T22:22:01-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:43630"
+    }
+  ],
+  "name": "practice1",
+  "id": "2GB3R4THP",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/practice1"
+}
