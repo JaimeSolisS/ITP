@@ -1,0 +1,210 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\r\nSaving RDD – Text file format\r\nRDD have below APIs to save data into different file formats\r\n\r\n- saveAsTextFile (most important and covered here)\r\n- saveAsSequenceFile\r\n- saveAsNewAPIHadoopFile\r\n- saveAsObjectFile\r\n- Save as Text File\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:55:17-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Saving RDD – Text file format<br />\nRDD have below APIs to save data into different file formats</p>\n<ul>\n<li>saveAsTextFile (most important and covered here)</li>\n<li>saveAsSequenceFile</li>\n<li>saveAsNewAPIHadoopFile</li>\n<li>saveAsObjectFile</li>\n<li>Save as Text File</li>\n</ul>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623452077157_899719816",
+      "id": "paragraph_1623452077157_899719816",
+      "dateCreated": "2021-06-11T16:54:37-0600",
+      "dateStarted": "2021-06-11T16:55:17-0600",
+      "dateFinished": "2021-06-11T16:55:17-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:7929"
+    },
+    {
+      "text": "%spark\n\nval orders = sc.textFile(\"zeppelin/data/retail_db/orders\")\nval orderCountByStatus = orders.map(order => (order.split(\",\")(3), 1)).reduceByKey((total, element) => total + element)\norderCountByStatus.saveAsTextFile(\"zeppelin/data/retail_db/order_count_by_status\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:56:59-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34morders\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/orders MapPartitionsRDD[114] at textFile at <console>:29\n\u001b[1m\u001b[34morderCountByStatus\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(String, Int)]\u001b[0m = ShuffledRDD[116] at reduceByKey at <console>:30\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=29",
+              "$$hashKey": "object:8108"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623452117354_367407076",
+      "id": "paragraph_1623452117354_367407076",
+      "dateCreated": "2021-06-11T16:55:17-0600",
+      "dateStarted": "2021-06-11T16:56:59-0600",
+      "dateFinished": "2021-06-11T16:57:00-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:7930"
+    },
+    {
+      "text": "%spark\nval orderCountByStatus = sc.textFile(\"zeppelin/data/retail_db/order_count_by_status\")\norderCountByStatus.take(10).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:57:36-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(CANCELED,1428)\n(PAYMENT_REVIEW,729)\n(PENDING,7610)\n(ON_HOLD,3798)\n(PROCESSING,8275)\n(SUSPECTED_FRAUD,1558)\n(COMPLETE,22899)\n(PENDING_PAYMENT,15030)\n(CLOSED,7556)\n\u001b[1m\u001b[34morderCountByStatus\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/order_count_by_status MapPartitionsRDD[119] at textFile at <console>:29\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=30",
+              "$$hashKey": "object:8166"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=31",
+              "$$hashKey": "object:8167"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623452194240_2143963621",
+      "id": "paragraph_1623452194240_2143963621",
+      "dateCreated": "2021-06-11T16:56:34-0600",
+      "dateStarted": "2021-06-11T16:57:36-0600",
+      "dateFinished": "2021-06-11T16:57:38-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:7931"
+    },
+    {
+      "text": "%spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:57:36-0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623452256737_237826197",
+      "id": "paragraph_1623452256737_237826197",
+      "dateCreated": "2021-06-11T16:57:36-0600",
+      "status": "READY",
+      "$$hashKey": "object:7932"
+    }
+  ],
+  "name": "saveRDDintoFile",
+  "id": "2G8XQ77AZ",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/saveRDDintoFile"
+}
