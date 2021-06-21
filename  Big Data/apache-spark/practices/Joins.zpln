@@ -1,0 +1,2241 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "File Paths",
+      "text": "%spark\nval productsPath = \"zeppelin/data/retail_db/products\"\nval categoriesPath = \"zeppelin/data/retail_db/categories\"\n\nval productsJsonPath = \"zeppelin/data/retail_db_json/products\"\nval categoriesJsonPath = \"zeppelin/data/retail_db_json/categories\"\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:48:21-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mproductsPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = zeppelin/data/retail_db/products\n\u001b[1m\u001b[34mcategoriesPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = zeppelin/data/retail_db/categories\n\u001b[1m\u001b[34mproductsJsonPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = zeppelin/data/retail_db_json/products\n\u001b[1m\u001b[34mcategoriesJsonPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = zeppelin/data/retail_db_json/categories\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623259690310_1128289442",
+      "id": "paragraph_1623259690310_1128289442",
+      "dateCreated": "2021-06-09T11:28:10-0600",
+      "dateStarted": "2021-06-14T21:48:21-0600",
+      "dateFinished": "2021-06-14T21:48:21-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:8792"
+    },
+    {
+      "text": "%md\n# RDD\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:09:21-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>RDD</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623258773705_386851315",
+      "id": "paragraph_1623258773705_386851315",
+      "dateCreated": "2021-06-09T11:12:53-0600",
+      "dateStarted": "2021-06-14T21:09:21-0600",
+      "dateFinished": "2021-06-14T21:09:21-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8793"
+    },
+    {
+      "title": "create RDD's",
+      "text": "%spark\nval productsRDD = sc.textFile(productsPath)\nval categoriesRDD = sc.textFile(categoriesPath)\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:48:23-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mproductsRDD\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/products MapPartitionsRDD[742] at textFile at <console>:29\n\u001b[1m\u001b[34mcategoriesRDD\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/categories MapPartitionsRDD[744] at textFile at <console>:30\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623258902322_2006197451",
+      "id": "paragraph_1623258902322_2006197451",
+      "dateCreated": "2021-06-09T11:15:02-0600",
+      "dateStarted": "2021-06-14T21:48:23-0600",
+      "dateFinished": "2021-06-14T21:48:24-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8794"
+    },
+    {
+      "text": "%spark\nproductsRDD.take(3).foreach(println)\ncategoriesRDD.take(3).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-13T17:27:48-0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "1,2,Quest Q64 10 FT. x 10 FT. Slant Leg Instant U,,59.98,http://images.acmesports.sports/Quest+Q64+10+FT.+x+10+FT.+Slant+Leg+Instant+Up+Canopy\n2,2,Under Armour Men's Highlight MC Football Clea,,129.99,http://images.acmesports.sports/Under+Armour+Men%27s+Highlight+MC+Football+Cleat\n3,2,Under Armour Men's Renegade D Mid Football Cl,,89.99,http://images.acmesports.sports/Under+Armour+Men%27s+Renegade+D+Mid+Football+Cleat\n1,2,Football\n2,2,Soccer\n3,2,Baseball & Softball\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=0",
+              "$$hashKey": "object:10150"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=1",
+              "$$hashKey": "object:10151"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623259029571_1733584386",
+      "id": "paragraph_1623259029571_1733584386",
+      "dateCreated": "2021-06-09T11:17:09-0600",
+      "dateStarted": "2021-06-13T17:27:48-0600",
+      "dateFinished": "2021-06-13T17:27:50-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8795"
+    },
+    {
+      "title": "Create rdd's maps",
+      "text": "%spark\nval productsMap = productsRDD.filter(product => product.split(\",\")(4) != \"\").map(product => (product.split(\",\")(1).toInt, product.split(\",\")(2)))\nval categoriesMap = categoriesRDD.map(category => (category.split(\",\")(0).toInt, (category.split(\",\")(2))))",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-13T18:37:09-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mproductsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[111] at map at <console>:32\n\u001b[1m\u001b[34mcategoriesMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[112] at map at <console>:33\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623277590028_1295170400",
+      "id": "paragraph_1623277590028_1295170400",
+      "dateCreated": "2021-06-09T16:26:30-0600",
+      "dateStarted": "2021-06-13T18:19:28-0600",
+      "dateFinished": "2021-06-13T18:19:28-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8796"
+    },
+    {
+      "text": "%spark\nproductsMap.take(5).foreach(println)\ncategoriesMap.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-13T18:19:29-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(2,Quest Q64 10 FT. x 10 FT. Slant Leg Instant U)\n(2,Under Armour Men's Highlight MC Football Clea)\n(2,Under Armour Men's Renegade D Mid Football Cl)\n(2,Under Armour Men's Renegade D Mid Football Cl)\n(2,Riddell Youth Revolution Speed Custom Footbal)\n(1,Football)\n(2,Soccer)\n(3,Baseball & Softball)\n(4,Basketball)\n(5,Lacrosse)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=55",
+              "$$hashKey": "object:10265"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=56",
+              "$$hashKey": "object:10266"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623354144961_308039433",
+      "id": "paragraph_1623354144961_308039433",
+      "dateCreated": "2021-06-10T13:42:24-0600",
+      "dateStarted": "2021-06-13T18:19:29-0600",
+      "dateFinished": "2021-06-13T18:19:29-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8797"
+    },
+    {
+      "title": "1 INNER JOIN",
+      "text": "%spark\nval productsInnerJoin = productsMap.join(categoriesMap).sortByKey()\nproductsInnerJoin.take(10).foreach(println)\nproductsInnerJoin.count\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-13T18:12:06-0600",
+      "progress": 40,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(2,(Quest Q64 10 FT. x 10 FT. Slant Leg Instant U,Soccer))\n(2,(Under Armour Men's Highlight MC Football Clea,Soccer))\n(2,(Under Armour Men's Renegade D Mid Football Cl,Soccer))\n(2,(Under Armour Men's Renegade D Mid Football Cl,Soccer))\n(2,(Riddell Youth Revolution Speed Custom Footbal,Soccer))\n(2,(Jordan Men's VI Retro TD Football Cleat,Soccer))\n(2,(Schutt Youth Recruit Hybrid Custom Football H,Soccer))\n(2,(Nike Men's Vapor Carbon Elite TD Football Cle,Soccer))\n(2,(Nike Adult Vapor Jet 3.0 Receiver Gloves,Soccer))\n(2,(Under Armour Men's Highlight MC Football Clea,Soccer))\n\u001b[1m\u001b[34mproductsInnerJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (String, String))]\u001b[0m = ShuffledRDD[82] at sortByKey at <console>:37\n\u001b[1m\u001b[34mres30\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 1320\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=36",
+              "$$hashKey": "object:10328"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=37",
+              "$$hashKey": "object:10329"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=38",
+              "$$hashKey": "object:10330"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623353215659_1345421293",
+      "id": "paragraph_1623353215659_1345421293",
+      "dateCreated": "2021-06-10T13:26:55-0600",
+      "dateStarted": "2021-06-13T18:10:09-0600",
+      "dateFinished": "2021-06-13T18:10:10-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8798"
+    },
+    {
+      "title": "2 FULL JOIN",
+      "text": "%spark\nval productsFullJoin = productsMap.fullOuterJoin(categoriesMap).sortByKey()\nproductsFullJoin.take(10).foreach(println)\nproductsFullJoin.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-13T18:12:16-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(1,(None,Some(Football)))\n(2,(Some(Quest Q64 10 FT. x 10 FT. Slant Leg Instant U),Some(Soccer)))\n(2,(Some(Under Armour Men's Highlight MC Football Clea),Some(Soccer)))\n(2,(Some(Under Armour Men's Renegade D Mid Football Cl),Some(Soccer)))\n(2,(Some(Under Armour Men's Renegade D Mid Football Cl),Some(Soccer)))\n(2,(Some(Riddell Youth Revolution Speed Custom Footbal),Some(Soccer)))\n(2,(Some(Jordan Men's VI Retro TD Football Cleat),Some(Soccer)))\n(2,(Some(Schutt Youth Recruit Hybrid Custom Football H),Some(Soccer)))\n(2,(Some(Nike Men's Vapor Carbon Elite TD Football Cle),Some(Soccer)))\n(2,(Some(Nike Adult Vapor Jet 3.0 Receiver Gloves),Some(Soccer)))\n\u001b[1m\u001b[34mproductsFullJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (Option[String], Option[String]))]\u001b[0m = ShuffledRDD[94] at sortByKey at <console>:35\n\u001b[1m\u001b[34mres32\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 1348\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=42",
+              "$$hashKey": "object:10396"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=43",
+              "$$hashKey": "object:10397"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=44",
+              "$$hashKey": "object:10398"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623629452131_1057856223",
+      "id": "paragraph_1623629452131_1057856223",
+      "dateCreated": "2021-06-13T18:10:52-0600",
+      "dateStarted": "2021-06-13T18:11:11-0600",
+      "dateFinished": "2021-06-13T18:11:11-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8799"
+    },
+    {
+      "title": "3 LEFT JOIN",
+      "text": "%spark\nval productsLeftJoin = productsMap.leftOuterJoin(categoriesMap).sortByKey()\nproductsLeftJoin.take(10).foreach(println)\nproductsLeftJoin.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-13T18:12:37-0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(2,(Quest Q64 10 FT. x 10 FT. Slant Leg Instant U,Some(Soccer)))\n(2,(Under Armour Men's Highlight MC Football Clea,Some(Soccer)))\n(2,(Under Armour Men's Renegade D Mid Football Cl,Some(Soccer)))\n(2,(Under Armour Men's Renegade D Mid Football Cl,Some(Soccer)))\n(2,(Riddell Youth Revolution Speed Custom Footbal,Some(Soccer)))\n(2,(Jordan Men's VI Retro TD Football Cleat,Some(Soccer)))\n(2,(Schutt Youth Recruit Hybrid Custom Football H,Some(Soccer)))\n(2,(Nike Men's Vapor Carbon Elite TD Football Cle,Some(Soccer)))\n(2,(Nike Adult Vapor Jet 3.0 Receiver Gloves,Some(Soccer)))\n(2,(Under Armour Men's Highlight MC Football Clea,Some(Soccer)))\n\u001b[1m\u001b[34mproductsLeftJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (String, Option[String]))]\u001b[0m = ShuffledRDD[100] at sortByKey at <console>:37\n\u001b[1m\u001b[34mres33\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 1344\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=45",
+              "$$hashKey": "object:10464"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=46",
+              "$$hashKey": "object:10465"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=47",
+              "$$hashKey": "object:10466"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623353338878_958047704",
+      "id": "paragraph_1623353338878_958047704",
+      "dateCreated": "2021-06-10T13:28:58-0600",
+      "dateStarted": "2021-06-13T18:12:37-0600",
+      "dateFinished": "2021-06-13T18:12:37-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8800"
+    },
+    {
+      "title": "4 RIGHT JOIN",
+      "text": "%spark\n\nval productsRightJoin = productsMap.rightOuterJoin(categoriesMap).sortByKey()\nproductsRightJoin.take(10).foreach(println)\nproductsRightJoin.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-13T18:14:01-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(1,(None,Football))\n(2,(Some(Quest Q64 10 FT. x 10 FT. Slant Leg Instant U),Soccer))\n(2,(Some(Under Armour Men's Highlight MC Football Clea),Soccer))\n(2,(Some(Under Armour Men's Renegade D Mid Football Cl),Soccer))\n(2,(Some(Under Armour Men's Renegade D Mid Football Cl),Soccer))\n(2,(Some(Riddell Youth Revolution Speed Custom Footbal),Soccer))\n(2,(Some(Jordan Men's VI Retro TD Football Cleat),Soccer))\n(2,(Some(Schutt Youth Recruit Hybrid Custom Football H),Soccer))\n(2,(Some(Nike Men's Vapor Carbon Elite TD Football Cle),Soccer))\n(2,(Some(Nike Adult Vapor Jet 3.0 Receiver Gloves),Soccer))\n\u001b[1m\u001b[34mproductsRightJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (Option[String], String))]\u001b[0m = ShuffledRDD[106] at sortByKey at <console>:36\n\u001b[1m\u001b[34mres34\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 1324\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=48",
+              "$$hashKey": "object:10532"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=49",
+              "$$hashKey": "object:10533"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=50",
+              "$$hashKey": "object:10534"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623629591068_1414055946",
+      "id": "paragraph_1623629591068_1414055946",
+      "dateCreated": "2021-06-13T18:13:11-0600",
+      "dateStarted": "2021-06-13T18:14:01-0600",
+      "dateFinished": "2021-06-13T18:14:01-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8801"
+    },
+    {
+      "title": "5 INNER JOIN WITH FILTER",
+      "text": "%spark\nval productsInnerJoinFilter = categoriesMap.filter(category => category._2 == \"Basketball\").join(productsMap)\nproductsInnerJoinFilter.take(5).foreach(println)\nproductsInnerJoinFilter.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:08:43-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(4,(Basketball,Diamondback Adult Sorrento Mountain Bike 2014))\n(4,(Basketball,Quest Q64 10 FT. x 10 FT. Slant Leg Instant U))\n(4,(Basketball,MAC Sports Collapsible Wagon))\n(4,(Basketball,Easton Mako Youth Bat 2014 (-11)))\n(4,(Basketball,adidas Brazuca 2014 Top Glider Soccer Ball))\n\u001b[1m\u001b[34mproductsInnerJoinFilter\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (String, String))]\u001b[0m = MapPartitionsRDD[116] at join at <console>:35\n\u001b[1m\u001b[34mres39\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 24\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=57",
+              "$$hashKey": "object:10600"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=58",
+              "$$hashKey": "object:10601"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623629674091_173820746",
+      "id": "paragraph_1623629674091_173820746",
+      "dateCreated": "2021-06-13T18:14:34-0600",
+      "dateStarted": "2021-06-13T18:21:49-0600",
+      "dateFinished": "2021-06-13T18:21:49-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8802"
+    },
+    {
+      "title": " 6 FULL JOIN WITH FILTER",
+      "text": "%spark\nval productsFullJoinFilter = categoriesMap.filter(category => category._2 == \"Basketball\").fullOuterJoin(productsMap)\nproductsFullJoinFilter.take(5).foreach(println)\nproductsFullJoinFilter.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:08:48-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(34,(None,Some(FootJoy GreenJoys Golf Shoes)))\n(34,(None,Some(FootJoy GreenJoys Golf Shoes)))\n(34,(None,Some(Ogio Race Golf Shoes)))\n(34,(None,Some(Ogio Race Golf Shoes)))\n(34,(None,Some(Ogio City Spiked Golf Shoes)))\n\u001b[1m\u001b[34mproductsFullJoinFilter\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (Option[String], Option[String]))]\u001b[0m = MapPartitionsRDD[124] at fullOuterJoin at <console>:37\n\u001b[1m\u001b[34mres41\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 1344\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=61",
+              "$$hashKey": "object:10663"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=62",
+              "$$hashKey": "object:10664"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623630127991_2019708427",
+      "id": "paragraph_1623630127991_2019708427",
+      "dateCreated": "2021-06-13T18:22:07-0600",
+      "dateStarted": "2021-06-13T18:23:03-0600",
+      "dateFinished": "2021-06-13T18:23:03-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8803"
+    },
+    {
+      "title": "7 LEFT JOIN WITH FILTER",
+      "text": "%spark\nval productsLeftJoinFilter = categoriesMap.filter(category => category._2 == \"Basketball\").leftOuterJoin(productsMap)\nproductsLeftJoinFilter.take(5).foreach(println)\nproductsLeftJoinFilter.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:08:52-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(4,(Basketball,Some(Diamondback Adult Sorrento Mountain Bike 2014)))\n(4,(Basketball,Some(Quest Q64 10 FT. x 10 FT. Slant Leg Instant U)))\n(4,(Basketball,Some(MAC Sports Collapsible Wagon)))\n(4,(Basketball,Some(Easton Mako Youth Bat 2014 (-11))))\n(4,(Basketball,Some(adidas Brazuca 2014 Top Glider Soccer Ball)))\n\u001b[1m\u001b[34mproductsLeftJoinFilter\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (String, Option[String]))]\u001b[0m = MapPartitionsRDD[128] at leftOuterJoin at <console>:35\n\u001b[1m\u001b[34mres42\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 24\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=63",
+              "$$hashKey": "object:10726"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=64",
+              "$$hashKey": "object:10727"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623630196849_951064989",
+      "id": "paragraph_1623630196849_951064989",
+      "dateCreated": "2021-06-13T18:23:16-0600",
+      "dateStarted": "2021-06-13T18:24:02-0600",
+      "dateFinished": "2021-06-13T18:24:02-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8804"
+    },
+    {
+      "title": "8 RIGHT JOIN WITH FILTER",
+      "text": "%spark\nval productsRightJoinFilter = categoriesMap.filter(category => category._2 == \"Basketball\").rightOuterJoin(productsMap)\nproductsRightJoinFilter.take(5).foreach(println)\nproductsRightJoinFilter.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:08:57-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(34,(None,FootJoy GreenJoys Golf Shoes))\n(34,(None,FootJoy GreenJoys Golf Shoes))\n(34,(None,Ogio Race Golf Shoes))\n(34,(None,Ogio Race Golf Shoes))\n(34,(None,Ogio City Spiked Golf Shoes))\n\u001b[1m\u001b[34mproductsRightJoinFilter\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (Option[String], String))]\u001b[0m = MapPartitionsRDD[132] at rightOuterJoin at <console>:35\n\u001b[1m\u001b[34mres43\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 1344\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=65",
+              "$$hashKey": "object:10789"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=66",
+              "$$hashKey": "object:10790"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623630252216_1018986415",
+      "id": "paragraph_1623630252216_1018986415",
+      "dateCreated": "2021-06-13T18:24:12-0600",
+      "dateStarted": "2021-06-13T18:24:49-0600",
+      "dateFinished": "2021-06-13T18:24:49-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8805"
+    },
+    {
+      "text": "%md\n# Dataframes\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:09:39-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Dataframes</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623726547106_324650652",
+      "id": "paragraph_1623726547106_324650652",
+      "dateCreated": "2021-06-14T21:09:07-0600",
+      "dateStarted": "2021-06-14T21:09:39-0600",
+      "dateFinished": "2021-06-14T21:09:39-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8806"
+    },
+    {
+      "title": "Create Dataframes",
+      "text": "%spark\nval productsDF = spark.read.json(productsJsonPath)\nproductsDF.printSchema\nval categoriesDF = spark.read.json(categoriesJsonPath)\ncategoriesDF.printSchema\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:13:51-0600",
+      "progress": 100,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- product_category_id: long (nullable = true)\n |-- product_description: string (nullable = true)\n |-- product_id: long (nullable = true)\n |-- product_image: string (nullable = true)\n |-- product_name: string (nullable = true)\n |-- product_price: double (nullable = true)\n\nroot\n |-- category_department_id: long (nullable = true)\n |-- category_id: long (nullable = true)\n |-- category_name: string (nullable = true)\n\n\u001b[1m\u001b[34mproductsDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [product_category_id: bigint, product_description: string ... 4 more fields]\n\u001b[1m\u001b[34mcategoriesDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [category_department_id: bigint, category_id: bigint ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=163",
+              "$$hashKey": "object:10898"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=164",
+              "$$hashKey": "object:10899"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623259163372_1476047212",
+      "id": "paragraph_1623259163372_1476047212",
+      "dateCreated": "2021-06-09T11:19:23-0600",
+      "dateStarted": "2021-06-14T21:13:51-0600",
+      "dateFinished": "2021-06-14T21:13:52-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8807"
+    },
+    {
+      "text": "%spark \nprintln(\"# Elements \" + productsDF.count)\nproductsDF.show(5)\nprintln(\"# Elements \" + categoriesDF.count)\ncategoriesDF.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:25:25-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1345\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+\n|product_category_id|product_description|product_id|       product_image|        product_name|product_price|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+\n|                  2|                   |         1|http://images.acm...|Quest Q64 10 FT. ...|        59.98|\n|                  2|                   |         2|http://images.acm...|Under Armour Men'...|       129.99|\n|                  2|                   |         3|http://images.acm...|Under Armour Men'...|        89.99|\n|                  2|                   |         4|http://images.acm...|Under Armour Men'...|        89.99|\n|                  2|                   |         5|http://images.acm...|Riddell Youth Rev...|       199.99|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+\nonly showing top 5 rows\n\n# Elements 58\n+----------------------+-----------+-------------------+\n|category_department_id|category_id|      category_name|\n+----------------------+-----------+-------------------+\n|                     2|          1|           Football|\n|                     2|          2|             Soccer|\n|                     2|          3|Baseball & Softball|\n|                     2|          4|         Basketball|\n|                     2|          5|           Lacrosse|\n+----------------------+-----------+-------------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=214",
+              "$$hashKey": "object:10961"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=215",
+              "$$hashKey": "object:10962"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=216",
+              "$$hashKey": "object:10963"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=217",
+              "$$hashKey": "object:10964"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623726581851_1342441413",
+      "id": "paragraph_1623726581851_1342441413",
+      "dateCreated": "2021-06-14T21:09:41-0600",
+      "dateStarted": "2021-06-14T21:25:25-0600",
+      "dateFinished": "2021-06-14T21:25:25-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8808"
+    },
+    {
+      "title": "INNER JOIN",
+      "text": "%spark\nval dfInnerJoin = productsDF.alias(\"df1\").join(categoriesDF.alias(\"df2\"), productsDF(\"product_category_id\") === categoriesDF(\"category_id\"), \"inner\").drop($\"df2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dfInnerJoin.count)\ndfInnerJoin.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:25:35-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1321\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|product_category_id|product_description|product_id|       product_image|        product_name|product_price|category_department_id|category_name|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|                  2|                   |         1|http://images.acm...|Quest Q64 10 FT. ...|        59.98|                     2|       Soccer|\n|                  2|                   |         2|http://images.acm...|Under Armour Men'...|       129.99|                     2|       Soccer|\n|                  2|                   |         3|http://images.acm...|Under Armour Men'...|        89.99|                     2|       Soccer|\n|                  2|                   |         4|http://images.acm...|Under Armour Men'...|        89.99|                     2|       Soccer|\n|                  2|                   |         5|http://images.acm...|Riddell Youth Rev...|       199.99|                     2|       Soccer|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdfInnerJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: bigint, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=218",
+              "$$hashKey": "object:11034"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=219",
+              "$$hashKey": "object:11035"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=220",
+              "$$hashKey": "object:11036"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=221",
+              "$$hashKey": "object:11037"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=222",
+              "$$hashKey": "object:11038"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623625242069_1108553097",
+      "id": "paragraph_1623625242069_1108553097",
+      "dateCreated": "2021-06-13T17:00:42-0600",
+      "dateStarted": "2021-06-14T21:25:35-0600",
+      "dateFinished": "2021-06-14T21:25:36-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8809"
+    },
+    {
+      "title": "FULL JOIN",
+      "text": "%spark\nval dfFullJoin = productsDF.alias(\"df1\").join(categoriesDF.alias(\"df2\"), productsDF(\"product_category_id\") === categoriesDF(\"category_id\"), \"full\").drop($\"df2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dfFullJoin.count)\ndfFullJoin.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:28:59-0600",
+      "progress": 17,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1349\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+--------------+\n|product_category_id|product_description|product_id|       product_image|        product_name|product_price|category_department_id| category_name|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+--------------+\n|               null|               null|      null|                null|                null|         null|                     3|Yoga & Pilates|\n|               null|               null|      null|                null|                null|         null|                     2|      Football|\n|               null|               null|      null|                null|                null|         null|                     5|    Top Brands|\n|               null|               null|      null|                null|                null|         null|                     5| Men's Apparel|\n|                  2|                   |         1|http://images.acm...|Quest Q64 10 FT. ...|        59.98|                     2|        Soccer|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+--------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdfFullJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: bigint, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=238",
+              "$$hashKey": "object:11112"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=239",
+              "$$hashKey": "object:11113"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=240",
+              "$$hashKey": "object:11114"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=241",
+              "$$hashKey": "object:11115"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623727706634_1960232044",
+      "id": "paragraph_1623727706634_1960232044",
+      "dateCreated": "2021-06-14T21:28:26-0600",
+      "dateStarted": "2021-06-14T21:28:59-0600",
+      "dateFinished": "2021-06-14T21:29:01-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8810"
+    },
+    {
+      "title": "LEFT JOIN",
+      "text": "%spark\nval dfLeftJoin = productsDF.alias(\"df1\").join(categoriesDF.alias(\"df2\"), productsDF(\"product_category_id\") === categoriesDF(\"category_id\"), \"left\").drop($\"df2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dfLeftJoin.count)\ndfLeftJoin.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:27:04-0600",
+      "progress": 100,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala",
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1345\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|product_category_id|product_description|product_id|       product_image|        product_name|product_price|category_department_id|category_name|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|                  2|                   |         1|http://images.acm...|Quest Q64 10 FT. ...|        59.98|                     2|       Soccer|\n|                  2|                   |         2|http://images.acm...|Under Armour Men'...|       129.99|                     2|       Soccer|\n|                  2|                   |         3|http://images.acm...|Under Armour Men'...|        89.99|                     2|       Soccer|\n|                  2|                   |         4|http://images.acm...|Under Armour Men'...|        89.99|                     2|       Soccer|\n|                  2|                   |         5|http://images.acm...|Riddell Youth Rev...|       199.99|                     2|       Soccer|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdfLeftJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: bigint, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=228",
+              "$$hashKey": "object:11185"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=229",
+              "$$hashKey": "object:11186"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=230",
+              "$$hashKey": "object:11187"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=231",
+              "$$hashKey": "object:11188"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=232",
+              "$$hashKey": "object:11189"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623627219599_1561149060",
+      "id": "paragraph_1623627219599_1561149060",
+      "dateCreated": "2021-06-13T17:33:39-0600",
+      "dateStarted": "2021-06-14T21:27:04-0600",
+      "dateFinished": "2021-06-14T21:27:05-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8811"
+    },
+    {
+      "title": "RIGHT JOIN",
+      "text": "%spark\nval dfRightJoin = productsDF.alias(\"df1\").join(categoriesDF.alias(\"df2\"), productsDF(\"product_category_id\") === categoriesDF(\"category_id\"), \"right\").drop($\"df2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dfRightJoin.count)\ndfRightJoin.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:28:08-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1325\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+--------------+\n|product_category_id|product_description|product_id|       product_image|        product_name|product_price|category_department_id| category_name|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+--------------+\n|               null|               null|      null|                null|                null|         null|                     2|      Football|\n|               null|               null|      null|                null|                null|         null|                     5|    Top Brands|\n|               null|               null|      null|                null|                null|         null|                     3|Yoga & Pilates|\n|               null|               null|      null|                null|                null|         null|                     5| Men's Apparel|\n|                  2|                   |        24|http://images.acm...|Elevation Trainin...|        79.99|                     2|        Soccer|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+--------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdfRightJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: bigint, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=233",
+              "$$hashKey": "object:11263"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=234",
+              "$$hashKey": "object:11264"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=235",
+              "$$hashKey": "object:11265"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=236",
+              "$$hashKey": "object:11266"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=237",
+              "$$hashKey": "object:11267"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623727606608_15627093",
+      "id": "paragraph_1623727606608_15627093",
+      "dateCreated": "2021-06-14T21:26:46-0600",
+      "dateStarted": "2021-06-14T21:28:08-0600",
+      "dateFinished": "2021-06-14T21:28:09-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8812"
+    },
+    {
+      "title": "INNER JOIN WITH FILTER",
+      "text": "%spark\nval dfInnerJoinFiltered = productsDF.alias(\"df1\").join(categoriesDF.alias(\"df2\").filter(col(\"category_name\")===\"Basketball\"), productsDF(\"product_category_id\") === categoriesDF(\"category_id\"), \"inner\").drop($\"df2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dfInnerJoinFiltered.count)\ndfInnerJoinFiltered.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:31:37-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 24\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|product_category_id|product_description|product_id|       product_image|        product_name|product_price|category_department_id|category_name|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|                  4|                   |        49|http://images.acm...|Diamondback Adult...|       299.98|                     2|   Basketball|\n|                  4|                   |        50|http://images.acm...|Quest Q64 10 FT. ...|        59.98|                     2|   Basketball|\n|                  4|                   |        51|http://images.acm...|MAC Sports Collap...|        69.99|                     2|   Basketball|\n|                  4|                   |        52|http://images.acm...|Easton Mako Youth...|       249.97|                     2|   Basketball|\n|                  4|                   |        53|http://images.acm...|adidas Brazuca 20...|        29.99|                     2|   Basketball|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdfInnerJoinFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: bigint, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=247",
+              "$$hashKey": "object:11341"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=248",
+              "$$hashKey": "object:11342"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=249",
+              "$$hashKey": "object:11343"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=250",
+              "$$hashKey": "object:11344"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=251",
+              "$$hashKey": "object:11345"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623727768542_1986691513",
+      "id": "paragraph_1623727768542_1986691513",
+      "dateCreated": "2021-06-14T21:29:28-0600",
+      "dateStarted": "2021-06-14T21:31:37-0600",
+      "dateFinished": "2021-06-14T21:31:38-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8813"
+    },
+    {
+      "title": "FULL JOIN WITH FILTER",
+      "text": "%spark\nval dfFullJoinFiltered = productsDF.alias(\"df1\").join(categoriesDF.alias(\"df2\").filter(col(\"category_name\")===\"Basketball\"), productsDF(\"product_category_id\") === categoriesDF(\"category_id\"), \"full\").drop($\"df2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dfFullJoinFiltered.count)\ndfFullJoinFiltered.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:32:29-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1345\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|product_category_id|product_description|product_id|       product_image|        product_name|product_price|category_department_id|category_name|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|                  2|                   |         5|http://images.acm...|Riddell Youth Rev...|       199.99|                  null|         null|\n|                  2|                   |         3|http://images.acm...|Under Armour Men'...|        89.99|                  null|         null|\n|                  2|                   |         4|http://images.acm...|Under Armour Men'...|        89.99|                  null|         null|\n|                  2|                   |         1|http://images.acm...|Quest Q64 10 FT. ...|        59.98|                  null|         null|\n|                  2|                   |         2|http://images.acm...|Under Armour Men'...|       129.99|                  null|         null|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdfFullJoinFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: bigint, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=252",
+              "$$hashKey": "object:11419"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=253",
+              "$$hashKey": "object:11420"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=254",
+              "$$hashKey": "object:11421"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=255",
+              "$$hashKey": "object:11422"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623727923068_2096316320",
+      "id": "paragraph_1623727923068_2096316320",
+      "dateCreated": "2021-06-14T21:32:03-0600",
+      "dateStarted": "2021-06-14T21:32:29-0600",
+      "dateFinished": "2021-06-14T21:32:31-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8814"
+    },
+    {
+      "title": "LEFT JOIN WITH FILTER",
+      "text": "%spark\nval dfLeftJoinFiltered = productsDF.alias(\"df1\").join(categoriesDF.alias(\"df2\").filter(col(\"category_name\")===\"Basketball\"), productsDF(\"product_category_id\") === categoriesDF(\"category_id\"), \"left\").drop($\"df2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dfLeftJoinFiltered.count)\ndfLeftJoinFiltered.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:33:15-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1345\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|product_category_id|product_description|product_id|       product_image|        product_name|product_price|category_department_id|category_name|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|                  2|                   |         1|http://images.acm...|Quest Q64 10 FT. ...|        59.98|                  null|         null|\n|                  2|                   |         2|http://images.acm...|Under Armour Men'...|       129.99|                  null|         null|\n|                  2|                   |         3|http://images.acm...|Under Armour Men'...|        89.99|                  null|         null|\n|                  2|                   |         4|http://images.acm...|Under Armour Men'...|        89.99|                  null|         null|\n|                  2|                   |         5|http://images.acm...|Riddell Youth Rev...|       199.99|                  null|         null|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdfLeftJoinFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: bigint, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=256",
+              "$$hashKey": "object:11492"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=257",
+              "$$hashKey": "object:11493"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=258",
+              "$$hashKey": "object:11494"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=259",
+              "$$hashKey": "object:11495"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=260",
+              "$$hashKey": "object:11496"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623727971403_212927472",
+      "id": "paragraph_1623727971403_212927472",
+      "dateCreated": "2021-06-14T21:32:51-0600",
+      "dateStarted": "2021-06-14T21:33:15-0600",
+      "dateFinished": "2021-06-14T21:33:16-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8815"
+    },
+    {
+      "title": "RIGHT JOIN WITH FILTER",
+      "text": "%spark\nval dfRightJoinFiltered = productsDF.alias(\"df1\").join(categoriesDF.alias(\"df2\").filter(col(\"category_name\")===\"Basketball\"), productsDF(\"product_category_id\") === categoriesDF(\"category_id\"), \"right\").drop($\"df2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dfRightJoinFiltered.count)\ndfRightJoinFiltered.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:33:47-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 24\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|product_category_id|product_description|product_id|       product_image|        product_name|product_price|category_department_id|category_name|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\n|                  4|                   |        72|http://images.acm...|Quest 12' x 12' D...|       149.99|                     2|   Basketball|\n|                  4|                   |        71|http://images.acm...|Diamondback Adult...|       349.98|                     2|   Basketball|\n|                  4|                   |        70|http://images.acm...|Elevation Trainin...|        79.99|                     2|   Basketball|\n|                  4|                   |        69|http://images.acm...|Easton S1 Youth B...|       179.97|                     2|   Basketball|\n|                  4|                   |        68|http://images.acm...|Diamondback Adult...|       309.99|                     2|   Basketball|\n+-------------------+-------------------+----------+--------------------+--------------------+-------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdfRightJoinFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: bigint, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=261",
+              "$$hashKey": "object:11570"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=262",
+              "$$hashKey": "object:11571"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=263",
+              "$$hashKey": "object:11572"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=264",
+              "$$hashKey": "object:11573"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=265",
+              "$$hashKey": "object:11574"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623728001917_1504183945",
+      "id": "paragraph_1623728001917_1504183945",
+      "dateCreated": "2021-06-14T21:33:21-0600",
+      "dateStarted": "2021-06-14T21:33:47-0600",
+      "dateFinished": "2021-06-14T21:33:48-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8816"
+    },
+    {
+      "text": "%md\n# Datasets",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T21:34:38-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Datasets</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623728067122_1644348151",
+      "id": "paragraph_1623728067122_1644348151",
+      "dateCreated": "2021-06-14T21:34:27-0600",
+      "dateStarted": "2021-06-14T21:34:38-0600",
+      "dateFinished": "2021-06-14T21:34:38-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8817"
+    },
+    {
+      "title": "Create Dataset from RDD",
+      "text": "%spark\ncase class Product (product_category_id: String, product_description: String, product_id: String, product_image: String, product_name: String, product_price: String ) \nval productsDS = productsRDD.map(x => {val y = x.split(\",\"); Product (y(0), y(1), y(2), y(3), y(4), y(5))}).toDS()\nprintln(productsDS.count)\nproductsDS.show(5)\n\ncase class Category (category_department_id: String, category_id: String, category_name: String ) \nval categoryDS = categoriesRDD.map(x => {val y = x.split(\",\"); Category (y(0), y(1), y(2))}).toDS()\nprintln(categoryDS.count)\ncategoryDS.show(5)\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:05:35-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "1345\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+\n|product_category_id|product_description|          product_id|product_image|product_name|       product_price|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+\n|                  1|                  2|Quest Q64 10 FT. ...|             |       59.98|http://images.acm...|\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|\n|                  3|                  2|Under Armour Men'...|             |       89.99|http://images.acm...|\n|                  4|                  2|Under Armour Men'...|             |       89.99|http://images.acm...|\n|                  5|                  2|Riddell Youth Rev...|             |      199.99|http://images.acm...|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+\nonly showing top 5 rows\n\n58\n+----------------------+-----------+-------------------+\n|category_department_id|category_id|      category_name|\n+----------------------+-----------+-------------------+\n|                     1|          2|           Football|\n|                     2|          2|             Soccer|\n|                     3|          2|Baseball & Softball|\n|                     4|          2|         Basketball|\n|                     5|          2|           Lacrosse|\n+----------------------+-----------+-------------------+\nonly showing top 5 rows\n\nimport sqlContext.implicits._\ndefined class Product\n\u001b[1m\u001b[34mproductsDS\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[Product]\u001b[0m = [product_category_id: string, product_description: string ... 4 more fields]\ndefined class Category\n\u001b[1m\u001b[34mcategoryDS\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[Category]\u001b[0m = [category_department_id: string, category_id: string ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=281",
+              "$$hashKey": "object:11694"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=282",
+              "$$hashKey": "object:11695"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=283",
+              "$$hashKey": "object:11696"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=284",
+              "$$hashKey": "object:11697"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623727688970_1382975059",
+      "id": "paragraph_1623727688970_1382975059",
+      "dateCreated": "2021-06-14T21:28:08-0600",
+      "dateStarted": "2021-06-14T22:05:35-0600",
+      "dateFinished": "2021-06-14T22:05:36-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8818"
+    },
+    {
+      "title": "INNER JOIN",
+      "text": "%spark\nval dsInnerJoin = productsDS.alias(\"ds1\").join(categoryDS.alias(\"ds2\"), productsDS(\"product_category_id\") === categoryDS(\"category_id\"), \"inner\").drop($\"ds2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dsInnerJoin.count)\ndsInnerJoin.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:08:21-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 58\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------------+\n|product_category_id|product_description|          product_id|product_image|product_name|       product_price|category_department_id|      category_name|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------------+\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     5|           Lacrosse|\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     3|Baseball & Softball|\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     4|         Basketball|\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     1|           Football|\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     2|             Soccer|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdsInnerJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: string, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=285",
+              "$$hashKey": "object:11767"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=286",
+              "$$hashKey": "object:11768"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=287",
+              "$$hashKey": "object:11769"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623728678859_293651249",
+      "id": "paragraph_1623728678859_293651249",
+      "dateCreated": "2021-06-14T21:44:38-0600",
+      "dateStarted": "2021-06-14T22:08:21-0600",
+      "dateFinished": "2021-06-14T22:08:23-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8819"
+    },
+    {
+      "title": "FULL JOIN",
+      "text": "%spark\nval dsFullJoin = productsDS.alias(\"ds1\").join(categoryDS.alias(\"ds2\"), productsDS(\"product_category_id\") === categoryDS(\"category_id\"), \"full\").drop($\"ds2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dsFullJoin.count)\ndsFullJoin.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:08:50-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1396\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|product_category_id|product_description|          product_id|product_image|product_name|       product_price|category_department_id|category_name|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|                  1|                  2|Quest Q64 10 FT. ...|             |       59.98|http://images.acm...|                  null|         null|\n|                 10|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                  null|         null|\n|                100|                  6|Quik Shade Summit...|             |      199.99|http://images.acm...|                  null|         null|\n|               1000|                 45|Nikon Monarch 5 1...|             |      329.99|http://images.acm...|                  null|         null|\n|               1001|                 45|GoPro HERO3+ Silv...|             |      299.99|http://images.acm...|                  null|         null|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdsFullJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: string, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=288",
+              "$$hashKey": "object:11835"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=289",
+              "$$hashKey": "object:11836"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=290",
+              "$$hashKey": "object:11837"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623730113409_66558982",
+      "id": "paragraph_1623730113409_66558982",
+      "dateCreated": "2021-06-14T22:08:33-0600",
+      "dateStarted": "2021-06-14T22:08:50-0600",
+      "dateFinished": "2021-06-14T22:08:52-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8820"
+    },
+    {
+      "title": "LEFT JOIN",
+      "text": "%spark\nval dsLeftJoin = productsDS.alias(\"ds1\").join(categoryDS.alias(\"ds2\"), productsDS(\"product_category_id\") === categoryDS(\"category_id\"), \"left\").drop($\"ds2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dsLeftJoin.count)\ndsLeftJoin.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:09:26-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1396\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|product_category_id|product_description|          product_id|product_image|product_name|       product_price|category_department_id|category_name|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|                  1|                  2|Quest Q64 10 FT. ...|             |       59.98|http://images.acm...|                  null|         null|\n|                 10|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                  null|         null|\n|                100|                  6|Quik Shade Summit...|             |      199.99|http://images.acm...|                  null|         null|\n|               1000|                 45|Nikon Monarch 5 1...|             |      329.99|http://images.acm...|                  null|         null|\n|               1001|                 45|GoPro HERO3+ Silv...|             |      299.99|http://images.acm...|                  null|         null|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdsLeftJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: string, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=291",
+              "$$hashKey": "object:11903"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=292",
+              "$$hashKey": "object:11904"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=293",
+              "$$hashKey": "object:11905"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623730139010_467555425",
+      "id": "paragraph_1623730139010_467555425",
+      "dateCreated": "2021-06-14T22:08:59-0600",
+      "dateStarted": "2021-06-14T22:09:26-0600",
+      "dateFinished": "2021-06-14T22:09:28-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8821"
+    },
+    {
+      "title": "RIGHT JOIN",
+      "text": "%spark\nval dsRightJoin = productsDS.alias(\"ds1\").join(categoryDS.alias(\"ds2\"), productsDS(\"product_category_id\") === categoryDS(\"category_id\"), \"right\").drop($\"ds2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dsRightJoin.count)\ndsRightJoin.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:10:04-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 58\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------------+\n|product_category_id|product_description|          product_id|product_image|product_name|       product_price|category_department_id|      category_name|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------------+\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     5|           Lacrosse|\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     3|Baseball & Softball|\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     4|         Basketball|\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     1|           Football|\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     2|             Soccer|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdsRightJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: string, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=294",
+              "$$hashKey": "object:11971"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=295",
+              "$$hashKey": "object:11972"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=296",
+              "$$hashKey": "object:11973"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623730181135_2002485759",
+      "id": "paragraph_1623730181135_2002485759",
+      "dateCreated": "2021-06-14T22:09:41-0600",
+      "dateStarted": "2021-06-14T22:10:04-0600",
+      "dateFinished": "2021-06-14T22:10:05-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8822"
+    },
+    {
+      "title": "INNER JOIN WITH FILTER",
+      "text": "%spark\nval dsInnerJoinFiltered = productsDS.alias(\"ds1\").join(categoryDS.alias(\"ds2\").filter(col(\"category_name\") === \"Basketball\"), productsDS(\"product_category_id\") === categoryDS(\"category_id\"), \"inner\").drop($\"ds2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dsInnerJoinFiltered.count)\ndsInnerJoinFiltered.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:14:51-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|product_category_id|product_description|          product_id|product_image|product_name|       product_price|category_department_id|category_name|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     4|   Basketball|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n\n\u001b[1m\u001b[34mdsInnerJoinFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: string, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=306",
+              "$$hashKey": "object:12039"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=307",
+              "$$hashKey": "object:12040"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=308",
+              "$$hashKey": "object:12041"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623728974609_28488524",
+      "id": "paragraph_1623728974609_28488524",
+      "dateCreated": "2021-06-14T21:49:34-0600",
+      "dateStarted": "2021-06-14T22:14:51-0600",
+      "dateFinished": "2021-06-14T22:14:52-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8823"
+    },
+    {
+      "title": "FULL JOIN WITH FILTER",
+      "text": "%spark\nval dsFullJoinFiltered = productsDS.alias(\"ds1\").join(categoryDS.alias(\"ds2\").filter(col(\"category_name\") === \"Basketball\"), productsDS(\"product_category_id\") === categoryDS(\"category_id\"), \"full\").drop($\"ds2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dsFullJoinFiltered.count)\ndsFullJoinFiltered.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:15:19-0600",
+      "progress": 98,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1345\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|product_category_id|product_description|          product_id|product_image|product_name|       product_price|category_department_id|category_name|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|                  1|                  2|Quest Q64 10 FT. ...|             |       59.98|http://images.acm...|                  null|         null|\n|                 10|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                  null|         null|\n|                100|                  6|Quik Shade Summit...|             |      199.99|http://images.acm...|                  null|         null|\n|               1000|                 45|Nikon Monarch 5 1...|             |      329.99|http://images.acm...|                  null|         null|\n|               1001|                 45|GoPro HERO3+ Silv...|             |      299.99|http://images.acm...|                  null|         null|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdsFullJoinFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: string, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=309",
+              "$$hashKey": "object:12107"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=310",
+              "$$hashKey": "object:12108"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=311",
+              "$$hashKey": "object:12109"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623730498092_360389377",
+      "id": "paragraph_1623730498092_360389377",
+      "dateCreated": "2021-06-14T22:14:58-0600",
+      "dateStarted": "2021-06-14T22:15:19-0600",
+      "dateFinished": "2021-06-14T22:15:21-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8824"
+    },
+    {
+      "title": "LEFT JOIN WITH FILTER",
+      "text": "%spark\nval dsLeftJoinFiltered = productsDS.alias(\"ds1\").join(categoryDS.alias(\"ds2\").filter(col(\"category_name\") === \"Basketball\"), productsDS(\"product_category_id\") === categoryDS(\"category_id\"), \"left\").drop($\"ds2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dsLeftJoinFiltered.count)\ndsLeftJoinFiltered.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:16:00-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1345\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|product_category_id|product_description|          product_id|product_image|product_name|       product_price|category_department_id|category_name|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|                  1|                  2|Quest Q64 10 FT. ...|             |       59.98|http://images.acm...|                  null|         null|\n|                 10|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                  null|         null|\n|                100|                  6|Quik Shade Summit...|             |      199.99|http://images.acm...|                  null|         null|\n|               1000|                 45|Nikon Monarch 5 1...|             |      329.99|http://images.acm...|                  null|         null|\n|               1001|                 45|GoPro HERO3+ Silv...|             |      299.99|http://images.acm...|                  null|         null|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mdsLeftJoinFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: string, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=312",
+              "$$hashKey": "object:12175"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=313",
+              "$$hashKey": "object:12176"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=314",
+              "$$hashKey": "object:12177"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623730536036_14126678",
+      "id": "paragraph_1623730536036_14126678",
+      "dateCreated": "2021-06-14T22:15:36-0600",
+      "dateStarted": "2021-06-14T22:16:00-0600",
+      "dateFinished": "2021-06-14T22:16:02-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8825"
+    },
+    {
+      "title": "RIGHT JOIN WITH FILTER",
+      "text": "%spark\nval dsRightJoinFiltered = productsDS.alias(\"ds1\").join(categoryDS.alias(\"ds2\").filter(col(\"category_name\") === \"Basketball\"), productsDS(\"product_category_id\") === categoryDS(\"category_id\"), \"right\").drop($\"ds2.category_id\").sort(col(\"product_category_id\"))\nprintln(\"# Elements \" + dsRightJoinFiltered.count)\ndsRightJoinFiltered.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:16:32-0600",
+      "progress": 5,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "# Elements 1\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|product_category_id|product_description|          product_id|product_image|product_name|       product_price|category_department_id|category_name|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n|                  2|                  2|Under Armour Men'...|             |      129.99|http://images.acm...|                     4|   Basketball|\n+-------------------+-------------------+--------------------+-------------+------------+--------------------+----------------------+-------------+\n\n\u001b[1m\u001b[34mdsRightJoinFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [product_category_id: string, product_description: string ... 6 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=315",
+              "$$hashKey": "object:12243"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=316",
+              "$$hashKey": "object:12244"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=317",
+              "$$hashKey": "object:12245"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623730572164_353129942",
+      "id": "paragraph_1623730572164_353129942",
+      "dateCreated": "2021-06-14T22:16:12-0600",
+      "dateStarted": "2021-06-14T22:16:32-0600",
+      "dateFinished": "2021-06-14T22:16:33-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:8826"
+    }
+  ],
+  "name": "Joins",
+  "id": "2G79PTPUR",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/Joins"
+}
