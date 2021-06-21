@@ -1,0 +1,276 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md \n# Ranking - Get top N priced products with in each product category",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:12:50-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Ranking - Get top N priced products with in each product category</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623449119414_1874621993",
+      "id": "paragraph_1623449119414_1874621993",
+      "dateCreated": "2021-06-11T16:05:19-0600",
+      "dateStarted": "2021-06-11T16:12:50-0600",
+      "dateFinished": "2021-06-11T16:12:50-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:5868"
+    },
+    {
+      "text": "%spark\nval products = sc.textFile(\"zeppelin/data/retail_db/products\")\nval productsMap = products.filter(product => product.split(\",\")(4) != \"\").map(product => (product.split(\",\")(1).toInt, product))\nval productsGroupByCategory = productsMap.groupByKey",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:08:11-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mproducts\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/products MapPartitionsRDD[33] at textFile at <console>:29\n\u001b[1m\u001b[34mproductsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[35] at map at <console>:30\n\u001b[1m\u001b[34mproductsGroupByCategory\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Iterable[String])]\u001b[0m = ShuffledRDD[36] at groupByKey at <console>:31\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623449193550_485619867",
+      "id": "paragraph_1623449193550_485619867",
+      "dateCreated": "2021-06-11T16:06:33-0600",
+      "dateStarted": "2021-06-11T16:08:11-0600",
+      "dateFinished": "2021-06-11T16:08:12-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:5869"
+    },
+    {
+      "text": "%spark\ndef getTopNPricedProducts(productsIterable: Iterable[String], topN: Int): Iterable[String] = {\nval productPrices = productsIterable.map(p => p.split(\",\")(4).toFloat).toSet\nval topNPrices = productPrices.toList.sortBy(p => -p).take(topN)\n\nval productsSorted = productsIterable.toList.sortBy(product => -product.split(\",\")(4).toFloat)\nval minOfTopNPrices = topNPrices.min\n\nval topNPricedProducts = productsSorted.takeWhile(product => product.split(\",\")(4).toFloat >= minOfTopNPrices)\n\ntopNPricedProducts\n}\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:09:56-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mgetTopNPricedProducts\u001b[0m: \u001b[1m\u001b[32m(productsIterable: Iterable[String], topN: Int)Iterable[String]\u001b[0m\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623449291585_1853056999",
+      "id": "paragraph_1623449291585_1853056999",
+      "dateCreated": "2021-06-11T16:08:11-0600",
+      "dateStarted": "2021-06-11T16:09:56-0600",
+      "dateFinished": "2021-06-11T16:09:56-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:5870"
+    },
+    {
+      "text": "%spark\nval top3PricedProductsPerCategory = productsGroupByCategory.flatMap(rec => getTopNPricedProducts(rec._2, 3))",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:12:12-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mtop3PricedProductsPerCategory\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = MapPartitionsRDD[38] at flatMap at <console>:37\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623449396192_122266594",
+      "id": "paragraph_1623449396192_122266594",
+      "dateCreated": "2021-06-11T16:09:56-0600",
+      "dateStarted": "2021-06-11T16:12:12-0600",
+      "dateFinished": "2021-06-11T16:12:13-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:5871"
+    },
+    {
+      "text": "%spark\ntop3PricedProductsPerCategory.collect().foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:11:27-0600",
+      "progress": 50,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "743,34,Ogio Race Golf Shoes,,169.99,http://images.acmesports.sports/Ogio+Race+Golf+Shoes\n744,34,Ogio Race Golf Shoes,,169.99,http://images.acmesports.sports/Ogio+Race+Golf+Shoes\n745,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes\n746,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes\n747,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes\n754,34,TRUE linkswear Lyt Dry Golf Shoes,,149.99,http://images.acmesports.sports/TRUE+linkswear+Lyt+Dry+Golf+Shoes\n755,34,TRUE linkswear Lyt Dry Golf Shoes,,149.99,http://images.acmesports.sports/TRUE+linkswear+Lyt+Dry+Golf+Shoes\n756,34,TRUE linkswear Lyt Dry Golf Shoes,,149.99,http://images.acmesports.sports/TRUE+linkswear+Lyt+Dry+Golf+Shoes\n759,34,Nike Lunarwaverly Golf Shoes,,139.99,http://images.acmesports.sports/Nike+Lunarwaverly+Golf+Shoes\n760,34,Nike Lunarwaverly Golf Shoes,,139.99,http://images.acmesports.sports/Nike+Lunarwaverly+Golf+Shoes\n761,34,Nike Lunarwaverly Golf Shoes,,139.99,http://images.acmesports.sports/Nike+Lunarwaverly+Golf+Shoes\n762,34,Nike Lunarwaverly Golf Shoes,,139.99,http://images.acmesports.sports/Nike+Lunarwaverly+Golf+Shoes\n1154,52,\"Reebok Men's Chicago Blackhawks Patrick Kane \",,170.0,http://images.acmesports.sports/Reebok+Men%27s+Chicago+Blackhawks+Patrick+Kane+%2388+Home+Red...\n1156,52,Reebok Men's Boston Bruins Patrice Bergeron #,,170.0,http://images.acmesports.sports/Reebok+Men%27s+Boston+Bruins+Patrice+Bergeron+%2337+Home+Black...\n1157,52,Reebok Men's Chicago Blackhawks Jonathan Toew,,170.0,http://images.acmesports.sports/Reebok+Men%27s+Chicago+Blackhawks+Jonathan+Toews+%2319+Home...\n1158,52,Reebok Men's Chicago Blackhawks Jonathan Toew,,170.0,http://images.acmesports.sports/Reebok+Men%27s+Chicago+Blackhawks+Jonathan+Toews+%2319+Home...\n1160,52,Reebok Women's Chicago Blackhawks Patrick Kan,,130.0,http://images.acmesports.sports/Reebok+Women%27s+Chicago+Blackhawks+Patrick+Kane+%2388+Home...\n1159,52,\"Reebok Youth Chicago Blackhawks Patrick Kane \",,65.0,http://images.acmesports.sports/Reebok+Youth+Chicago+Blackhawks+Patrick+Kane+%2388+Home+Red...\n1256,56,adidas Brazuca 2014 Official Match Ball,,159.99,http://images.acmesports.sports/adidas+Brazuca+2014+Official+Match+Ball\n1259,56,adidas Brazuca Final Rio Official Match Ball,,159.99,http://images.acmesports.sports/adidas+Brazuca+Final+Rio+Official+Match+Ball\n1250,56,Nike Men's USA White Home Stadium Soccer Jers,,90.0,http://images.acmesports.sports/Nike+Men%27s+USA+White+Home+Stadium+Soccer+Jersey\n1253,56,Nike Men's USA Away Stadium Replica Soccer Je,,90.0,http://images.acmesports.sports/Nike+Men%27s+USA+Away+Stadium+Replica+Soccer+Jersey\n1254,56,adidas Men's Germany Home Soccer Jersey,,90.0,http://images.acmesports.sports/adidas+Men%27s+Germany+Home+Soccer+Jersey\n1257,56,adidas Men's Germany Black/Red Away Match Soc,,90.0,http://images.acmesports.sports/adidas+Men%27s+Germany+Black%2FRed+Away+Match+Soccer+Jersey\n1258,56,adidas Men's Mexico Home Soccer Jersey,,90.0,http://images.acmesports.sports/adidas+Men%27s+Mexico+Home+Soccer+Jersey\n1264,56,adidas Men's Argentina Home Soccer Jersey,,90.0,http://images.acmesports.sports/adidas+Men%27s+Argentina+Home+Soccer+Jersey\n1267,56,adidas Men's Mexico Red Away Soccer Jersey,,90.0,http://images.acmesports.sports/adidas+Men%27s+Mexico+Red+Away+Soccer+Jersey\n1269,56,Nike Men's Netherlands Orange Home Stadium So,,90.0,http://images.acmesports.sports/Nike+Men%27s+Netherlands+Orange+Home+Stadium+Soccer+Jersey\n1251,56,Nike Youth USA Away Stadium Replica Soccer Je,,75.0,http://images.acmesports.sports/Nike+Youth+USA+Away+Stadium+Replica+Soccer+Jersey\n66,4,SOLE F85 Treadmill,,1799.99,http://images.acmesports.sports/SOLE+F85+Treadmill\n60,4,SOLE E25 Elliptical,,999.99,http://images.acmesports.sports/SOLE+E25+Elliptical\n71,4,Diamondback Adult Response XE Mountain Bike 2,,349.98,http://images.acmesports.sports/Diamondback+Adult+Response+XE+Mountain+Bike+2014\n346,16,Fitness Gear Pro Half Rack,,349.99,http://images.acmesports.sports/Fitness+Gear+Pro+Half+Rack\n343,16,Teeter Hang Ups NXT-S Inversion Table,,299.99,http://images.acmesports.sports/Teeter+Hang+Ups+NXT-S+Inversion+Table\n345,16,Fitness Gear Pro Olympic Bench,,249.99,http://images.acmesports.sports/Fitness+Gear+Pro+Olympic+Bench\n496,22,SOLE F85 Treadmill,,1799.99,http://images.acmesports.sports/SOLE+F85+Treadmill\n488,22,SOLE E25 Elliptical,,999.99,http://images.acmesports.sports/SOLE+E25+Elliptical\n481,22,\"Top Flite Women's XL 12-Piece Complete Set - \",,179.98,http://images.acmesports.sports/Top+Flite+Women%27s+XL+12-Piece+Complete+Set+-+%28Graphite%29\n1214,54,Schutt Youth Vengeance DCT Custom Football He,,299.99,http://images.acmesports.sports/Schutt+Youth+Vengeance+DCT+Custom+Football+Helmet+2014\n1216,54,Schutt Youth Vengeance DCT Custom Football He,,299.99,http://images.acmesports.sports/Schutt+Youth+Vengeance+DCT+Custom+Football+Helmet\n1210,54,Schutt Youth AiR XP Pro Custom Football Helme,,199.99,http://images.acmesports.sports/Schutt+Youth+AiR+XP+Pro+Custom+Football+Helmet+2014\n1224,54,Schutt XV Flex Skill Shield Football Shoulder,,179.99,http://images.acmesports.sports/Schutt+XV+Flex+Skill+Shield+Football+Shoulder+Pads\n1016,46,Field & Stream 12' Eagle Run Kayak,,549.99,http://images.acmesports.sports/Field+%26+Stream+12%27+Eagle+Run+Kayak\n1020,46,Field & Stream Eagle Talon Kayak,,549.99,http://images.acmesports.sports/Field+%26+Stream+Eagle+Talon+Kayak\n1011,46,Old Town Canoe Saranac 146 Canoe,,499.99,http://images.acmesports.sports/Old+Town+Canoe+Saranac+146+Canoe\n1021,46,Old Town Trip 10 Angler Deluxe Kayak,,499.99,http://images.acmesports.sports/Old+Town+Trip+10+Angler+Deluxe+Kayak\n1030,46,Perception Sport Striker 11.5 Angler Kayak,,499.99,http://images.acmesports.sports/Perception+Sport+Striker+11.5+Angler+Kayak\n1032,46,Sun Dolphin Sun Slider 5-Seated Pedal Boat wi,,499.99,http://images.acmesports.sports/Sun+Dolphin+Sun+Slider+5-Seated+Pedal+Boat+with+Canopy\n1015,46,GoPro HERO3+ Black Edition Camera,,399.99,http://images.acmesports.sports/GoPro+HERO3%2B+Black+Edition+Camera\n1018,46,Coleman Scanoe Canoe,,399.99,http://images.acmesports.sports/Coleman+Scanoe+Canoe\n1028,46,YETI Tundra 65 Chest Cooler,,399.99,http://images.acmesports.sports/YETI+Tundra+65+Chest+Cooler\n1069,48,\"Tiga 11'4\"\" Stand-Up Paddle Board\",,799.99,http://images.acmesports.sports/Tiga+11%274%22+Stand-Up+Paddle+Board\n1067,48,Field & Stream 12' Eagle Run Kayak,,549.99,http://images.acmesports.sports/Field+%26+Stream+12%27+Eagle+Run+Kayak\n1074,48,Field & Stream Eagle Talon Kayak,,549.99,http://images.acmesports.sports/Field+%26+Stream+Eagle+Talon+Kayak\n1061,48,Old Town Canoe Saranac 146 Canoe,,499.99,http://images.acmesports.sports/Old+Town+Canoe+Saranac+146+Canoe\n1075,48,Old Town Trip 10 Angler Deluxe Kayak,,499.99,http://images.acmesports.sports/Old+Town+Trip+10+Angler+Deluxe+Kayak\n663,30,\"Merrell Men's Moab Rover Mid Waterproof Wide \",,139.99,http://images.acmesports.sports/Merrell+Men%27s+Moab+Rover+Mid+Waterproof+Wide+Hiking+Boot\n664,30,\"Merrell Men's Moab Rover Mid Waterproof Wide \",,139.99,http://images.acmesports.sports/Merrell+Men%27s+Moab+Rover+Mid+Waterproof+Wide+Hiking+Boot\n665,30,Merrell Men's Moab Rover Mid Waterproof Hikin,,139.99,http://images.acmesports.sports/Merrell+Men%27s+Moab+Rover+Mid+Waterproof+Hiking+Boot\n647,30,Merrell Women's Siren Mid Waterproof Hiking B,,134.99,http://images.acmesports.sports/Merrell+Women%27s+Siren+Mid+Waterproof+Hiking+Boot\n648,30,Merrell Women's Siren Mid Waterproof Hiking B,,134.99,http://images.acmesports.sports/Merrell+Women%27s+Siren+Mid+Waterproof+Hiking+Boot\n651,30,Merrell Men's Chameleon Prime Stretch Realtre,,129.99,http://images.acmesports.sports/Merrell+Men%27s+Chameleon+Prime+Stretch+Realtree+Xtra...\n652,30,Merrell Women's Grassbow Sport Waterproof Hik,,129.99,http://images.acmesports.sports/Merrell+Women%27s+Grassbow+Sport+Waterproof+Hiking+Shoe\n1116,50,Majestic Men's 2014 All-Star Game Troy Tulowi,,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Troy+Tulowitzki+%232...\n1117,50,Majestic Men's 2014 All-Star Game Yasiel Puig,,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Yasiel+Puig+%2366+National...\n1118,50,Majestic Men's 2014 All-Star Game Andrew McCu,,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Andrew+McCutchen+%2322...\n1119,50,Majestic Men's 2014 All-Star Game Yadier Moli,,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Yadier+Molina+%234+National...\n1120,50,Majestic Men's 2014 All-Star Game Freddie Fre,,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Freddie+Freeman+%235...\n1121,50,\"Majestic Men's 2014 All-Star Game Mike Trout \",,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Mike+Trout+%2327+American...\n1122,50,Majestic Men's 2014 All-Star Game Masahiro Ta,,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Masahiro+Tanaka+%2319...\n1123,50,Majestic Men's 2014 All-Star Game Derek Jeter,,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Derek+Jeter+%232+American...\n1124,50,Majestic Men's 2014 All-Star Game Miguel Cabr,,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Miguel+Cabrera+%2324...\n1125,50,\"Majestic Men's 2014 All-Star Game Jose Abreu \",,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Jose+Abreu+%2379+American...\n1106,50,Majestic Youth 2014 All-Star Game Andrew McCu,,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Andrew+McCutchen+%2322...\n1107,50,Majestic Youth 2014 All-Star Game Yadier Moli,,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Yadier+Molina+%234+National...\n1108,50,Majestic Youth 2014 All-Star Game Troy Tulowi,,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Troy+Tulowitzki+%232...\n1109,50,Majestic Youth 2014 All-Star Game Yasiel Puig,,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Yasiel+Puig+%2366+National...\n1110,50,Majestic Youth 2014 All-Star Game Freddie Fre,,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Freddie+Freeman+%235...\n1111,50,\"Majestic Youth 2014 All-Star Game Mike Trout \",,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Mike+Trout+%2327+American...\n1112,50,Majestic Youth 2014 All-Star Game Miguel Cabr,,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Miguel+Cabrera+%2324...\n1113,50,Majestic Youth 2014 All-Star Game Masahiro Ta,,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Masahiro+Tanaka+%2319...\n1114,50,Majestic Youth 2014 All-Star Game Derek Jeter,,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Derek+Jeter+%232+American...\n1115,50,\"Majestic Youth 2014 All-Star Game Jose Abreu \",,60.0,http://images.acmesports.sports/Majestic+Youth+2014+All-Star+Game+Jose+Abreu+%2379+American...\n1129,50,\"Stitches Men's Pittsburgh Pirates Black Poly \",,50.0,http://images.acmesports.sports/Stitches+Men%27s+Pittsburgh+Pirates+Black+Poly+Polo\n694,32,Callaway Women's Solaire Gems 20-Piece Comple,,999.99,http://images.acmesports.sports/Callaway+Women%27s+Solaire+Gems+20-Piece+Complete+Set+-...\n695,32,Callaway Women's Solaire Gems 20-Piece Comple,,999.99,http://images.acmesports.sports/Callaway+Women%27s+Solaire+Gems+20-Piece+Complete+Set+-...\n698,32,Cleveland Women's 588 Altitude Hybrid/Irons -,,699.99,http://images.acmesports.sports/Cleveland+Women%27s+588+Altitude+Hybrid%2FIrons+-+%28Graphite%29...\n697,32,Tour Edge Women's Moda Silk 18-Piece Complete,,599.99,http://images.acmesports.sports/Tour+Edge+Women%27s+Moda+Silk+18-Piece+Complete+Set+-+Pink...\n699,32,Tour Edge Women's Moda Silk 18-Piece Complete,,599.99,http://images.acmesports.sports/Tour+Edge+Women%27s+Moda+Silk+18-Piece+Complete+Set+%E2%80%93...\n791,36,Hirzl Women's Trust Feel Golf Glove,,24.99,http://images.acmesports.sports/Hirzl+Women%27s+Trust+Feel+Golf+Glove\n794,36,Hirzl Women's Trust Control Golf Glove,,24.99,http://images.acmesports.sports/Hirzl+Women%27s+Trust+Control+Golf+Glove\n806,36,Glove It Women's Violet Bling Golf Glove,,24.99,http://images.acmesports.sports/Glove+It+Women%27s+Violet+Bling+Golf+Glove\n798,36,Glove It Women's Urban Brick Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Urban+Brick+Golf+Glove\n799,36,Glove It Women's Versailles Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Versailles+Golf+Glove\n800,36,Glove It Women's Navy Clear Dot Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Navy+Clear+Dot+Golf+Glove\n801,36,Glove It Women's Pink Clear Dot Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Pink+Clear+Dot+Golf+Glove\n802,36,Glove It Women's Olive Bling Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Olive+Bling+Golf+Glove\n803,36,Glove It Women's Silver Bling Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Silver+Bling+Golf+Glove\n804,36,Glove It Women's Imperial Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Imperial+Golf+Glove\n805,36,Glove It Women's Red Clear Dot Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Red+Clear+Dot+Golf+Glove\n807,36,Glove It Women's Hot Pink Bling Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Hot+Pink+Bling+Golf+Glove\n808,36,Glove It Women's Calypso Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Calypso+Golf+Glove\n809,36,Glove It Women's 19th Hole Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+19th+Hole+Golf+Glove\n810,36,Glove It Women's Mod Oval Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Mod+Oval+Golf+Glove\n811,36,Glove It Women's Silver Willow Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Silver+Willow+Golf+Glove\n812,36,Glove It Women's Trellis Golf Glove,,19.99,http://images.acmesports.sports/Glove+It+Women%27s+Trellis+Golf+Glove\n795,36,Hirzl Men's Soffft Flex Golf Glove,,17.99,http://images.acmesports.sports/Hirzl+Men%27s+Soffft+Flex+Golf+Glove\n797,36,Hirzl Women's Soffft Flex Golf Glove,,17.99,http://images.acmesports.sports/Hirzl+Women%27s+Soffft+Flex+Golf+Glove\n516,24,Callaway X Hot Laser Rangefinder,,229.99,http://images.acmesports.sports/Callaway+X+Hot+Laser+Rangefinder\n508,24,PUMA Men's evoPOWER 1 Tricks FG Soccer Cleat,,189.99,http://images.acmesports.sports/PUMA+Men%27s+evoPOWER+1+Tricks+FG+Soccer+Cleat\n513,24,adidas Brazuca 2014 Official Match Ball,,159.99,http://images.acmesports.sports/adidas+Brazuca+2014+Official+Match+Ball\n933,42,Nike VR_S Covert Driver,,179.99,http://images.acmesports.sports/Nike+VR_S+Covert+Driver\n935,42,TaylorMade RocketBallz Stage 2 Driver,,169.99,http://images.acmesports.sports/TaylorMade+RocketBallz+Stage+2+Driver\n937,42,Cobra AMP Cell Driver - Orange,,169.99,http://images.acmesports.sports/Cobra+AMP+Cell+Driver+-+Orange\n936,42,Cleveland Golf Classic XL Driver,,119.99,http://images.acmesports.sports/Cleveland+Golf+Classic+XL+Driver\n885,40,Team Golf St. Louis Cardinals Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+St.+Louis+Cardinals+Putter+Grip\n886,40,Team Golf San Francisco Giants Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+San+Francisco+Giants+Putter+Grip\n887,40,Team Golf New York Yankees Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+New+York+Yankees+Putter+Grip\n888,40,Team Golf Detroit Tigers Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Detroit+Tigers+Putter+Grip\n889,40,Team Golf Chicago Cubs Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Chicago+Cubs+Putter+Grip\n890,40,Team Golf Boston Red Sox Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Boston+Red+Sox+Putter+Grip\n891,40,Team Golf Washington Redskins Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Washington+Redskins+Putter+Grip\n892,40,Team Golf San Francisco 49ers Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+San+Francisco+49ers+Putter+Grip\n893,40,Team Golf Pittsburgh Steelers Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Pittsburgh+Steelers+Putter+Grip\n894,40,Team Golf Dallas Cowboys Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Dallas+Cowboys+Putter+Grip\n895,40,Team Golf Oakland Raiders Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Oakland+Raiders+Putter+Grip\n896,40,Team Golf New York Giants Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+New+York+Giants+Putter+Grip\n897,40,Team Golf New England Patriots Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+New+England+Patriots+Putter+Grip\n898,40,Team Golf Minnesota Vikings Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Minnesota+Vikings+Putter+Grip\n899,40,Team Golf Green Bay Packers Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Green+Bay+Packers+Putter+Grip\n900,40,Team Golf Chicago Bears Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Chicago+Bears+Putter+Grip\n901,40,Team Golf Baltimore Ravens Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Baltimore+Ravens+Putter+Grip\n902,40,Team Golf West Virginia Mountaineers Putter G,,24.99,http://images.acmesports.sports/Team+Golf+West+Virginia+Mountaineers+Putter+Grip\n903,40,Team Golf Missouri Tigers Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Missouri+Tigers+Putter+Grip\n904,40,Team Golf Wisconsin Badgers Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Wisconsin+Badgers+Putter+Grip\n905,40,Team Golf Texas Longhorns Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Texas+Longhorns+Putter+Grip\n906,40,Team Golf Tennessee Volunteers Putter Grip,,24.99,http://images.acmesports.sports/Team+Golf+Tennessee+Volunteers+Putter+Grip\n907,40,Team Golf South Carolina Gamecocks Putter Gri,,24.99,http://images.acmesports.sports/Team+Golf+South+Carolina+Gamecocks+Putter+Grip\n908,40,Team Golf Penn State Nittany Lions Putter Gri,,24.99,http://images.acmesports.sports/Team+Golf+Penn+State+Nittany+Lions+Putter+Grip\n117,6,YETI Tundra 65 Chest Cooler,,399.99,http://images.acmesports.sports/YETI+Tundra+65+Chest+Cooler\n106,6,Teeter Hang Ups NXT-S Inversion Table,,299.99,http://images.acmesports.sports/Teeter+Hang+Ups+NXT-S+Inversion+Table\n100,6,Quik Shade Summit SX170 10 FT. x 10 FT. Canop,,199.99,http://images.acmesports.sports/Quik+Shade+Summit+SX170+10+FT.+x+10+FT.+Canopy\n162,8,YETI Tundra 65 Chest Cooler,,399.99,http://images.acmesports.sports/YETI+Tundra+65+Chest+Cooler\n153,8,Teeter Hang Ups NXT-S Inversion Table,,299.99,http://images.acmesports.sports/Teeter+Hang+Ups+NXT-S+Inversion+Table\n148,8,Quik Shade Summit SX170 10 FT. x 10 FT. Canop,,199.99,http://images.acmesports.sports/Quik+Shade+Summit+SX170+10+FT.+x+10+FT.+Canopy\n262,12,Fitness Gear Pro Utility Bench,,179.99,http://images.acmesports.sports/Fitness+Gear+Pro+Utility+Bench\n255,12,ASICS Women's GEL-Noosa Tri 9 Running Shoe,,139.99,http://images.acmesports.sports/ASICS+Women%27s+GEL-Noosa+Tri+9+Running+Shoe\n260,12,ASICS Women's GEL-Nimbus 15 Running Shoe,,119.99,http://images.acmesports.sports/ASICS+Women%27s+GEL-Nimbus+15+Running+Shoe\n860,38,Bushnell Pro X7 Jolt Slope Rangefinder,,599.99,http://images.acmesports.sports/Bushnell+Pro+X7+Jolt+Slope+Rangefinder\n300,38,Garmin Forerunner 620 GPS Watch with Heart Ra,,449.99,http://images.acmesports.sports/Garmin+Forerunner+620+GPS+Watch+with+Heart+Rate+Monitor\n307,38,Garmin Forerunner 910XT with HRM,,449.99,http://images.acmesports.sports/Garmin+Forerunner+910XT+with+HRM\n303,38,Garmin Forerunner 910XT GPS Watch,,399.99,http://images.acmesports.sports/Garmin+Forerunner+910XT+GPS+Watch\n312,38,TomTom Multi-Sport Cardio + Cycle GPS Watch w,,399.99,http://images.acmesports.sports/TomTom+Multi-Sport+Cardio+%2B+Cycle+GPS+Watch+with+HRM\n843,38,Bushnell 2014 Tour V3 Slope Patriot Pack Lase,,399.99,http://images.acmesports.sports/Bushnell+2014+Tour+V3+Slope+Patriot+Pack+Laser+Rangefinder\n857,38,GolfBuddy PT4 Touchscreen GPS,,399.99,http://images.acmesports.sports/GolfBuddy+PT4+Touchscreen+GPS\n859,38,Garmin Approach G8 Golf GPS,,399.99,http://images.acmesports.sports/Garmin+Approach+G8+Golf+GPS\n382,18,PUMA Men's evoPOWER 1 Tricks FG Soccer Cleat,,189.99,http://images.acmesports.sports/PUMA+Men%27s+evoPOWER+1+Tricks+FG+Soccer+Cleat\n390,18,Under Armour Men's Highlight MC Alter Ego Fla,,139.99,http://images.acmesports.sports/Under+Armour+Men%27s+Highlight+MC+Alter+Ego+Flash+Football...\n399,18,Under Armour Men's Highlight MC Alter Ego Hul,,139.99,http://images.acmesports.sports/Under+Armour+Men%27s+Highlight+MC+Alter+Ego+Hulk+Football...\n402,18,Under Armour Men's Highlight MC Alter Ego Cap,,139.99,http://images.acmesports.sports/Under+Armour+Men%27s+Highlight+MC+Alter+Ego+Captain+America...\n385,18,Jordan Men's VI Retro TD Football Cleat,,134.99,http://images.acmesports.sports/Jordan+Men%27s+VI+Retro+TD+Football+Cleat\n1319,58,\"Majestic Men's Authentic Los Angeles Dodgers \",,241.0,http://images.acmesports.sports/Majestic+Men%27s+Authentic+Los+Angeles+Dodgers+Yasiel+Puig...\n1299,58,Majestic Men's Authentic New York Yankees Der,,194.0,http://images.acmesports.sports/Majestic+Men%27s+Authentic+New+York+Yankees+Derek+Jeter+%232...\n1302,58,Majestic Men's 2014 All-Star Game Derek Jeter,,130.0,http://images.acmesports.sports/Majestic+Men%27s+2014+All-Star+Game+Derek+Jeter+%232+American...\n978,44,YETI Tundra 65 Chest Cooler,,399.99,http://images.acmesports.sports/YETI+Tundra+65+Chest+Cooler\n983,44,YETI Roadie 20 Chest Cooler,,249.99,http://images.acmesports.sports/YETI+Roadie+20+Chest+Cooler\n966,44,Quik Shade Summit SX170 10 FT. x 10 FT. Canop,,199.99,http://images.acmesports.sports/Quik+Shade+Summit+SX170+10+FT.+x+10+FT.+Canopy\n450,20,Garmin Forerunner 220 GPS Watch,,249.99,http://images.acmesports.sports/Garmin+Forerunner+220+GPS+Watch\n452,20,Garmin vivofit Fitness Band with HRM,,169.99,http://images.acmesports.sports/Garmin+vivofit+Fitness+Band+with+HRM\n437,20,ASICS Women's GEL-Noosa Tri 9 Running Shoe,,139.99,http://images.acmesports.sports/ASICS+Women%27s+GEL-Noosa+Tri+9+Running+Shoe\n566,26,adidas Men's Germany Black/Red Away Match Soc,,90.0,http://images.acmesports.sports/adidas+Men%27s+Germany+Black%2FRed+Away+Match+Soccer+Jersey\n569,26,adidas Men's Germany Home Soccer Jersey,,90.0,http://images.acmesports.sports/adidas+Men%27s+Germany+Home+Soccer+Jersey\n560,26,adidas Men's 2014 MLS All-Star Game Replica B,,85.0,http://images.acmesports.sports/adidas+Men%27s+2014+MLS+All-Star+Game+Replica+Black+Jersey\n565,26,adidas Youth Germany Black/Red Away Match Soc,,70.0,http://images.acmesports.sports/adidas+Youth+Germany+Black%2FRed+Away+Match+Soccer+Jersey\n208,10,SOLE E35 Elliptical,,1999.99,http://images.acmesports.sports/SOLE+E35+Elliptical\n199,10,SOLE F85 Treadmill,,1799.99,http://images.acmesports.sports/SOLE+F85+Treadmill\n197,10,SOLE E25 Elliptical,,999.99,http://images.acmesports.sports/SOLE+E25+Elliptical\n16,2,Riddell Youth 360 Custom Football Helmet,,299.99,http://images.acmesports.sports/Riddell+Youth+360+Custom+Football+Helmet\n11,2,Fitness Gear 300 lb Olympic Weight Set,,209.99,http://images.acmesports.sports/Fitness+Gear+300+lb+Olympic+Weight+Set\n5,2,Riddell Youth Revolution Speed Custom Footbal,,199.99,http://images.acmesports.sports/Riddell+Youth+Revolution+Speed+Custom+Football+Helmet\n14,2,Quik Shade Summit SX170 10 FT. x 10 FT. Canop,,199.99,http://images.acmesports.sports/Quik+Shade+Summit+SX170+10+FT.+x+10+FT.+Canopy\n268,13,Everlast PowerCore 2 Station Stand and Bag Ki,,199.99,http://images.acmesports.sports/Everlast+PowerCore+2+Station+Stand+and+Bag+Kit\n281,13,Fitness Gear Heavy Bag Stand,,99.99,http://images.acmesports.sports/Fitness+Gear+Heavy+Bag+Stand\n265,13,Elevation Training Mask 2.0,,79.99,http://images.acmesports.sports/Elevation+Training+Mask+2.0\n407,19,PUMA Men's evoPOWER 1 Tricks FG Soccer Cleat,,189.99,http://images.acmesports.sports/PUMA+Men%27s+evoPOWER+1+Tricks+FG+Soccer+Cleat\n425,19,Nike Men's Air Max 2014 Running Shoe,,149.99,http://images.acmesports.sports/Nike+Men%27s+Air+Max+2014+Running+Shoe\n417,19,Under Armour Men's Highlight MC Alter Ego Fla,,139.99,http://images.acmesports.sports/Under+Armour+Men%27s+Highlight+MC+Alter+Ego+Flash+Football...\n424,19,Under Armour Men's Highlight MC Alter Ego Hul,,139.99,http://images.acmesports.sports/Under+Armour+Men%27s+Highlight+MC+Alter+Ego+Hulk+Football...\n428,19,Under Armour Men's Highlight MC Alter Ego Cap,,139.99,http://images.acmesports.sports/Under+Armour+Men%27s+Highlight+MC+Alter+Ego+Captain+America...\n601,41,GoPro HERO3+ Black Edition Camera,,399.99,http://images.acmesports.sports/GoPro+HERO3%2B+Black+Edition+Camera\n606,41,Bushnell 2014 Tour V3 Patriot Pack Laser Rang,,299.99,http://images.acmesports.sports/Bushnell+2014+Tour+V3+Patriot+Pack+Laser+Rangefinder\n607,41,Garmin Approach S3 Golf GPS Watch,,249.99,http://images.acmesports.sports/Garmin+Approach+S3+Golf+GPS+Watch\n608,41,Garmin Forerunner 220 GPS Watch,,249.99,http://images.acmesports.sports/Garmin+Forerunner+220+GPS+Watch\n609,41,Garmin Approach G6 Golf GPS,,249.99,http://images.acmesports.sports/Garmin+Approach+G6+Golf+GPS\n861,39,\"Cobra Junior Kids' Complete Set (Height 53'' \",,199.99,http://images.acmesports.sports/Cobra+Junior+Kids%27+Complete+Set+%28Height+53%27%27+and+above%29\n862,39,\"Cobra Junior Kids' Complete Set (Height 46'' \",,179.99,http://images.acmesports.sports/Cobra+Junior+Kids%27+Complete+Set+%28Height+46%27%27+-+52%27%27%29\n880,39,PING Kids' My First Putter,,139.99,http://images.acmesports.sports/PING+Kids%27+My+First+Putter\n320,15,Manduka PRO Yoga Mat,,100.0,http://images.acmesports.sports/Manduka+PRO+Yoga+Mat\n322,15,Nike Women's Studio Wrap Three-Part Pack,,81.99,http://images.acmesports.sports/Nike+Women%27s+Studio+Wrap+Three-Part+Pack\n325,15,lucy Women's Hatha Capri Leggings,,79.0,http://images.acmesports.sports/lucy+Women%27s+Hatha+Capri+Leggings\n458,21,\"Nike Kids' Grade School LeBron XI Basketball \",,139.99,http://images.acmesports.sports/Nike+Kids%27+Grade+School+LeBron+XI+Basketball+Shoe\n453,21,Nike Kids' Grade School KD VI Basketball Shoe,,99.99,http://images.acmesports.sports/Nike+Kids%27+Grade+School+KD+VI+Basketball+Shoe\n463,21,Nike Kids' Grade School KD VI Basketball Shoe,,99.99,http://images.acmesports.sports/Nike+Kids%27+Grade+School+KD+VI+Basketball+Shoe\n471,21,Nike Kids' Grade School KD VI Basketball Shoe,,99.99,http://images.acmesports.sports/Nike+Kids%27+Grade+School+KD+VI+Basketball+Shoe\n468,21,Under Armour Kids' C1N MC Football Cleat,,69.99,http://images.acmesports.sports/Under+Armour+Kids%27+C1N+MC+Football+Cleat\n470,21,adidas Kids' RG III Mid Football Cleat,,69.99,http://images.acmesports.sports/adidas+Kids%27+RG+III+Mid+Football+Cleat\n1048,47,\"Spalding Beast 60\"\" Glass Portable Basketball \",,1099.99,http://images.acmesports.sports/Spalding+Beast+60%22+Glass+Portable+Basketball+Hoop\n1054,47,\"Spalding NBA 54\"\" Glass Portable Basketball Ho\",,699.99,http://images.acmesports.sports/Spalding+NBA+54%22+Glass+Portable+Basketball+Hoop\n1035,47,\"Goaliath 54\"\" In-Ground Basketball Hoop with P\",,499.99,http://images.acmesports.sports/Goaliath+54%22+In-Ground+Basketball+Hoop+with+Pole+Pad\n1046,47,Quest 15 FT Trampoline Enclosure Combo,,499.99,http://images.acmesports.sports/Quest+15+FT+Trampoline+Enclosure+Combo\n1226,55,adidas Men's New York Red Bulls Navy 2014 Sec,,85.0,http://images.acmesports.sports/adidas+Men%27s+New+York+Red+Bulls+Navy+2014+Secondary+Replica...\n1227,55,\"adidas Men's Sporting KC Navy 2014 Secondary \",,85.0,http://images.acmesports.sports/adidas+Men%27s+Sporting+KC+Navy+2014+Secondary+Replica+Jersey\n1235,55,adidas Men's 2014 MLS All-Star Game Replica B,,85.0,http://images.acmesports.sports/adidas+Men%27s+2014+MLS+All-Star+Game+Replica+Black+Jersey\n1244,55,\"adidas Men's New York City FC Team Logo Navy \",,72.0,http://images.acmesports.sports/adidas+Men%27s+New+York+City+FC+Team+Logo+Navy+Quarter-Zip...\n1242,55,adidas Men's New York City FC Big Time Navy T,,32.0,http://images.acmesports.sports/adidas+Men%27s+New+York+City+FC+Big+Time+Navy+Tri-Blend...\n1182,53,Nike Men's LeBron XI Basketball Shoe,,199.99,http://images.acmesports.sports/Nike+Men%27s+LeBron+XI+Basketball+Shoe\n1192,53,Nike Men's Kobe IX Elite Low Basketball Shoe,,199.99,http://images.acmesports.sports/Nike+Men%27s+Kobe+IX+Elite+Low+Basketball+Shoe\n1193,53,Nike Men's LeBron XI Basketball Shoe,,199.99,http://images.acmesports.sports/Nike+Men%27s+LeBron+XI+Basketball+Shoe\n1199,53,Nike Men's KD VI Elite Basketball Shoe,,199.99,http://images.acmesports.sports/Nike+Men%27s+KD+VI+Elite+Basketball+Shoe\n1187,53,Nike Men's LeBron XI Basketball Shoe,,179.99,http://images.acmesports.sports/Nike+Men%27s+LeBron+XI+Basketball+Shoe\n1183,53,Nike Men's LeBron XI Low Basketball Shoe,,169.99,http://images.acmesports.sports/Nike+Men%27s+LeBron+XI+Low+Basketball+Shoe\n545,25,Callaway X Hot Laser Rangefinder,,229.99,http://images.acmesports.sports/Callaway+X+Hot+Laser+Rangefinder\n534,25,PUMA Men's evoPOWER 1 Tricks FG Soccer Cleat,,189.99,http://images.acmesports.sports/PUMA+Men%27s+evoPOWER+1+Tricks+FG+Soccer+Cleat\n536,25,\"Top Flite Women's XL 12-Piece Complete Set - \",,179.98,http://images.acmesports.sports/Top+Flite+Women%27s+XL+12-Piece+Complete+Set+-+%28Graphite%29\n625,29,Nike Men's Kobe IX Elite Low Basketball Shoe,,199.99,http://images.acmesports.sports/Nike+Men%27s+Kobe+IX+Elite+Low+Basketball+Shoe\n629,29,Nike Men's LeBron XI Low Basketball Shoe,,169.99,http://images.acmesports.sports/Nike+Men%27s+LeBron+XI+Low+Basketball+Shoe\n623,29,adidas Men's Energy Boost Icon Metal Baseball,,149.99,http://images.acmesports.sports/adidas+Men%27s+Energy+Boost+Icon+Metal+Baseball+Cleat\n626,29,Nike Men's KD VII Basketball Shoe,,149.99,http://images.acmesports.sports/Nike+Men%27s+KD+VII+Basketball+Shoe\n1323,59,\"Nike Men's Home Game Jersey Cleveland Browns \",,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Cleveland+Browns+Johnny+Manziel...\n1330,59,Nike Men's Home Game Jersey Denver Broncos Pe,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Denver+Broncos+Peyton+Manning...\n1331,59,Nike Men's Home Game Jersey Buffalo Bills Sam,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Buffalo+Bills+Sammy+Watkins+%2314\n1332,59,Nike Men's Home Game Jersey San Francisco 49e,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+San+Francisco+49ers+Colin...\n1333,59,Nike Men's Home Game Jersey Pittsburgh Steele,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Pittsburgh+Steelers+Ryan+Shazier...\n1334,59,Nike Men's Home Game Jersey New Orleans Saint,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+New+Orleans+Saints+Brandin+Cooks...\n1335,59,Nike Men's Andrew Luck Jersey - Home Game Ind,,100.0,http://images.acmesports.sports/Nike+Men%27s+Andrew+Luck+Jersey+-+Home+Game+Indianapolis+Colts\n1336,59,Nike Men's Home Game Jersey New York Giants O,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+New+York+Giants+Odell+Beckham...\n1337,59,Nike Men's Home Game Jersey Carolina Panthers,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Carolina+Panthers+Kelvin...\n1338,59,Nike Men's Home Game Jersey Chicago Bears Jar,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Chicago+Bears+Jared+Allen+%2369\n1339,59,Nike Men's Home Game Jersey New York Giants E,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+New+York+Giants+Eli+Manning+%2310\n1343,59,Nike Men's Home Game Jersey St. Louis Rams Mi,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+St.+Louis+Rams+Michael+Sam+%2396\n1344,59,Nike Men's Home Game Jersey St. Louis Rams Aa,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+St.+Louis+Rams+Aaron+Donald+%2399\n1345,59,Nike Men's Home Game Jersey St. Louis Rams Gr,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+St.+Louis+Rams+Greg+Robinson...\n1326,59,\"Nike Youth Home Game Jersey Cleveland Browns \",,70.0,http://images.acmesports.sports/Nike+Youth+Home+Game+Jersey+Cleveland+Browns+Johnny+Manziel...\n1340,59,\"Majestic Men's Replica Texas Rangers Russell \",,69.97,http://images.acmesports.sports/Majestic+Men%27s+Replica+Texas+Rangers+Russell+Wilson+%233+Home...\n229,11,Marcy Diamond 9010 Smith Cage,,799.99,http://images.acmesports.sports/Marcy+Diamond+9010+Smith+Cage\n226,11,Bowflex SelectTech 1090 Dumbbells,,599.99,http://images.acmesports.sports/Bowflex+SelectTech+1090+Dumbbells\n225,11,Marcy Pro Circuit Trainer,,499.99,http://images.acmesports.sports/Marcy+Pro+Circuit+Trainer\n766,35,Club Glove Last Bag,,299.99,http://images.acmesports.sports/Club+Glove+Last+Bag\n768,35,Titleist Club Glove Travel Cover,,299.99,http://images.acmesports.sports/Titleist+Club+Glove+Travel+Cover\n773,35,Titleist Small Wheeled Travel Cover,,249.99,http://images.acmesports.sports/Titleist+Small+Wheeled+Travel+Cover\n765,35,\"Club Glove Burst Proof with Wheels II Travel \",,219.99,http://images.acmesports.sports/Club+Glove+Burst+Proof+with+Wheels+II+Travel+Golf+Bag\n785,35,PING 2014 Hoofer 14 Stand Bag,,219.99,http://images.acmesports.sports/PING+2014+Hoofer+14+Stand+Bag\n590,27,adidas Men's Germany Black/Red Away Match Soc,,90.0,http://images.acmesports.sports/adidas+Men%27s+Germany+Black%2FRed+Away+Match+Soccer+Jersey\n593,27,adidas Men's Germany Home Soccer Jersey,,90.0,http://images.acmesports.sports/adidas+Men%27s+Germany+Home+Soccer+Jersey\n584,27,adidas Men's 2014 MLS All-Star Game Replica B,,85.0,http://images.acmesports.sports/adidas+Men%27s+2014+MLS+All-Star+Game+Replica+Black+Jersey\n595,27,TYR Girls' Phoenix Maxfit Back Swimsuit,,75.99,http://images.acmesports.sports/TYR+Girls%27+Phoenix+Maxfit+Back+Swimsuit\n596,27,TYR Girls' Palisade Maxfit Back Swimsuit,,75.99,http://images.acmesports.sports/TYR+Girls%27+Palisade+Maxfit+Back+Swimsuit\n1279,57,PUMA Men's evoPOWER 1 Tricks FG Soccer Cleat,,189.99,http://images.acmesports.sports/PUMA+Men%27s+evoPOWER+1+Tricks+FG+Soccer+Cleat\n1297,57,PUMA Men's evoSPEED 1.2 Tricks FG Soccer Clea,,174.99,http://images.acmesports.sports/PUMA+Men%27s+evoSPEED+1.2+Tricks+FG+Soccer+Cleat\n1281,57,adidas Brazuca 2014 Official Match Ball,,159.99,http://images.acmesports.sports/adidas+Brazuca+2014+Official+Match+Ball\n1289,57,adidas Brazuca Final Rio Official Match Ball,,159.99,http://images.acmesports.sports/adidas+Brazuca+Final+Rio+Official+Match+Ball\n1136,51,Wild Sports Pittsburgh Steelers XL Tailgate B,,219.99,http://images.acmesports.sports/Wild+Sports+Pittsburgh+Steelers+XL+Tailgate+Bean+Bag+Toss...\n1138,51,Wild Sports Green Bay Packers XL Tailgate Bea,,219.99,http://images.acmesports.sports/Wild+Sports+Green+Bay+Packers+XL+Tailgate+Bean+Bag+Toss...\n1139,51,Wild Sports Chicago Bears XL Tailgate Bean Ba,,219.99,http://images.acmesports.sports/Wild+Sports+Chicago+Bears+XL+Tailgate+Bean+Bag+Toss+Shields\n1140,51,Wild Sports Minnesota Vikings XL Tailgate Bea,,219.99,http://images.acmesports.sports/Wild+Sports+Minnesota+Vikings+XL+Tailgate+Bean+Bag+Toss...\n1149,51,Wild Sports Washington Redskins XL Tailgate B,,219.99,http://images.acmesports.sports/Wild+Sports+Washington+Redskins+XL+Tailgate+Bean+Bag+Toss...\n1150,51,Wild Sports Dallas Cowboys XL Tailgate Bean B,,219.99,http://images.acmesports.sports/Wild+Sports+Dallas+Cowboys+XL+Tailgate+Bean+Bag+Toss+Shields\n1148,51,Team Golf Pittsburgh Steelers Fairway Stand B,,179.99,http://images.acmesports.sports/Team+Golf+Pittsburgh+Steelers+Fairway+Stand+Bag\n1131,51,\"Nike Men's Home Game Jersey Cleveland Browns \",,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Cleveland+Browns+Johnny+Manziel...\n1142,51,Nike Men's Home Game Jersey Denver Broncos Pe,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Denver+Broncos+Peyton+Manning...\n1145,51,Nike Men's Home Game Jersey Buffalo Bills Sam,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Buffalo+Bills+Sammy+Watkins+%2314\n1146,51,Nike Men's Home Game Jersey Philadelphia Eagl,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Philadelphia+Eagles+Nick+Foles...\n1147,51,Nike Men's Home Game Jersey San Francisco 49e,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+San+Francisco+49ers+Colin...\n1152,51,Nike Men's Home Game Jersey Pittsburgh Steele,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+Pittsburgh+Steelers+Ryan+Shazier...\n1153,51,Nike Men's Home Game Jersey New Orleans Saint,,100.0,http://images.acmesports.sports/Nike+Men%27s+Home+Game+Jersey+New+Orleans+Saints+Brandin+Cooks...\n739,33,Nike TW 14 Mesh Golf Shoes,,169.99,http://images.acmesports.sports/Nike+TW+14+Mesh+Golf+Shoes\n740,33,Nike TW 14 Mesh Golf Shoes,,169.99,http://images.acmesports.sports/Nike+TW+14+Mesh+Golf+Shoes\n718,33,Nike Lunarwaverly Golf Shoes,,139.99,http://images.acmesports.sports/Nike+Lunarwaverly+Golf+Shoes\n725,33,LIJA Women's Button Golf Dress,,108.0,http://images.acmesports.sports/LIJA+Women%27s+Button+Golf+Dress\n817,37,Titleist Pro V1 Personalized Golf Balls,,51.99,http://images.acmesports.sports/Titleist+Pro+V1+Personalized+Golf+Balls\n819,37,Titleist Pro V1x Personalized Golf Balls,,51.99,http://images.acmesports.sports/Titleist+Pro+V1x+Personalized+Golf+Balls\n821,37,Titleist Pro V1 High Numbers Personalized Gol,,51.99,http://images.acmesports.sports/Titleist+Pro+V1+High+Numbers+Personalized+Golf+Balls\n823,37,Titleist Pro V1x High Numbers Personalized Go,,51.99,http://images.acmesports.sports/Titleist+Pro+V1x+High+Numbers+Personalized+Golf+Balls\n824,37,Titleist Pro V1 Double Number Golf Balls,,51.99,http://images.acmesports.sports/Titleist+Pro+V1+Double+Number+Golf+Balls\n816,37,Titleist Pro V1 Golf Balls,,47.99,http://images.acmesports.sports/Titleist+Pro+V1+Golf+Balls\n818,37,Titleist Pro V1x Golf Balls,,47.99,http://images.acmesports.sports/Titleist+Pro+V1x+Golf+Balls\n820,37,Titleist Pro V1 High Numbers Golf Balls,,47.99,http://images.acmesports.sports/Titleist+Pro+V1+High+Numbers+Golf+Balls\n822,37,Titleist Pro V1x High Numbers Golf Balls,,47.99,http://images.acmesports.sports/Titleist+Pro+V1x+High+Numbers+Golf+Balls\n825,37,Bridgestone e6 Straight Distance NFL Tennesse,,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Tennessee+Titans+Golf...\n826,37,Bridgestone e6 Straight Distance NFL Tampa Ba,,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Tampa+Bay+Buccaneers...\n827,37,\"Bridgestone e6 Straight Distance NFL Seattle \",,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Seattle+Seahawks+Golf...\n828,37,Bridgestone e6 Straight Distance NFL San Dieg,,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+San+Diego+Chargers...\n829,37,Bridgestone e6 Straight Distance NFL San Fran,,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+San+Francisco+49ers...\n830,37,Bridgestone e6 Straight Distance NFL Miami Do,,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Miami+Dolphins+Golf...\n831,37,Bridgestone e6 Straight Distance NFL Jacksonv,,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Jacksonville+Jaguars...\n832,37,Bridgestone e6 Straight Distance NFL Indianap,,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Indianapolis+Colts...\n833,37,\"Bridgestone e6 Straight Distance NFL Houston \",,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Houston+Texans+Golf...\n834,37,\"Bridgestone e6 Straight Distance NFL Detroit \",,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Detroit+Lions+Golf...\n835,37,Bridgestone e6 Straight Distance NFL Carolina,,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Carolina+Panthers+Golf...\n836,37,Bridgestone e6 Straight Distance NFL Baltimor,,31.99,http://images.acmesports.sports/Bridgestone+e6+Straight+Distance+NFL+Baltimore+Ravens+Golf...\n1009,45,Diamond Fear No Evil Compound Bow Package,,599.99,http://images.acmesports.sports/Diamond+Fear+No+Evil+Compound+Bow+Package\n987,45,GoPro HERO3+ Black Edition Camera,,399.99,http://images.acmesports.sports/GoPro+HERO3%2B+Black+Edition+Camera\n995,45,Bushnell 2014 Tour V3 Slope Patriot Pack Lase,,399.99,http://images.acmesports.sports/Bushnell+2014+Tour+V3+Slope+Patriot+Pack+Laser+Rangefinder\n1004,45,Field & Stream Sportsman 16 Gun Fire Safe,,399.98,http://images.acmesports.sports/Field+%26+Stream+Sportsman+16+Gun+Fire+Safe\n371,17,Total Gym 1900,,399.99,http://images.acmesports.sports/Total+Gym+1900\n364,17,Total Gym 1400,,299.99,http://images.acmesports.sports/Total+Gym+1400\n366,17,Gazelle Supreme Glider,,299.99,http://images.acmesports.sports/Gazelle+Supreme+Glider\n363,17,Total Gym 1100,,199.99,http://images.acmesports.sports/Total+Gym+1100\n40,3,Quik Shade Summit SX170 10 FT. x 10 FT. Canop,,199.99,http://images.acmesports.sports/Quik+Shade+Summit+SX170+10+FT.+x+10+FT.+Canopy\n32,3,PUMA Men's evoPOWER 1 Tricks FG Soccer Cleat,,189.99,http://images.acmesports.sports/PUMA+Men%27s+evoPOWER+1+Tricks+FG+Soccer+Cleat\n35,3,adidas Brazuca 2014 Official Match Ball,,159.99,http://images.acmesports.sports/adidas+Brazuca+2014+Official+Match+Ball\n48,3,adidas Brazuca Final Rio Official Match Ball,,159.99,http://images.acmesports.sports/adidas+Brazuca+Final+Rio+Official+Match+Ball\n127,7,Stiga Master Series ST3100 Competition Indoor,,329.99,http://images.acmesports.sports/Stiga+Master+Series+ST3100+Competition+Indoor+Table+Tennis...\n137,7,Teeter Hang Ups NXT-S Inversion Table,,299.99,http://images.acmesports.sports/Teeter+Hang+Ups+NXT-S+Inversion+Table\n144,7,Garmin Forerunner 220 GPS Watch,,249.99,http://images.acmesports.sports/Garmin+Forerunner+220+GPS+Watch\n185,9,\"Goaliath 54\"\" In-Ground Basketball Hoop with P\",,499.99,http://images.acmesports.sports/Goaliath+54%22+In-Ground+Basketball+Hoop+with+Pole+Pad\n181,9,Lifetime Freestyle XL Stand-Up Paddle Board,,399.99,http://images.acmesports.sports/Lifetime+Freestyle+XL+Stand-Up+Paddle+Board\n169,9,Diamondback Adult Sorrento Mountain Bike 2014,,299.98,http://images.acmesports.sports/Diamondback+Adult+Sorrento+Mountain+Bike+2014\n1084,49,Lifetime Freestyle XL Stand-Up Paddle Board,,399.99,http://images.acmesports.sports/Lifetime+Freestyle+XL+Stand-Up+Paddle+Board\n1104,49,GoPro HERO3+ Black Edition Camera,,399.99,http://images.acmesports.sports/GoPro+HERO3%2B+Black+Edition+Camera\n1085,49,Pelican Maverick 100X Kayak,,349.99,http://images.acmesports.sports/Pelican+Maverick+100X+Kayak\n1093,49,Perception Sport Swifty Deluxe 9.5 Kayak,,349.99,http://images.acmesports.sports/Perception+Sport+Swifty+Deluxe+9.5+Kayak\n1088,49,Pelican Trailblazer 100 Angler Fishing Kayak,,299.99,http://images.acmesports.sports/Pelican+Trailblazer+100+Angler+Fishing+Kayak\n676,31,PING G30 Irons - (Graphite) 4-UW,,899.0,http://images.acmesports.sports/PING+G30+Irons+-+%28Graphite%29+4-UW\n675,31,PING G30 Irons - (Steel) 4-UW,,799.0,http://images.acmesports.sports/PING+G30+Irons+-+%28Steel%29+4-UW\n689,31,Tour Edge XCG7 Irons - (Graphite) 4-PW,,599.99,http://images.acmesports.sports/Tour+Edge+XCG7+Irons+-+%28Graphite%29+4-PW\n690,31,Tour Edge XCG7 X-LITE Hybrid/Irons - (Graphit,,599.99,http://images.acmesports.sports/Tour+Edge+XCG7+X-LITE+Hybrid%2FIrons+-+%28Graphite%2FSteel%29+4-5H%2C...\n953,43,Diamondback Adult Trace Hybrid Bike 2014,,449.99,http://images.acmesports.sports/Diamondback+Adult+Trace+Hybrid+Bike+2014\n944,43,GoPro HERO3+ Black Edition Camera,,399.99,http://images.acmesports.sports/GoPro+HERO3%2B+Black+Edition+Camera\n955,43,Diamondback Women's Clarity Hybrid Bike 2013,,399.99,http://images.acmesports.sports/Diamondback+Women%27s+Clarity+Hybrid+Bike+2013\n959,43,Diamondback Adult Insight Hybrid Bike 2013,,399.99,http://images.acmesports.sports/Diamondback+Adult+Insight+Hybrid+Bike+2013\n961,43,Diamondback Women's Clarity 1 Hybrid Bike 201,,399.99,http://images.acmesports.sports/Diamondback+Women%27s+Clarity+1+Hybrid+Bike+2014\n943,43,Diamondback Adult Response XE Mountain Bike 2,,349.98,http://images.acmesports.sports/Diamondback+Adult+Response+XE+Mountain+Bike+2014\n74,5,\"Goaliath 54\"\" In-Ground Basketball Hoop with P\",,499.99,http://images.acmesports.sports/Goaliath+54%22+In-Ground+Basketball+Hoop+with+Pole+Pad\n96,5,Teeter Hang Ups NXT-S Inversion Table,,299.99,http://images.acmesports.sports/Teeter+Hang+Ups+NXT-S+Inversion+Table\n79,5,Fitness Gear 300 lb Olympic Weight Set,,209.99,http://images.acmesports.sports/Fitness+Gear+300+lb+Olympic+Weight+Set\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=17",
+              "$$hashKey": "object:6265"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623449406729_1694584520",
+      "id": "paragraph_1623449406729_1694584520",
+      "dateCreated": "2021-06-11T16:10:06-0600",
+      "dateStarted": "2021-06-11T16:11:27-0600",
+      "dateFinished": "2021-06-11T16:11:57-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:5872"
+    },
+    {
+      "text": "%spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:10:21-0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623449421409_112248510",
+      "id": "paragraph_1623449421409_112248510",
+      "dateCreated": "2021-06-11T16:10:21-0600",
+      "status": "READY",
+      "$$hashKey": "object:5873"
+    }
+  ],
+  "name": "practice6",
+  "id": "2GAEAE63F",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/practice6"
+}
