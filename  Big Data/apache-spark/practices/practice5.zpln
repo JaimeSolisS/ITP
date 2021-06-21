@@ -1,0 +1,460 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md \n# Ranking - Get top N priced products with in each product category",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T15:58:46-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Ranking - Get top N priced products with in each product category</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623447765267_232946501",
+      "id": "paragraph_1623447765267_232946501",
+      "dateCreated": "2021-06-11T15:42:45-0600",
+      "dateStarted": "2021-06-11T15:58:46-0600",
+      "dateFinished": "2021-06-11T15:58:46-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:4491"
+    },
+    {
+      "text": "%spark \nval products = sc.textFile(\"zeppelin/data/retail_db/products\")\n//products.take(10).foreach(println)\nval productsMap = products.filter(product => product.split(\",\")(4) != \"\").map(product => (product.split(\",\")(1).toInt, product))",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T15:52:26-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mproducts\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/products MapPartitionsRDD[23] at textFile at <console>:28\n\u001b[1m\u001b[34mproductsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[25] at map at <console>:30\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623447740660_1449805055",
+      "id": "paragraph_1623447740660_1449805055",
+      "dateCreated": "2021-06-11T15:42:20-0600",
+      "dateStarted": "2021-06-11T15:52:26-0600",
+      "dateFinished": "2021-06-11T15:52:26-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:4492"
+    },
+    {
+      "text": "%spark\nval productsGroupByCategory = productsMap.groupByKey",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T15:53:24-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mproductsGroupByCategory\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Iterable[String])]\u001b[0m = ShuffledRDD[26] at groupByKey at <console>:29\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623448397083_217087616",
+      "id": "paragraph_1623448397083_217087616",
+      "dateCreated": "2021-06-11T15:53:17-0600",
+      "dateStarted": "2021-06-11T15:53:24-0600",
+      "dateFinished": "2021-06-11T15:53:25-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:4493"
+    },
+    {
+      "text": "%spark\nval productsIterable = productsGroupByCategory.first._2\nval productPrices = productsIterable.map(p => p.split(\",\")(4).toFloat).toSet\nval topNPrices = productPrices.toList.sortBy(p => -p).take(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T15:57:23-0600",
+      "progress": 33,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mproductsIterable\u001b[0m: \u001b[1m\u001b[32mIterable[String]\u001b[0m = CompactBuffer(741,34,FootJoy GreenJoys Golf Shoes,,59.99,http://images.acmesports.sports/FootJoy+GreenJoys+Golf+Shoes, 742,34,FootJoy GreenJoys Golf Shoes,,59.99,http://images.acmesports.sports/FootJoy+GreenJoys+Golf+Shoes, 743,34,Ogio Race Golf Shoes,,169.99,http://images.acmesports.sports/Ogio+Race+Golf+Shoes, 744,34,Ogio Race Golf Shoes,,169.99,http://images.acmesports.sports/Ogio+Race+Golf+Shoes, 745,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes, 746,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes, 747,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes, 748,34,Ogio City T..."
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=10",
+              "$$hashKey": "object:4957"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623448457691_1678935231",
+      "id": "paragraph_1623448457691_1678935231",
+      "dateCreated": "2021-06-11T15:54:17-0600",
+      "dateStarted": "2021-06-11T15:57:23-0600",
+      "dateFinished": "2021-06-11T15:57:24-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:4494"
+    },
+    {
+      "text": "%spark\ntopNPrices.take(10).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T15:57:30-0600",
+      "progress": 100,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "169.99\n149.99\n139.99\n129.99\n99.99\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623447825391_582431414",
+      "id": "paragraph_1623447825391_582431414",
+      "dateCreated": "2021-06-11T15:43:45-0600",
+      "dateStarted": "2021-06-11T15:57:30-0600",
+      "dateFinished": "2021-06-11T15:57:31-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:4495"
+    },
+    {
+      "text": "%md\n# Function to get top n priced products using Scala collections API",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:04:43-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Function to get top n priced products using Scala collections API</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623448769961_1068064017",
+      "id": "paragraph_1623448769961_1068064017",
+      "dateCreated": "2021-06-11T15:59:29-0600",
+      "dateStarted": "2021-06-11T16:04:43-0600",
+      "dateFinished": "2021-06-11T16:04:43-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:4496"
+    },
+    {
+      "text": "%spark\nval products = sc.textFile(\"zeppelin/data/retail_db/products\")\nval productsMap = products.filter(product => product.split(\",\")(4) != \"\").map(product => (product.split(\",\")(1).toInt, product))\nval productsGroupByCategory = productsMap.groupByKey",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:01:40-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mproducts\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/products MapPartitionsRDD[28] at textFile at <console>:29\n\u001b[1m\u001b[34mproductsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[30] at map at <console>:30\n\u001b[1m\u001b[34mproductsGroupByCategory\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Iterable[String])]\u001b[0m = ShuffledRDD[31] at groupByKey at <console>:31\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623448086352_1684680794",
+      "id": "paragraph_1623448086352_1684680794",
+      "dateCreated": "2021-06-11T15:48:06-0600",
+      "dateStarted": "2021-06-11T16:01:40-0600",
+      "dateFinished": "2021-06-11T16:01:42-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:4497"
+    },
+    {
+      "text": "%spark\ndef getTopNPricedProducts(productsIterable: Iterable[String], topN: Int): Iterable[String] = {\nval productPrices = productsIterable.map(p => p.split(\",\")(4).toFloat).toSet\nval topNPrices = productPrices.toList.sortBy(p => -p).take(topN)\n\nval productsSorted = productsIterable.toList.sortBy(product => -product.split(\",\")(4).toFloat)\nval minOfTopNPrices = topNPrices.min\n\nval topNPricedProducts = productsSorted.takeWhile(product => product.split(\",\")(4).toFloat >= minOfTopNPrices)\n\ntopNPricedProducts\n}",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:03:59-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mgetTopNPricedProducts\u001b[0m: \u001b[1m\u001b[32m(productsIterable: Iterable[String], topN: Int)Iterable[String]\u001b[0m\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623448903714_1896447245",
+      "id": "paragraph_1623448903714_1896447245",
+      "dateCreated": "2021-06-11T16:01:43-0600",
+      "dateStarted": "2021-06-11T16:03:59-0600",
+      "dateFinished": "2021-06-11T16:04:00-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:4498"
+    },
+    {
+      "text": "%spark\nval productsIterable = productsGroupByCategory.first._2\ngetTopNPricedProducts(productsIterable, 3).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:04:12-0600",
+      "progress": 33,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "743,34,Ogio Race Golf Shoes,,169.99,http://images.acmesports.sports/Ogio+Race+Golf+Shoes\n744,34,Ogio Race Golf Shoes,,169.99,http://images.acmesports.sports/Ogio+Race+Golf+Shoes\n745,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes\n746,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes\n747,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes\n754,34,TRUE linkswear Lyt Dry Golf Shoes,,149.99,http://images.acmesports.sports/TRUE+linkswear+Lyt+Dry+Golf+Shoes\n755,34,TRUE linkswear Lyt Dry Golf Shoes,,149.99,http://images.acmesports.sports/TRUE+linkswear+Lyt+Dry+Golf+Shoes\n756,34,TRUE linkswear Lyt Dry Golf Shoes,,149.99,http://images.acmesports.sports/TRUE+linkswear+Lyt+Dry+Golf+Shoes\n759,34,Nike Lunarwaverly Golf Shoes,,139.99,http://images.acmesports.sports/Nike+Lunarwaverly+Golf+Shoes\n760,34,Nike Lunarwaverly Golf Shoes,,139.99,http://images.acmesports.sports/Nike+Lunarwaverly+Golf+Shoes\n761,34,Nike Lunarwaverly Golf Shoes,,139.99,http://images.acmesports.sports/Nike+Lunarwaverly+Golf+Shoes\n762,34,Nike Lunarwaverly Golf Shoes,,139.99,http://images.acmesports.sports/Nike+Lunarwaverly+Golf+Shoes\n\u001b[1m\u001b[34mproductsIterable\u001b[0m: \u001b[1m\u001b[32mIterable[String]\u001b[0m = CompactBuffer(741,34,FootJoy GreenJoys Golf Shoes,,59.99,http://images.acmesports.sports/FootJoy+GreenJoys+Golf+Shoes, 742,34,FootJoy GreenJoys Golf Shoes,,59.99,http://images.acmesports.sports/FootJoy+GreenJoys+Golf+Shoes, 743,34,Ogio Race Golf Shoes,,169.99,http://images.acmesports.sports/Ogio+Race+Golf+Shoes, 744,34,Ogio Race Golf Shoes,,169.99,http://images.acmesports.sports/Ogio+Race+Golf+Shoes, 745,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes, 746,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes, 747,34,Ogio City Spiked Golf Shoes,,149.99,http://images.acmesports.sports/Ogio+City+Spiked+Golf+Shoes, 748,34,Ogio City T..."
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=12",
+              "$$hashKey": "object:5217"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623448883044_1976443454",
+      "id": "paragraph_1623448883044_1976443454",
+      "dateCreated": "2021-06-11T16:01:23-0600",
+      "dateStarted": "2021-06-11T16:04:12-0600",
+      "dateFinished": "2021-06-11T16:04:14-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:4499"
+    },
+    {
+      "text": "%spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:04:04-0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623449044303_212951452",
+      "id": "paragraph_1623449044303_212951452",
+      "dateCreated": "2021-06-11T16:04:04-0600",
+      "status": "READY",
+      "$$hashKey": "object:4500"
+    }
+  ],
+  "name": "practice5",
+  "id": "2GAQGQHN7",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/practice5"
+}
