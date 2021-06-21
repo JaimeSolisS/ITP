@@ -1,0 +1,1169 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\nUse retail_db data set \nProblem Statement\n[x]Get daily revenue by product considering completed and closed orders.\n[x]Data need to be sorted by ascending order by date and then descending order by revenue computed for each product for each day.\n[x]Data should be delimited by “,” in this order – order_date, daily_revenue_per_product ,product_name\n[x]Data for orders and order_items is available in HDFS /public/retail_db/orders and /public/retail_db/order_items\n[x]Data for products are available locally under /data/retail_db/products\n[x]Final output need to be stored under\n[x]HDFS location – Avro format /user/YOUR_USER_ID/practices/daily_revenue_avro_scala\n[x]HDFS location – text format /user/YOUR_USER_ID/practices/daily_revenue_txt_scala\n[x]Local location /home/YOUR_USER_ID/practices/daily_revenue_scala\n[x]The solution needs to be stored under /home/YOUR_USER_ID/practices/daily_revenue_scala.txt",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T20:53:41-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>Use retail_db data set<br />\nProblem Statement<br />\n[x]Get daily revenue by product considering completed and closed orders.<br />\n[x]Data need to be sorted by ascending order by date and then descending order by revenue computed for each product for each day.<br />\n[x]Data should be delimited by “,” in this order – order_date, daily_revenue_per_product ,product_name<br />\n[x]Data for orders and order_items is available in HDFS /public/retail_db/orders and /public/retail_db/order_items<br />\n[x]Data for products are available locally under /data/retail_db/products<br />\n[x]Final output need to be stored under<br />\n[x]HDFS location – Avro format /user/YOUR_USER_ID/practices/daily_revenue_avro_scala<br />\n[x]HDFS location – text format /user/YOUR_USER_ID/practices/daily_revenue_txt_scala<br />\n[x]Local location /home/YOUR_USER_ID/practices/daily_revenue_scala<br />\n[x]The solution needs to be stored under /home/YOUR_USER_ID/practices/daily_revenue_scala.txt</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623692257295_1298861126",
+      "id": "paragraph_1623692257295_1298861126",
+      "dateCreated": "2021-06-14T11:37:37-0600",
+      "dateStarted": "2021-06-14T20:53:41-0600",
+      "dateFinished": "2021-06-14T20:53:41-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:12890"
+    },
+    {
+      "title": "Load Data",
+      "text": "%spark\nval orders = sc.textFile(\"zeppelin/data/retail_db/orders\")\nval orderItems = sc.textFile(\"zeppelin/data/retail_db/order_items\")\nval products = sc.textFile(\"zeppelin/data/retail_db/products\")\n\n//for server\nval orders = sc.textFile(\"/user/jsolis/data/retail_db/orders\")\nval orderItems = sc.textFile(\"/user/jsolis/data/retail_db/order_items\")\nval products = sc.textFile(\"/user/jsolis/data/retail_db/products\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T16:56:32-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34morders\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/orders MapPartitionsRDD[108] at textFile at <console>:26\n\u001b[1m\u001b[34morderItems\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/order_items MapPartitionsRDD[110] at textFile at <console>:27\n\u001b[1m\u001b[34mproducts\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/products MapPartitionsRDD[112] at textFile at <console>:28\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623692280871_643514803",
+      "id": "paragraph_1623692280871_643514803",
+      "dateCreated": "2021-06-14T11:38:00-0600",
+      "dateStarted": "2021-06-14T14:16:23-0600",
+      "dateFinished": "2021-06-14T14:16:23-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12891"
+    },
+    {
+      "text": "%spark\nprintln(\"---Orders---\")\norders.take(5).foreach(println)\nprintln(\"---Order Items---\")\norderItems.take(5).foreach(println)\nprintln(\"---Products---\")\nproducts.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T12:47:10-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "---Orders---\n1,2013-07-25 00:00:00.0,11599,CLOSED\n2,2013-07-25 00:00:00.0,256,PENDING_PAYMENT\n3,2013-07-25 00:00:00.0,12111,COMPLETE\n4,2013-07-25 00:00:00.0,8827,CLOSED\n5,2013-07-25 00:00:00.0,11318,COMPLETE\n---Order Items---\n1,1,957,1,299.98,299.98\n2,2,1073,1,199.99,199.99\n3,2,502,5,250.0,50.0\n4,2,403,1,129.99,129.99\n5,4,897,2,49.98,24.99\n---Products---\n1,2,Quest Q64 10 FT. x 10 FT. Slant Leg Instant U,,59.98,http://images.acmesports.sports/Quest+Q64+10+FT.+x+10+FT.+Slant+Leg+Instant+Up+Canopy\n2,2,Under Armour Men's Highlight MC Football Clea,,129.99,http://images.acmesports.sports/Under+Armour+Men%27s+Highlight+MC+Football+Cleat\n3,2,Under Armour Men's Renegade D Mid Football Cl,,89.99,http://images.acmesports.sports/Under+Armour+Men%27s+Renegade+D+Mid+Football+Cleat\n4,2,Under Armour Men's Renegade D Mid Football Cl,,89.99,http://images.acmesports.sports/Under+Armour+Men%27s+Renegade+D+Mid+Football+Cleat\n5,2,Riddell Youth Revolution Speed Custom Footbal,,199.99,http://images.acmesports.sports/Riddell+Youth+Revolution+Speed+Custom+Football+Helmet\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=35",
+              "$$hashKey": "object:13665"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=36",
+              "$$hashKey": "object:13666"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=37",
+              "$$hashKey": "object:13667"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623693061587_620735880",
+      "id": "paragraph_1623693061587_620735880",
+      "dateCreated": "2021-06-14T11:51:01-0600",
+      "dateStarted": "2021-06-14T12:47:10-0600",
+      "dateFinished": "2021-06-14T12:47:10-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12892"
+    },
+    {
+      "title": "Filter Orders",
+      "text": "%spark\nval ordersFiltered = orders.filter(order => List(\"CLOSED\", \"COMPLETE\").contains(order.split(\",\")(3)))\nordersFiltered.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T14:20:02-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "1,2013-07-25 00:00:00.0,11599,CLOSED\n3,2013-07-25 00:00:00.0,12111,COMPLETE\n4,2013-07-25 00:00:00.0,8827,CLOSED\n5,2013-07-25 00:00:00.0,11318,COMPLETE\n6,2013-07-25 00:00:00.0,7130,COMPLETE\n\u001b[1m\u001b[34mordersFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = MapPartitionsRDD[113] at filter at <console>:30\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=77",
+              "$$hashKey": "object:13733"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623693160643_208153281",
+      "id": "paragraph_1623693160643_208153281",
+      "dateCreated": "2021-06-14T11:52:40-0600",
+      "dateStarted": "2021-06-14T14:20:02-0600",
+      "dateFinished": "2021-06-14T14:20:03-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12893"
+    },
+    {
+      "title": "Key values",
+      "text": "%spark\nval ordersFilteredMap = ordersFiltered.map(order =>( order.split(\",\")(0).toInt, order.split(\",\")(1)))\nordersFilteredMap.take(5).foreach(println)\n\n//val orderItemsMap = orderItems.map(order => (order.split(\",\")(1), order.split(\",\")(4).toFloat))\nval orderItemsMap = orderItems.map(order => (order.split(\",\")(1).toInt,  (order.split(\",\")(4).toFloat, order.split(\",\")(2).toInt)))\norderItemsMap.take(5).foreach(println)\n\nval productsMap = products.map(product => (product.split(\",\")(0).toInt, product.split(\",\")(2)))\nproductsMap.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T14:26:12-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(1,2013-07-25 00:00:00.0)\n(3,2013-07-25 00:00:00.0)\n(4,2013-07-25 00:00:00.0)\n(5,2013-07-25 00:00:00.0)\n(6,2013-07-25 00:00:00.0)\n(1,(299.98,957))\n(2,(199.99,1073))\n(2,(250.0,502))\n(2,(129.99,403))\n(4,(49.98,897))\n(1,Quest Q64 10 FT. x 10 FT. Slant Leg Instant U)\n(2,Under Armour Men's Highlight MC Football Clea)\n(3,Under Armour Men's Renegade D Mid Football Cl)\n(4,Under Armour Men's Renegade D Mid Football Cl)\n(5,Riddell Youth Revolution Speed Custom Footbal)\n\u001b[1m\u001b[34mordersFilteredMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[117] at map at <console>:36\n\u001b[1m\u001b[34morderItemsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (Float, Int))]\u001b[0m = MapPartitionsRDD[118] at map at <console>:40\n\u001b[1m\u001b[34mproductsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[119] at map at <console>:43\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=81",
+              "$$hashKey": "object:13791"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=82",
+              "$$hashKey": "object:13792"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=83",
+              "$$hashKey": "object:13793"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623693457189_2077488787",
+      "id": "paragraph_1623693457189_2077488787",
+      "dateCreated": "2021-06-14T11:57:37-0600",
+      "dateStarted": "2021-06-14T14:26:12-0600",
+      "dateFinished": "2021-06-14T14:26:13-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12894"
+    },
+    {
+      "title": "Join Orders and Order Items",
+      "text": "%spark\nval ordersJoin3 = ordersFilteredMap.join(orderItemsMap)\nordersJoin3.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T14:30:56-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(43399,(2014-04-20 00:00:00.0,(100.0,502)))\n(43399,(2014-04-20 00:00:00.0,(129.99,403)))\n(43399,(2014-04-20 00:00:00.0,(49.98,1014)))\n(20554,(2013-11-29 00:00:00.0,(399.98,1004)))\n(20554,(2013-11-29 00:00:00.0,(119.97,627)))\n\u001b[1m\u001b[34mordersJoin3\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(String, (String, (Float, String)))]\u001b[0m = MapPartitionsRDD[122] at join at <console>:36\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=84",
+              "$$hashKey": "object:13859"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623695234254_1762853985",
+      "id": "paragraph_1623695234254_1762853985",
+      "dateCreated": "2021-06-14T12:27:14-0600",
+      "dateStarted": "2021-06-14T14:28:02-0600",
+      "dateFinished": "2021-06-14T14:28:03-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12895"
+    },
+    {
+      "text": "%spark\nval ordersJoinMap = ordersJoin3.map(o => o._2)\nordersJoinMap.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T12:55:50-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(2014-04-20 00:00:00.0,(100.0,502))\n(2014-04-20 00:00:00.0,(129.99,403))\n(2014-04-20 00:00:00.0,(49.98,1014))\n(2013-11-29 00:00:00.0,(399.98,1004))\n(2013-11-29 00:00:00.0,(119.97,627))\n\u001b[1m\u001b[34mordersJoinMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(String, (Float, String))]\u001b[0m = MapPartitionsRDD[91] at map at <console>:40\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=63",
+              "$$hashKey": "object:13917"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623695809262_1121253059",
+      "id": "paragraph_1623695809262_1121253059",
+      "dateCreated": "2021-06-14T12:36:49-0600",
+      "dateStarted": "2021-06-14T12:55:50-0600",
+      "dateFinished": "2021-06-14T12:55:50-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12896"
+    },
+    {
+      "text": "%spark\nval nerOrderJoinMap = ordersJoinMap.keyBy(o => o._2._2)\nnerOrderJoinMap.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T12:58:32-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(502,(2014-04-20 00:00:00.0,(100.0,502)))\n(403,(2014-04-20 00:00:00.0,(129.99,403)))\n(1014,(2014-04-20 00:00:00.0,(49.98,1014)))\n(1004,(2013-11-29 00:00:00.0,(399.98,1004)))\n(627,(2013-11-29 00:00:00.0,(119.97,627)))\n\u001b[1m\u001b[34mnerOrderJoinMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(String, (String, (Float, String)))]\u001b[0m = MapPartitionsRDD[92] at keyBy at <console>:38\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=64",
+              "$$hashKey": "object:13975"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623695984454_2037444370",
+      "id": "paragraph_1623695984454_2037444370",
+      "dateCreated": "2021-06-14T12:39:44-0600",
+      "dateStarted": "2021-06-14T12:58:32-0600",
+      "dateFinished": "2021-06-14T12:58:33-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12897"
+    },
+    {
+      "text": "%spark\nval productsJoin = nerOrderJoinMap.join(productsMap)\nproductsJoin.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T13:02:26-0600",
+      "progress": 44,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(273,((2013-10-12 00:00:00.0,(111.96,273)),Under Armour Kids' Mercenary Slide))\n(273,((2014-06-02 00:00:00.0,(111.96,273)),Under Armour Kids' Mercenary Slide))\n(273,((2014-01-17 00:00:00.0,(83.97,273)),Under Armour Kids' Mercenary Slide))\n(273,((2014-01-30 00:00:00.0,(139.95,273)),Under Armour Kids' Mercenary Slide))\n(273,((2014-01-28 00:00:00.0,(111.96,273)),Under Armour Kids' Mercenary Slide))\n\u001b[1m\u001b[34mproductsJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(String, ((String, (Float, String)), String))]\u001b[0m = MapPartitionsRDD[98] at join at <console>:43\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=68",
+              "$$hashKey": "object:14033"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623697112947_1000064534",
+      "id": "paragraph_1623697112947_1000064534",
+      "dateCreated": "2021-06-14T12:58:32-0600",
+      "dateStarted": "2021-06-14T13:02:26-0600",
+      "dateFinished": "2021-06-14T13:02:27-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12898"
+    },
+    {
+      "text": "%spark\nval productsJoinMap = productsJoin.map(row => (row._2._1._1, row._2._1._2._1, row._2._2 ))\nproductsJoinMap.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T13:54:16-0600",
+      "progress": 11,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(2013-10-12 00:00:00.0,111.96,Under Armour Kids' Mercenary Slide)\n(2014-06-02 00:00:00.0,111.96,Under Armour Kids' Mercenary Slide)\n(2014-01-17 00:00:00.0,83.97,Under Armour Kids' Mercenary Slide)\n(2014-01-30 00:00:00.0,139.95,Under Armour Kids' Mercenary Slide)\n(2014-01-28 00:00:00.0,111.96,Under Armour Kids' Mercenary Slide)\n\u001b[1m\u001b[34mproductsJoinMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(String, Float, String)]\u001b[0m = MapPartitionsRDD[106] at map at <console>:47\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=76",
+              "$$hashKey": "object:14091"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623697319673_1160470095",
+      "id": "paragraph_1623697319673_1160470095",
+      "dateCreated": "2021-06-14T13:01:59-0600",
+      "dateStarted": "2021-06-14T13:54:16-0600",
+      "dateFinished": "2021-06-14T13:54:17-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12899"
+    },
+    {
+      "text": "%spark\nval x = ordersJoin3.first\nprintln(\"row: \"+x)\nprintln(\"date:\"+x._2._1)\nprintln(\"id product: \"+x._2._2._2)\nprintln(\"subtotal: \" + x._2._2._1)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T14:40:48-0600",
+      "progress": 20,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "row: (43399,(2014-04-20 00:00:00.0,(100.0,502)))\ndate:2014-04-20 00:00:00.0\nid product: 502\nsubtotal: 100.0\n\u001b[1m\u001b[34mx\u001b[0m: \u001b[1m\u001b[32m(String, (String, (Float, String)))\u001b[0m = (43399,(2014-04-20 00:00:00.0,(100.0,502)))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=92",
+              "$$hashKey": "object:14149"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623697577332_1004666188",
+      "id": "paragraph_1623697577332_1004666188",
+      "dateCreated": "2021-06-14T13:06:17-0600",
+      "dateStarted": "2021-06-14T14:40:48-0600",
+      "dateFinished": "2021-06-14T14:40:48-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12900"
+    },
+    {
+      "title": "Make date & prod id key and subtotal as value",
+      "text": "%spark\nval ordersJoinMap = ordersJoin3.map(order => ((order._2._1,order._2._2._2 ), order._2._2._1 ))\nordersJoinMap.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T14:44:49-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "((2014-04-20 00:00:00.0,502),100.0)\n((2014-04-20 00:00:00.0,403),129.99)\n((2014-04-20 00:00:00.0,1014),49.98)\n((2013-11-29 00:00:00.0,1004),399.98)\n((2013-11-29 00:00:00.0,627),119.97)\n\u001b[1m\u001b[34mordersJoinMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[((String, String), Float)]\u001b[0m = MapPartitionsRDD[123] at map at <console>:38\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=93",
+              "$$hashKey": "object:14207"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623698033675_1243523766",
+      "id": "paragraph_1623698033675_1243523766",
+      "dateCreated": "2021-06-14T13:13:53-0600",
+      "dateStarted": "2021-06-14T14:43:37-0600",
+      "dateFinished": "2021-06-14T14:43:37-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12901"
+    },
+    {
+      "title": "Revenue by day and product",
+      "text": "%spark\n//val dailyRevenueByProduct = ordersJoinMap.reduceByKey((accum, n) => (accum + n))\nval dailyRevenueByProduct = ordersJoinMap.reduceByKey(_+_)\ndailyRevenueByProduct.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T15:06:15-0600",
+      "progress": 42,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "((2013-12-12 00:00:00.0,502),3550.0)\n((2014-06-01 00:00:00.0,792),59.96)\n((2013-10-03 00:00:00.0,311),109.95)\n((2014-07-20 00:00:00.0,893),49.98)\n((2014-01-15 00:00:00.0,1004),7999.6)\n\u001b[1m\u001b[34mdailyRevenueByProduct\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[((String, String), Float)]\u001b[0m = ShuffledRDD[132] at reduceByKey at <console>:41\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=101",
+              "$$hashKey": "object:14265"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623703417210_534969739",
+      "id": "paragraph_1623703417210_534969739",
+      "dateCreated": "2021-06-14T14:43:37-0600",
+      "dateStarted": "2021-06-14T15:04:16-0600",
+      "dateFinished": "2021-06-14T15:04:16-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12902"
+    },
+    {
+      "title": "Make product Id key to join with products map",
+      "text": "%spark\nval dailyRevenueByProductMap = dailyRevenueByProduct.map( row => ( row._1._2.toInt, (row._1._1, row._2)))\ndailyRevenueByProductMap.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T15:13:38-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(502,(2013-12-12 00:00:00.0,3550.0))\n(792,(2014-06-01 00:00:00.0,59.96))\n(311,(2013-10-03 00:00:00.0,109.95))\n(893,(2014-07-20 00:00:00.0,49.98))\n(1004,(2014-01-15 00:00:00.0,7999.6))\n\u001b[1m\u001b[34mdailyRevenueByProductMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (String, Float))]\u001b[0m = MapPartitionsRDD[134] at map at <console>:42\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=103",
+              "$$hashKey": "object:14323"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623703611474_654520743",
+      "id": "paragraph_1623703611474_654520743",
+      "dateCreated": "2021-06-14T14:46:51-0600",
+      "dateStarted": "2021-06-14T15:13:38-0600",
+      "dateFinished": "2021-06-14T15:13:38-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12903"
+    },
+    {
+      "title": "Join dailyRevenueByProductMap with productsMap",
+      "text": "%spark\nval dailyRevenueByProductMapJoin = dailyRevenueByProductMap.join(productsMap)\ndailyRevenueByProductMapJoin.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T15:13:41-0600",
+      "progress": 36,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(24,((2013-12-18 00:00:00.0,399.95),Elevation Training Mask 2.0))\n(24,((2014-01-15 00:00:00.0,239.97),Elevation Training Mask 2.0))\n(24,((2014-04-15 00:00:00.0,159.98),Elevation Training Mask 2.0))\n(24,((2014-06-11 00:00:00.0,319.96),Elevation Training Mask 2.0))\n(24,((2014-07-13 00:00:00.0,319.96),Elevation Training Mask 2.0))\n\u001b[1m\u001b[34mdailyRevenueByProductMapJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, ((String, Float), String))]\u001b[0m = MapPartitionsRDD[137] at join at <console>:44\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=104",
+              "$$hashKey": "object:14381"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623703745823_840884643",
+      "id": "paragraph_1623703745823_840884643",
+      "dateCreated": "2021-06-14T14:49:05-0600",
+      "dateStarted": "2021-06-14T15:13:41-0600",
+      "dateFinished": "2021-06-14T15:13:41-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12904"
+    },
+    {
+      "title": "Sort Data by key",
+      "text": "%spark\nval dailyRevenueByProductSorted = dailyRevenueByProductMapJoin.map(row => ((row._2._1._1, -row._2._1._2) , row._2._1._1.toString + \",\" + row._2._1._2.toString + \",\" + row._2._2.toString)).sortByKey()\ndailyRevenueByProductSorted.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T16:22:45-0600",
+      "progress": 16,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "((2013-07-25 00:00:00.0,-5599.72),2013-07-25 00:00:00.0,5599.72,Field & Stream Sportsman 16 Gun Fire Safe)\n((2013-07-25 00:00:00.0,-5099.4897),2013-07-25 00:00:00.0,5099.4897,Nike Men's Free 5.0+ Running Shoe)\n((2013-07-25 00:00:00.0,-4499.7),2013-07-25 00:00:00.0,4499.7,Diamondback Women's Serene Classic Comfort Bi)\n((2013-07-25 00:00:00.0,-3359.44),2013-07-25 00:00:00.0,3359.44,Perfect Fitness Perfect Rip Deck)\n((2013-07-25 00:00:00.0,-2999.85),2013-07-25 00:00:00.0,2999.85,Pelican Sunstream 100 Kayak)\n\u001b[1m\u001b[34mdailyRevenueByProductSorted\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[((String, Float), String)]\u001b[0m = ShuffledRDD[176] at sortByKey at <console>:48\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=135",
+              "$$hashKey": "object:14439"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=136",
+              "$$hashKey": "object:14440"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623705181234_256809930",
+      "id": "paragraph_1623705181234_256809930",
+      "dateCreated": "2021-06-14T15:13:01-0600",
+      "dateStarted": "2021-06-14T16:17:01-0600",
+      "dateFinished": "2021-06-14T16:17:01-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12905"
+    },
+    {
+      "text": "%spark\nval dailyRevenueByProductFinal = dailyRevenueByProductSorted.map(row => (row._2))\ndailyRevenueByProductFinal.take(5).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T16:28:07-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "2013-07-25 00:00:00.0,5599.72,Field & Stream Sportsman 16 Gun Fire Safe\n2013-07-25 00:00:00.0,5099.4897,Nike Men's Free 5.0+ Running Shoe\n2013-07-25 00:00:00.0,4499.7,Diamondback Women's Serene Classic Comfort Bi\n2013-07-25 00:00:00.0,3359.44,Perfect Fitness Perfect Rip Deck\n2013-07-25 00:00:00.0,2999.85,Pelican Sunstream 100 Kayak\n\u001b[1m\u001b[34mdailyRevenueByProductFinal\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = MapPartitionsRDD[181] at map at <console>:50\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=140",
+              "$$hashKey": "object:14502"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623706535432_902409102",
+      "id": "paragraph_1623706535432_902409102",
+      "dateCreated": "2021-06-14T15:35:35-0600",
+      "dateStarted": "2021-06-14T16:28:07-0600",
+      "dateFinished": "2021-06-14T16:28:07-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12906"
+    },
+    {
+      "title": "Save as textFile",
+      "text": "%spark\ndailyRevenueByProductFinal.saveAsTextFile(\"zeppelin/notebook/practices/daily_revenue_txt_scala\")\n\n//for server\n//dailyRevenueByProductFinal.saveAsTextFile(\"/user/jsolis/practices/daily_revenue_txt_scala\")\nval testFile = sc.textFile(\"zeppelin/notebook/practices/daily_revenue_txt_scala\")\ntestFile.take(10).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T17:01:43-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "2014-01-17 00:00:00.0,95.98,Titleist Pro V1x High Numbers Golf Balls\n2014-01-17 00:00:00.0,95.97,Bridgestone e6 Straight Distance NFL Carolina\n2014-01-17 00:00:00.0,79.96,Glove It Women's Mod Oval Golf Glove\n2014-01-17 00:00:00.0,74.95,Hirzl Men's Hybrid Golf Glove\n2014-01-17 00:00:00.0,49.98,Team Golf Pittsburgh Steelers Putter Grip\n2014-01-17 00:00:00.0,47.97,Glove It Urban Brick Golf Towel\n2014-01-17 00:00:00.0,39.99,Clicgear Rovic Cooler Bag\n2014-01-17 00:00:00.0,39.98,Top Flite Women's 2014 XL Hybrid\n2014-01-18 00:00:00.0,5999.7,Field & Stream Sportsman 16 Gun Fire Safe\n2014-01-18 00:00:00.0,4199.72,Diamondback Women's Serene Classic Comfort Bi\n\u001b[1m\u001b[34mtestFile\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/notebook/practices/daily_revenue_txt_scala MapPartitionsRDD[180] at textFile at <console>:51\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=138",
+              "$$hashKey": "object:14560"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=139",
+              "$$hashKey": "object:14561"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623709099857_674162895",
+      "id": "paragraph_1623709099857_674162895",
+      "dateCreated": "2021-06-14T16:18:19-0600",
+      "dateStarted": "2021-06-14T16:27:46-0600",
+      "dateFinished": "2021-06-14T16:27:47-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12907"
+    },
+    {
+      "title": "Sav as Avro ",
+      "text": "%spark\nval dailyRevenueByProductSortedAvro = dailyRevenueByProductMapJoin.map(row => ((row._2._1._1, -row._2._1._2), (row._2._1._1, + row._2._1._2, row._2._2.toString))).sortByKey()\ndailyRevenueByProductSortedAvro.take(5).foreach(println)\n\nval dailyRevenueByProductFinalAvro = dailyRevenueByProductSortedAvro.map(row => (row._2))\ndailyRevenueByProductFinalAvro.take(5).foreach(println)\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T16:46:27-0600",
+      "progress": 16,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "((2013-07-25 00:00:00.0,-5599.72),(2013-07-25 00:00:00.0,5599.72,Field & Stream Sportsman 16 Gun Fire Safe))\n((2013-07-25 00:00:00.0,-5099.4897),(2013-07-25 00:00:00.0,5099.4897,Nike Men's Free 5.0+ Running Shoe))\n((2013-07-25 00:00:00.0,-4499.7),(2013-07-25 00:00:00.0,4499.7,Diamondback Women's Serene Classic Comfort Bi))\n((2013-07-25 00:00:00.0,-3359.44),(2013-07-25 00:00:00.0,3359.44,Perfect Fitness Perfect Rip Deck))\n((2013-07-25 00:00:00.0,-2999.85),(2013-07-25 00:00:00.0,2999.85,Pelican Sunstream 100 Kayak))\n(2013-07-25 00:00:00.0,5599.72,Field & Stream Sportsman 16 Gun Fire Safe)\n(2013-07-25 00:00:00.0,5099.4897,Nike Men's Free 5.0+ Running Shoe)\n(2013-07-25 00:00:00.0,4499.7,Diamondback Women's Serene Classic Comfort Bi)\n(2013-07-25 00:00:00.0,3359.44,Perfect Fitness Perfect Rip Deck)\n(2013-07-25 00:00:00.0,2999.85,Pelican Sunstream 100 Kayak)\n\u001b[1m\u001b[34mdailyRevenueByProductSortedAvro\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[((String, Float), (String, Float, String))]\u001b[0m = ShuffledRDD[190] at sortByKey at <console>:50\n\u001b[1m\u001b[34mdailyRevenueByProductFinalAvro\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(String, Float, String)]\u001b[0m = MapPartitionsRDD[191] at map at <console>:53\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=144",
+              "$$hashKey": "object:14623"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=145",
+              "$$hashKey": "object:14624"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=146",
+              "$$hashKey": "object:14625"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623709656511_594074802",
+      "id": "paragraph_1623709656511_594074802",
+      "dateCreated": "2021-06-14T16:27:36-0600",
+      "dateStarted": "2021-06-14T16:45:31-0600",
+      "dateFinished": "2021-06-14T16:45:32-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12908"
+    },
+    {
+      "text": "%spark\nval df = dailyRevenueByProductFinalAvro.toDF(\"order_date\", \"daily_revenue_per_product\",\"product_name\")\ndf.write.format(\"com.databrick.spark.avro\").save(\"zeppelin/notebook/practices/daily_revenue_avro_scala\")\ndf.show\n//for server\n//df.write.format(\"com.databrick.spark.avro\").save(\"user/jsolis/practices/daily_revenue_avro_scala\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T20:45:07-0600",
+      "progress": 7,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+-------------------------+--------------------+\n|          order_date|daily_revenue_per_product|        product_name|\n+--------------------+-------------------------+--------------------+\n|2013-07-25 00:00:...|                  5599.72|Field & Stream Sp...|\n|2013-07-25 00:00:...|                5099.4897|Nike Men's Free 5...|\n|2013-07-25 00:00:...|                   4499.7|Diamondback Women...|\n|2013-07-25 00:00:...|                  3359.44|Perfect Fitness P...|\n|2013-07-25 00:00:...|                  2999.85|Pelican Sunstream...|\n|2013-07-25 00:00:...|                2798.8801|O'Brien Men's Neo...|\n|2013-07-25 00:00:...|                1949.8501|Nike Men's CJ Eli...|\n|2013-07-25 00:00:...|                   1650.0|Nike Men's Dri-FI...|\n|2013-07-25 00:00:...|                  1079.73|Under Armour Girl...|\n|2013-07-25 00:00:...|                   599.99|Bowflex SelectTec...|\n|2013-07-25 00:00:...|                   319.96|Elevation Trainin...|\n|2013-07-25 00:00:...|                   207.96|Titleist Pro V1 H...|\n|2013-07-25 00:00:...|                   199.99|Nike Men's Kobe I...|\n|2013-07-25 00:00:...|                   119.99|Cleveland Golf Wo...|\n|2013-07-25 00:00:...|                   119.97|TYR Boys' Team Di...|\n|2013-07-25 00:00:...|                   109.99|Merrell Men's All...|\n|2013-07-25 00:00:...|                    108.0|LIJA Women's Butt...|\n|2013-07-25 00:00:...|                    100.0|Nike Women's Lege...|\n|2013-07-25 00:00:...|                    99.96|Team Golf Tenness...|\n|2013-07-25 00:00:...|                    95.97|Bridgestone e6 St...|\n+--------------------+-------------------------+--------------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [order_date: string, daily_revenue_per_product: float ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=149",
+              "$$hashKey": "object:14691"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623710457090_331187550",
+      "id": "paragraph_1623710457090_331187550",
+      "dateCreated": "2021-06-14T16:40:57-0600",
+      "dateStarted": "2021-06-14T20:44:57-0600",
+      "dateFinished": "2021-06-14T20:44:58-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:12909"
+    }
+  ],
+  "name": "exercise1",
+  "id": "2G8Z1CWQ5",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/exercise1"
+}
