@@ -1,0 +1,323 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "flatMap",
+      "text": "%spark \nval l = List(\"Hello\", \"How are you doing\", \"Let us perform word count\", \"As part of the word count program\", \"we will see how many times each word repeat\")\nval l_rdd = sc.parallelize(l)\nval l_map = l_rdd.map(ele => ele.split(\" \"))\nval l_flatMap = l_rdd.flatMap(ele => ele.split(\" \"))\nval wordcount = l_flatMap.map(word => (word, \"\")).countByKey\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:33:37-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34ml\u001b[0m: \u001b[1m\u001b[32mList[String]\u001b[0m = List(Hello, How are you doing, Let us perform word count, As part of the word count program, we will see how many times each word repeat)\n\u001b[1m\u001b[34ml_rdd\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = ParallelCollectionRDD[1221] at parallelize at <console>:44\n\u001b[1m\u001b[34ml_map\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Array[String]]\u001b[0m = MapPartitionsRDD[1222] at map at <console>:45\n\u001b[1m\u001b[34ml_flatMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = MapPartitionsRDD[1223] at flatMap at <console>:46\n\u001b[1m\u001b[34mwordcount\u001b[0m: \u001b[1m\u001b[32mscala.collection.Map[String,Long]\u001b[0m = Map(program -> 1, count -> 2, are -> 1, How -> 1, Let -> 1, us -> 1, each -> 1, you -> 1, doing -> 1, how -> 1, Hello -> 1, will -> 1, perform -> 1, times -> 1, part -> 1, ..."
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=322",
+              "$$hashKey": "object:1717"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623731583009_838745736",
+      "id": "paragraph_1623731583009_838745736",
+      "dateCreated": "2021-06-14T22:33:03-0600",
+      "dateStarted": "2021-06-14T22:33:21-0600",
+      "dateFinished": "2021-06-14T22:33:22-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:1530"
+    },
+    {
+      "title": "Filter the Data",
+      "text": "%spark\nval orders = sc.textFile(\"zeppelin/data/retail_db/orders\")\norders.filter(order => order.split(\",\")(3) == \"COMPLETE\")\norders.count\norders.filter(order => order.split(\",\")(3) == \"COMPLETE\").count\n// Get all the orders from 2013-09 which are in closed or complete\norders.map(order => order.split(\",\")(3)).distinct.collect.foreach(println)\nval ordersFiltered = orders.filter(order => {\n  val o = order.split(\",\")\n  (o(3) == \"COMPLETE\" || o(3) == \"CLOSED\") && (o(1).contains(\"2013-09\"))\n})\nordersFiltered.take(10).foreach(println)\nordersFiltered.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:34:40-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "PENDING_PAYMENT\nCLOSED\nCANCELED\nPAYMENT_REVIEW\nPENDING\nON_HOLD\nPROCESSING\nSUSPECTED_FRAUD\nCOMPLETE\n6059,2013-09-01 00:00:00.0,11516,COMPLETE\n6061,2013-09-01 00:00:00.0,7209,COMPLETE\n6063,2013-09-01 00:00:00.0,9236,CLOSED\n6065,2013-09-01 00:00:00.0,2114,COMPLETE\n6066,2013-09-01 00:00:00.0,5068,COMPLETE\n6069,2013-09-01 00:00:00.0,4242,COMPLETE\n6075,2013-09-01 00:00:00.0,9496,COMPLETE\n6076,2013-09-01 00:00:00.0,7838,COMPLETE\n6077,2013-09-01 00:00:00.0,9119,CLOSED\n6078,2013-09-01 00:00:00.0,10377,CLOSED\n\u001b[1m\u001b[34morders\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/orders MapPartitionsRDD[1228] at textFile at <console>:49\n\u001b[1m\u001b[34mordersFiltered\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = MapPartitionsRDD[1235] at filter at <console>:55\n\u001b[1m\u001b[34mres326\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 2609\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=323",
+              "$$hashKey": "object:1775"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=324",
+              "$$hashKey": "object:1776"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=325",
+              "$$hashKey": "object:1777"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=326",
+              "$$hashKey": "object:1778"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=327",
+              "$$hashKey": "object:1779"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623731601925_1865167538",
+      "id": "paragraph_1623731601925_1865167538",
+      "dateCreated": "2021-06-14T22:33:21-0600",
+      "dateStarted": "2021-06-14T22:34:41-0600",
+      "dateFinished": "2021-06-14T22:34:41-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:1531"
+    },
+    {
+      "title": "Joining orders and order_items",
+      "text": "%spark\nval orderItems = sc.textFile(\"zeppelin/data/retail_db/order_items\")\nval ordersMap = orders.map(order => {\n  (order.split(\",\")(0).toInt, order.split(\",\")(1).substring(0, 10))\n})\nval orderItemsMap = orderItems.map(orderItem => {\n  val oi = orderItem.split(\",\")\n  (oi(1).toInt, oi(4).toFloat)\n})\nval ordersJoin = ordersMap.join(orderItemsMap)\nordersJoin.take(10).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:36:04-0600",
+      "progress": 40,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(41234,(2014-04-04,109.94))\n(65722,(2014-05-23,119.98))\n(65722,(2014-05-23,400.0))\n(65722,(2014-05-23,399.98))\n(65722,(2014-05-23,199.95))\n(65722,(2014-05-23,199.98))\n(28730,(2014-01-18,299.95))\n(28730,(2014-01-18,50.0))\n(68522,(2014-06-05,329.99))\n(23776,(2013-12-20,199.99))\n\u001b[1m\u001b[34morderItems\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/order_items MapPartitionsRDD[1244] at textFile at <console>:50\n\u001b[1m\u001b[34mordersMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[1245] at map at <console>:51\n\u001b[1m\u001b[34morderItemsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Float)]\u001b[0m = MapPartitionsRDD[1246] at map at <console>:54\n\u001b[1m\u001b[34mordersJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (String, Float))]\u001b[0m = MapPartitionsRDD[1249] at join at <console>:58\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=328",
+              "$$hashKey": "object:1853"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623731680998_1722574424",
+      "id": "paragraph_1623731680998_1722574424",
+      "dateCreated": "2021-06-14T22:34:40-0600",
+      "dateStarted": "2021-06-14T22:36:04-0600",
+      "dateFinished": "2021-06-14T22:36:04-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:1532"
+    },
+    {
+      "title": "Get all the orders which do not have corresponding entries in order items",
+      "text": "%spark\nval ordersMap = orders.map(order => {(order.split(\",\")(0).toInt, order)})\nval orderItemsMap = orderItems.map(orderItem => {val oi = orderItem.split(\",\")(oi(1).toInt, orderItem)})\nval ordersLeftOuterJoin = ordersMap.leftOuterJoin(orderItemsMap)\nval ordersLeftOuterJoinFilter = ordersLeftOuterJoin.filter(order => order._2._2 == None)\nval ordersWithNoOrderItem = ordersLeftOuterJoinFilter.map(order => order._2._1)\n\nordersWithNoOrderItem.take(10).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:40:50-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "5354,2013-08-26 00:00:00.0,7616,PENDING_PAYMENT\n40888,2014-04-02 00:00:00.0,4528,CLOSED\n62490,2014-01-22 00:00:00.0,8942,ON_HOLD\n63508,2014-02-28 00:00:00.0,1607,COMPLETE\n37370,2014-03-12 00:00:00.0,10541,COMPLETE\n12420,2013-10-09 00:00:00.0,449,PENDING\n1732,2013-08-03 00:00:00.0,2851,PENDING_PAYMENT\n1550,2013-08-02 00:00:00.0,3043,PENDING_PAYMENT\n2938,2013-08-10 00:00:00.0,116,COMPLETE\n21834,2013-12-06 00:00:00.0,12334,COMPLETE\n\u001b[1m\u001b[34mordersMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[1257] at map at <console>:53\n\u001b[1m\u001b[34morderItemsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, String)]\u001b[0m = MapPartitionsRDD[1258] at map at <console>:57\n\u001b[1m\u001b[34mordersLeftOuterJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (String, Option[String]))]\u001b[0m = MapPartitionsRDD[1261] at leftOuterJoin at <console>:62\n\u001b[1m\u001b[34mordersLeftOuterJoinFilter\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (String, Option[String]))]\u001b[0m = MapPartitionsRDD[1262] at filter at <console>:63\n\u001b[1m\u001b[34mordersWithNoOrderItem\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = MapPartitionsRDD[1263] at map at <console>:64\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=330",
+              "$$hashKey": "object:1911"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623731722625_1591897176",
+      "id": "paragraph_1623731722625_1591897176",
+      "dateCreated": "2021-06-14T22:35:22-0600",
+      "dateStarted": "2021-06-14T22:40:17-0600",
+      "dateFinished": "2021-06-14T22:40:18-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:1533"
+    },
+    {
+      "text": "%spark\nval ordersRightOuterJoin = orderItemsMap.rightOuterJoin(ordersMap)\nval ordersWithNoOrderItem = ordersRightOuterJoin.filter(order => order._2._1 == None). map(order => order._2._2)\n\nordersWithNoOrderItem.take(10).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:41:02-0600",
+      "progress": 80,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "5354,2013-08-26 00:00:00.0,7616,PENDING_PAYMENT\n40888,2014-04-02 00:00:00.0,4528,CLOSED\n62490,2014-01-22 00:00:00.0,8942,ON_HOLD\n63508,2014-02-28 00:00:00.0,1607,COMPLETE\n37370,2014-03-12 00:00:00.0,10541,COMPLETE\n12420,2013-10-09 00:00:00.0,449,PENDING\n1732,2013-08-03 00:00:00.0,2851,PENDING_PAYMENT\n1550,2013-08-02 00:00:00.0,3043,PENDING_PAYMENT\n21834,2013-12-06 00:00:00.0,12334,COMPLETE\n2938,2013-08-10 00:00:00.0,116,COMPLETE\n\u001b[1m\u001b[34mordersRightOuterJoin\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (Option[String], String))]\u001b[0m = MapPartitionsRDD[1271] at rightOuterJoin at <console>:53\n\u001b[1m\u001b[34mordersWithNoOrderItem\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = MapPartitionsRDD[1273] at map at <console>:54\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=332",
+              "$$hashKey": "object:1969"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623731791234_706278567",
+      "id": "paragraph_1623731791234_706278567",
+      "dateCreated": "2021-06-14T22:36:31-0600",
+      "dateStarted": "2021-06-14T22:41:02-0600",
+      "dateFinished": "2021-06-14T22:41:02-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:1534"
+    }
+  ],
+  "name": "practice3",
+  "id": "2G7SQKD82",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/practice3"
+}
