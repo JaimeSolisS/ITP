@@ -1,0 +1,231 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "Aggregations - using actions",
+      "text": "%spark \nval orders = sc.textFile(\"zeppelin/data/retail_db/orders\")\norders.map(order => (order.split(\",\")(3), \"\")).countByKey.foreach(println)\nval orderItems = sc.textFile(\"zeppelin/data/retail_db/order_items\")\nval orderItemsRevenue = orderItems.map(oi => oi.split(\",\")(4).toFloat)\norderItemsRevenue.reduce((total, revenue) => total + revenue)\nval orderItemsMaxRevenue = orderItemsRevenue.reduce((max, revenue) => {\n  if(max < revenue) revenue else max\n})",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:42:24-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(PAYMENT_REVIEW,729)\n(CLOSED,7556)\n(SUSPECTED_FRAUD,1558)\n(PROCESSING,8275)\n(COMPLETE,22899)\n(PENDING,7610)\n(PENDING_PAYMENT,15030)\n(ON_HOLD,3798)\n(CANCELED,1428)\n\u001b[1m\u001b[34morders\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/orders MapPartitionsRDD[1275] at textFile at <console>:47\n\u001b[1m\u001b[34morderItems\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/order_items MapPartitionsRDD[1280] at textFile at <console>:49\n\u001b[1m\u001b[34morderItemsRevenue\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Float]\u001b[0m = MapPartitionsRDD[1281] at map at <console>:50\n\u001b[1m\u001b[34morderItemsMaxRevenue\u001b[0m: \u001b[1m\u001b[32mFloat\u001b[0m = 1999.99\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=333",
+              "$$hashKey": "object:3747"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=334",
+              "$$hashKey": "object:3748"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=335",
+              "$$hashKey": "object:3749"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623732081317_14746865",
+      "id": "paragraph_1623732081317_14746865",
+      "dateCreated": "2021-06-14T22:41:21-0600",
+      "dateStarted": "2021-06-14T22:42:11-0600",
+      "dateFinished": "2021-06-14T22:42:12-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:3591"
+    },
+    {
+      "title": "Aggregations - groupByKey",
+      "text": "%spark\n//1, (1 to 1000) - sum(1 to 1000) => 1 + 2+ 3+ .....1000\n//1, (1 to 1000) - sum(sum(1, 250), sum(251, 500), sum(501, 750), sum(751, 1000))\nval orderItemsMap = orderItems.map(oi => (oi.split(\",\")(1).toInt, oi.split(\",\")(4).toFloat))\nval orderItemsGBK = orderItemsMap.groupByKey\n//Get revenue per order_id\norderItemsGBK.map(rec => (rec._1, rec._2.toList.sum)).take(10).foreach(println)\n//Get data in descending order by order_item_subtotal for each order_id\nval ordersSortedByRevenue = orderItemsGBK.flatMap(rec => {rec._2.toList.sortBy(o => -o).map(k => (rec._1, k))})",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:43:28-0600",
+      "progress": 66,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(41234,109.94)\n(65722,1319.8899)\n(28730,349.95)\n(68522,329.99)\n(23776,329.98)\n(32676,719.91003)\n(53926,219.97)\n(4926,939.85)\n(38926,1049.9)\n(29270,1379.8501)\n\u001b[1m\u001b[34morderItemsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Float)]\u001b[0m = MapPartitionsRDD[1282] at map at <console>:50\n\u001b[1m\u001b[34morderItemsGBK\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Iterable[Float])]\u001b[0m = ShuffledRDD[1283] at groupByKey at <console>:51\n\u001b[1m\u001b[34mordersSortedByRevenue\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Float)]\u001b[0m = MapPartitionsRDD[1285] at flatMap at <console>:56\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=336",
+              "$$hashKey": "object:3815"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623732131527_1648988172",
+      "id": "paragraph_1623732131527_1648988172",
+      "dateCreated": "2021-06-14T22:42:11-0600",
+      "dateStarted": "2021-06-14T22:43:04-0600",
+      "dateFinished": "2021-06-14T22:43:05-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:3592"
+    },
+    {
+      "title": "Aggregations - reduceByKey",
+      "text": "%spark\nval orderItemsMap = orderItems.\n  map(oi => (oi.split(\",\")(1).toInt, oi.split(\",\")(4).toFloat))\n\nval revenuePerOrderId = orderItemsMap.\n  reduceByKey((total, revenue) => total + revenue)\n\nval minRevenuePerOrderId = orderItemsMap.\n  reduceByKey((min, revenue) => if(min > revenue) revenue else min)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:44:29-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34morderItemsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Float)]\u001b[0m = MapPartitionsRDD[1286] at map at <console>:48\n\u001b[1m\u001b[34mrevenuePerOrderId\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Float)]\u001b[0m = ShuffledRDD[1287] at reduceByKey at <console>:51\n\u001b[1m\u001b[34mminRevenuePerOrderId\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Float)]\u001b[0m = ShuffledRDD[1288] at reduceByKey at <console>:54\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623732184644_562960775",
+      "id": "paragraph_1623732184644_562960775",
+      "dateCreated": "2021-06-14T22:43:04-0600",
+      "dateStarted": "2021-06-14T22:44:29-0600",
+      "dateFinished": "2021-06-14T22:44:29-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:3593"
+    },
+    {
+      "title": "Aggregations - aggregateByKey",
+      "text": "%spark\nval orderItemsMap = orderItems.\n  map(oi => (oi.split(\",\")(1).toInt, oi.split(\",\")(4).toFloat))\n\n//(order_id, order_item_subtotal)\nval revenueAndMaxPerProductId = orderItemsMap.\n  aggregateByKey((0.0f, 0.0f))(\n    (inter, subtotal) => (inter._1 + subtotal, if(subtotal > inter._2) subtotal else inter._2),\n    (total, inter) => (total._1 + inter._1, if(total._2 > inter._2) total._2 else inter._2)\n  )\n//(order_id, (order_revenue, max_order_item_subtotal))",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:44:55-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34morderItemsMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, Float)]\u001b[0m = MapPartitionsRDD[1292] at map at <console>:48\n\u001b[1m\u001b[34mrevenueAndMaxPerProductId\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[(Int, (Float, Float))]\u001b[0m = ShuffledRDD[1293] at aggregateByKey at <console>:52\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623732240028_255242769",
+      "id": "paragraph_1623732240028_255242769",
+      "dateCreated": "2021-06-14T22:44:00-0600",
+      "dateStarted": "2021-06-14T22:44:55-0600",
+      "dateFinished": "2021-06-14T22:44:55-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:3594"
+    }
+  ],
+  "name": "practice4",
+  "id": "2G9KV2PVJ",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/practice4"
+}
