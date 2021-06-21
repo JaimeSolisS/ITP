@@ -1,0 +1,322 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md \n# Let us get into set operations using Spark APIs. Spark support\n\n- union\n- intersection\n- distinct\n- minus – subtract\n- When the union is performed, data will not be unique\n- Typically we have to use distinct after union to eliminate duplicates\n\n\n\n## Set operations\n\n\n\n\n\n\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T23:09:51-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Let us get into set operations using Spark APIs. Spark support</h1>\n<ul>\n<li>union</li>\n<li>intersection</li>\n<li>distinct</li>\n<li>minus – subtract</li>\n<li>When the union is performed, data will not be unique</li>\n<li>Typically we have to use distinct after union to eliminate duplicates</li>\n</ul>\n<h2>Set operations</h2>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623450134147_352639000",
+      "id": "paragraph_1623450134147_352639000",
+      "dateCreated": "2021-06-11T16:22:14-0600",
+      "dateStarted": "2021-06-14T23:09:51-0600",
+      "dateFinished": "2021-06-14T23:09:51-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:6896"
+    },
+    {
+      "text": "%spark\nval orders = sc.textFile(\"zeppelin/data/retail_db/orders\")\nval customers_201308 = orders.filter(order => order.split(\",\")(1).contains(\"2013-08\")).map(order => order.split(\",\")(2).toInt)\nval customers_201309 = orders.filter(order => order.split(\",\")(1).contains(\"2013-09\")).map(order => order.split(\",\")(2).toInt)\nprintln(customers_201308.count)\nprintln(customers_201309.count)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:53:38-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "5680\n5841\n\u001b[1m\u001b[34morders\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/orders MapPartitionsRDD[103] at textFile at <console>:30\n\u001b[1m\u001b[34mcustomers_201308\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Int]\u001b[0m = MapPartitionsRDD[105] at map at <console>:31\n\u001b[1m\u001b[34mcustomers_201309\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Int]\u001b[0m = MapPartitionsRDD[107] at map at <console>:32\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=27",
+              "$$hashKey": "object:7137"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=28",
+              "$$hashKey": "object:7138"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623450175234_2107792251",
+      "id": "paragraph_1623450175234_2107792251",
+      "dateCreated": "2021-06-11T16:22:55-0600",
+      "dateStarted": "2021-06-11T16:53:38-0600",
+      "dateFinished": "2021-06-11T16:53:39-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:6897"
+    },
+    {
+      "text": "%spark\n// Get all the customers who placed orders in 2013 August and 2013 September\nval customers_201308_and_201309 = customers_201308.intersection(customers_201309)\ncustomers_201308_and_201309.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:33:43-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mcustomers_201308_and_201309\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Int]\u001b[0m = MapPartitionsRDD[82] at intersection at <console>:33\n\u001b[1m\u001b[34mres27\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 1689\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=22",
+              "$$hashKey": "object:7200"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623450405266_906984004",
+      "id": "paragraph_1623450405266_906984004",
+      "dateCreated": "2021-06-11T16:26:45-0600",
+      "dateStarted": "2021-06-11T16:33:43-0600",
+      "dateFinished": "2021-06-11T16:33:44-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:6898"
+    },
+    {
+      "text": "%spark\n// Get all unique customers who placed orders in 2013 August or 2013 September\nval customers_201308_union_201309 = customers_201308.union(customers_201309).distinct\ncustomers_201308_union_201309.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:34:25-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mcustomers_201308_union_201309\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Int]\u001b[0m = MapPartitionsRDD[91] at distinct at <console>:33\n\u001b[1m\u001b[34mres30\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 7516\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=25",
+              "$$hashKey": "object:7258"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623450463292_1099881345",
+      "id": "paragraph_1623450463292_1099881345",
+      "dateCreated": "2021-06-11T16:27:43-0600",
+      "dateStarted": "2021-06-11T16:34:25-0600",
+      "dateFinished": "2021-06-11T16:34:25-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:6899"
+    },
+    {
+      "text": "%spark\n// Get all customers who placed orders in 2013 August but not in 2013 September\nval customer_201308_minus_201309 = customers_201308.map(c => (c, 1)).\n                                   leftOuterJoin(customers_201309.\n                                    map(c => (c, 1))).\n                                    filter(rec => rec._2._2 == None).\n                                    map(rec => rec._1).\n                                    distinct\ncustomer_201308_minus_201309.count",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:53:02-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mcustomer_201308_minus_201309\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Int]\u001b[0m = MapPartitionsRDD[101] at distinct at <console>:36\n\u001b[1m\u001b[34mres31\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 2866\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=26",
+              "$$hashKey": "object:7316"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623450814476_1870586253",
+      "id": "paragraph_1623450814476_1870586253",
+      "dateCreated": "2021-06-11T16:33:34-0600",
+      "dateStarted": "2021-06-11T16:53:02-0600",
+      "dateFinished": "2021-06-11T16:53:03-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:6900"
+    },
+    {
+      "text": "%spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-11T16:53:02-0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623451982047_1931162121",
+      "id": "paragraph_1623451982047_1931162121",
+      "dateCreated": "2021-06-11T16:53:02-0600",
+      "status": "READY",
+      "$$hashKey": "object:6901"
+    }
+  ],
+  "name": "practice9",
+  "id": "2G87J94AQ",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/practice9"
+}
