@@ -1,0 +1,231 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md \nHDFS commnads\n```\nhadoop fs -ls path\nhadoop fs -du - s -u path\n```\n\nInitializing programatically\n\n```scala{\n    \n\nimport org.apache.spark.{SparkConf, SparkContext}\nimport org.apache.spark.sql.SparkSession\n  object AppName {\n          def main(args: Array[String]) {\nval conf = new SparkConf().setAppName(\"AppName\").setMaster(\"yarn\")\nval sc = new SparkContext(conf)\nval spark = SparkSession.builder().appName(\"AppName\").getOrCreate()\n                  // do something\n}\n```\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:32:25-0600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>HDFS commnads</p>\n<pre><code>hadoop fs -ls path\nhadoop fs -du - s -u path\n</code></pre>\n<p>Initializing programatically</p>\n<pre><code class=\"language-scala{\">    \n\nimport org.apache.spark.{SparkConf, SparkContext}\nimport org.apache.spark.sql.SparkSession\n  object AppName {\n          def main(args: Array[String]) {\nval conf = new SparkConf().setAppName(&quot;AppName&quot;).setMaster(&quot;yarn&quot;)\nval sc = new SparkContext(conf)\nval spark = SparkSession.builder().appName(&quot;AppName&quot;).getOrCreate()\n                  // do something\n}\n</code></pre>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623731043937_265100327",
+      "id": "paragraph_1623731043937_265100327",
+      "dateCreated": "2021-06-14T22:24:03-0600",
+      "dateStarted": "2021-06-14T22:32:25-0600",
+      "dateFinished": "2021-06-14T22:32:25-0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:632"
+    },
+    {
+      "title": "Read database and print schema and top elements",
+      "text": "%spark\nval df = spark.read.json(\"zeppelin/data/retail_db_json/orders\") \ndf.printSchema\ndf.select(\"order_id\",\"order_date\").show",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:29:54-0600",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- order_customer_id: long (nullable = true)\n |-- order_date: string (nullable = true)\n |-- order_id: long (nullable = true)\n |-- order_status: string (nullable = true)\n\n+--------+--------------------+\n|order_id|          order_date|\n+--------+--------------------+\n|       1|2013-07-25 00:00:...|\n|       2|2013-07-25 00:00:...|\n|       3|2013-07-25 00:00:...|\n|       4|2013-07-25 00:00:...|\n|       5|2013-07-25 00:00:...|\n|       6|2013-07-25 00:00:...|\n|       7|2013-07-25 00:00:...|\n|       8|2013-07-25 00:00:...|\n|       9|2013-07-25 00:00:...|\n|      10|2013-07-25 00:00:...|\n|      11|2013-07-25 00:00:...|\n|      12|2013-07-25 00:00:...|\n|      13|2013-07-25 00:00:...|\n|      14|2013-07-25 00:00:...|\n|      15|2013-07-25 00:00:...|\n|      16|2013-07-25 00:00:...|\n|      17|2013-07-25 00:00:...|\n|      18|2013-07-25 00:00:...|\n|      19|2013-07-25 00:00:...|\n|      20|2013-07-25 00:00:...|\n+--------+--------------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [order_customer_id: bigint, order_date: string ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=318",
+              "$$hashKey": "object:801"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=319",
+              "$$hashKey": "object:802"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623731117976_2649654",
+      "id": "paragraph_1623731117976_2649654",
+      "dateCreated": "2021-06-14T22:25:17-0600",
+      "dateStarted": "2021-06-14T22:29:40-0600",
+      "dateFinished": "2021-06-14T22:29:42-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:633"
+    },
+    {
+      "title": "Reading as text ",
+      "text": "%spark\nval orders = sc.textFile(\"zeppelin/data/retail_db/orders\") //for edgenode  sc.textFile(\"user/USERNAME/data/retail_db/orders\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:31:37-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34morders\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[String]\u001b[0m = zeppelin/data/retail_db/orders MapPartitionsRDD[1219] at textFile at <console>:45\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623731380987_2115940211",
+      "id": "paragraph_1623731380987_2115940211",
+      "dateCreated": "2021-06-14T22:29:40-0600",
+      "dateStarted": "2021-06-14T22:30:35-0600",
+      "dateFinished": "2021-06-14T22:30:35-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:634"
+    },
+    {
+      "title": "Modify a value ",
+      "text": "%spark\nval str = orders.first\n\nstr.split(\",\")(1).substring(0, 10).replace(\"-\", \"\").toInt\n\nval ordersDates = orders.map((str: String) => {\nstr.split(\",\")(1).substring(0, 10).replace(\"-\", \"\").toInt\n})\n\nordersDates.take(10).foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "2021-06-14T22:32:12-0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "20130725\n20130725\n20130725\n20130725\n20130725\n20130725\n20130725\n20130725\n20130725\n20130725\n\u001b[1m\u001b[34mstr\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = 1,2013-07-25 00:00:00.0,11599,CLOSED\n\u001b[1m\u001b[34mordersDates\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.rdd.RDD[Int]\u001b[0m = MapPartitionsRDD[1220] at map at <console>:49\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=320",
+              "$$hashKey": "object:892"
+            },
+            {
+              "jobUrl": "http://192.168.1.6:4040/jobs/job?id=321",
+              "$$hashKey": "object:893"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1623731435504_175750801",
+      "id": "paragraph_1623731435504_175750801",
+      "dateCreated": "2021-06-14T22:30:35-0600",
+      "dateStarted": "2021-06-14T22:31:54-0600",
+      "dateFinished": "2021-06-14T22:31:55-0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:635"
+    }
+  ],
+  "name": "practice2",
+  "id": "2GAAZSCUR",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/practices/practice2"
+}
