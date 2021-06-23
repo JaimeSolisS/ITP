@@ -1,5 +1,47 @@
 # Data Processing Overview
 
+## Summary
+
+- Read files
+  `spark.read.csv("path")`
+  `spark.read.json("path")`
+- Infer schema
+  `spark.read.option("inferSchema", "true").csv("path")`
+- Option
+  `spark.read.option("inferSchema", "true").option("sep", ",").csv("path")`
+- Create schema
+  `spark.read.schema("""columnName TYPE, columnName2 TYPE""").csv("path")`
+- Format as parameter
+  `spark.read.schema("""columnName TYPE""").format("csv").load("path")`
+  `spark.read.schema("""columnName TYPE""").format("parquet").load("path")`
+- Write File
+  `df.write.parquet("path")`
+  `df.write.csv("path")`
+  ```
+  df.write.
+     coalesce(1) //coalesce will be covered in detail at a later point in time
+     mode("overwrite").
+     option("compression", "none").
+     format("parquet").
+     save("path")
+
+  //define delimiter
+  df.write.
+     coalesce(1) //coalesce will be covered in detail at a later point in time
+     mode("overwrite").
+     option("compression", "none").
+     option("sep", "\t")
+     format("csv").
+     save("path")
+  ```
+- Validate results inside spark
+
+  ```
+  import sys.process._
+
+  "hdfs dfs -ls /user/USER/path..." !
+  ```
+
 ## Pre-requisites and Module Introduction
 
 Let us understand prerequisites before getting into the module.
@@ -20,37 +62,6 @@ We will get an overview of the Data Processing Life Cycle by the end of the modu
 - Check if there are any duplicates in the data.
 - Get an overview of how to write data in Data Frames to Files using File Formats such as Parquet using Compression.
 - We will deep dive into Data Frame APIs to process the data in subsequent modules.
-
-## Summary
-
-- Read files
-  `spark.read.csv("path")`
-  `spark.read.json("path")`
-- Infer schema
-  `spark.read.option("inferSchema", "true").csv("path")`
-- Create schema
-  `spark.read.schema("""columnName TYPE, columnName2 TYPE""").csv("path")`
-- Format as parameter
-  `spark.read.schema("""columnName TYPE""").format("csv").load("path")`
-  `spark.read.schema("""columnName TYPE""").format("parquet").load("path")`
-- Write File
-  `df.write.parquet("path")`
-  `df.write.csv("path")`
-  ```
-  df.write.
-     coalesce(1) //coalesce will be covered in detail at a later point in time
-     mode("overwrite").
-     option("compression", "none").
-     format("parquet").
-     save("path")
-  ```
-- Validate results inside spark
-
-  ```
-  import sys.process._
-
-  "hdfs dfs -ls /user/USER/path..." !
-  ```
 
 ## Starting Spark Context
 
