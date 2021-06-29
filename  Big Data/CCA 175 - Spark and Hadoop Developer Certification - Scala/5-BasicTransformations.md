@@ -464,3 +464,82 @@ Get number of flights which are delayed in departure and number of flights delay
 - Output should contain 4 columns - **FlightDate**, **FlightCount**, **DepDelayedCount**, **ArrDelayedCount**
 - **FlightDate** should be of **yyyy-MM-dd** format.
 - Data should be **sorted** in ascending order by **flightDate**
+
+### Video Solution
+
+```
+val airlines = spark.read.format("parquet").load("/user/egarcia1/data/flightmonth=200801")
+
+airlines.select("Year", "Month", "DayOfMonth", "IsArrDelayed", "IsDepDelayed")
+
+airlines.
+select("Year", "Month", "DayOfMonth", "IsArrDelayed", "IsDepDelayed").
+withColumn("FlightDate", concat($"Year", lit("-"), lpad($"Month", 2, "0"), lit("-"), lpad($"DayOfMonth", 2, "0") )).
+show
+
+
+airlines.
+groupBy(concat($"Year", lit("-"), lpad($"Month", 2, "0"), lit("-"), lpad($"DayOfMonth", 2, "0") ).as("FlightDate")).
+//agg(count(lit(1)).as("FlightCount")).
+show
+
+airlines.
+groupBy(concat($"Year", lit("-"), lpad($"Month", 2, "0"), lit("-"), lpad($"DayOfMonth", 2, "0")).as("FlightDate")).
+agg(count(lit(1)).as("FlightCount"),
+    sum(expr("CASE WHEN IsDepDelayed = 'YES' THEN 1 ELSE 0 END").as("DepDelayedCount")).as("ArrDelayedCount"),
+    sum(expr("CASE WHEN IsArrDelayed = 'YES' THEN 1 ELSE 0 END").as("ArrDelayedCount")).as("ArrDelayedCount")
+  ).
+orderBy("FlightDate").
+show
+
+```
+
+### Other Solution
+
+```
+val airlines = spark.read.format("parquet").load("/user/egarcia1/data/flightmonth=200801")
+
+airlines.select("Year", "Month", "DayOfMonth", "IsArrDelayed", "IsDepDelayed")
+
+airlines.
+select("Year", "Month", "DayOfMonth", "IsArrDelayed", "IsDepDelayed").
+withColumn("FlightDate", concat($"Year", lit("-"), lpad($"Month", 2, "0"), lit("-"), lpad($"DayOfMonth", 2, "0") )).
+show
+
+
+airlines.
+groupBy(concat($"Year", lit("-"), lpad($"Month", 2, "0"), lit("-"), lpad($"DayOfMonth", 2, "0") ).as("FlightDate")).
+agg(count(lit(1)).as("FlightCount"),
+      count(when($"IsDepDelayed" === "YES", 1)).as("DepDelayedCount"),
+      count(when($"IsArrDelayed" === "YES", 1)).as("ArrDelayedCount")
+      ).
+orderBy("FlightDate").
+show
+
++----------+-----------+---------------+---------------+
+|FlightDate|FlightCount|DepDelayedCount|ArrDelayedCount|
++----------+-----------+---------------+---------------+
+|2008-01-01|      19175|          11053|          11725|
+|2008-01-02|      20953|          13805|          14260|
+|2008-01-03|      20937|          12294|          12488|
+|2008-01-04|      20929|          10175|          10593|
+|2008-01-05|      18066|           9507|           9801|
+|2008-01-06|      19893|          11225|          11388|
+|2008-01-07|      20341|           8701|           9262|
+|2008-01-08|      19603|           7946|           9401|
+|2008-01-09|      19820|           6339|           7234|
+|2008-01-10|      20297|           7374|           8906|
+|2008-01-11|      20349|           7779|           8688|
+|2008-01-12|      16572|           4128|           4304|
+|2008-01-13|      18946|           6993|           7832|
+|2008-01-14|      20176|           6830|           8013|
+|2008-01-15|      19503|           5603|           6688|
+|2008-01-16|      19764|           5634|           6760|
+|2008-01-17|      20273|          10507|          12101|
+|2008-01-18|      20347|          10268|          11090|
+|2008-01-19|      16249|           7275|           7686|
+|2008-01-20|      18653|           6947|           7252|
++----------+-----------+---------------+---------------+
+only showing top 20 rows
+
+```
