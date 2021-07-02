@@ -36,6 +36,7 @@ hdfs dfs -copyFromLocal randomText.txt /user/jsolis/data/
 
 ```
 spark2-shell --master yarn --num-executors 10 --executor-memory 3GB --executor-cores 20 --packages com.databricks:spark-avro_2.11:4.0.0
+
 ```
 
 ## Read File
@@ -88,6 +89,6 @@ coalesce(8).
 write.
 mode("overwrite").
 option("compression","none").
-format("avro").
+format("com.databricks.spark.avro").
 save("/user/jsolis/problem5/solution/")
 ```
