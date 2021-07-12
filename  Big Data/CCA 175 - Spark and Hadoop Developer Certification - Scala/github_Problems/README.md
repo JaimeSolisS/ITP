@@ -21,3 +21,17 @@ Questions are from practice tests provided at http://nn02.itversity.com/cca175/ 
 8. Problem 8: List the order Items where the order_status = 'PENDING PAYMENT' order by order_id [here](problem-08.md)
 
 9. Problem 9: Remove header from h1b data [here](problem-09.md)
+
+10. Problem 14: Get NYSE data in ascending order by date and descending order by volume [here](problem-14.md)
+
+11. Problem 15: Get the stock tickers from NYSE data for which full name is missing in NYSE symbols data [here](problem-15.md)
+
+12. Problem 16: Get the name of stocks displayed along with other information [here](problem-16.md)
+
+13. Problem 18: Read data from hive and perform transformation and save it back in HDFS [here](problem-18.md)
+
+14. Problem 19: Consider orders only in “COMPLETE” status and order id between 1000 and 50000 (1001 to 49999) [here](problem-19.md)
+
+15. Problem 20: Read orderitems and products from HDFS location [here](problem-20.md)
+
+16. Problem 21: Get monthly count of primary crime type, sorted by month in ascending and number of crimes per type in descending order [here](problem-21.md)
