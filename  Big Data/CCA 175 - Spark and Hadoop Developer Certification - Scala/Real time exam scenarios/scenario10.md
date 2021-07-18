@@ -1,3 +1,5 @@
+# CCA 175 Real Time Exam Scenario 10 | Read CSV File | Write in HIVE Table
+
 Data Description
 
 1.  All the category records are stored at /user/spark/dataset/retail_db/categories
